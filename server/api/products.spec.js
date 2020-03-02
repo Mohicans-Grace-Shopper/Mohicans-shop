@@ -12,11 +12,11 @@ describe('Product routes', () => {
   })
 
   describe('/api/products', () => {
-    const love_potion = 'love_potion'
+    const lovePotion = 'love_potion'
 
     beforeEach(() => {
       return Product.create({
-        name: love_potion,
+        name: lovePotion,
         price: 420.0
       })
     })
@@ -26,14 +26,18 @@ describe('Product routes', () => {
         .expect(200)
 
       expect(res.body).to.be.an('array')
-      expect(res.body[0].name).to.be.equal(love_potion)
+      expect(res.body[0].name).to.be.equal(lovePotion)
     })
   }) // end describe ('/api/products')
   describe('api/products/:productId', () => {
     const lovePotion = 'love_potion'
 
     beforeEach(async () => {
+<<<<<<< HEAD
     await Product.create({
+=======
+      await Product.create({
+>>>>>>> 6fb7b98655acec2868cc3456c979332ac13183b8
         name: lovePotion,
         price: 420.0
       })
