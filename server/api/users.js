@@ -15,3 +15,20 @@ router.get('/', async (req, res, next) => {
     next(err)
   }
 })
+
+const adminsOnly = (req, res, next) => {
+  if (req.user.isAdmin) {
+    next()
+  } else {
+    res.status(401).send('Unauthorized Permission')
+  }
+}
+
+router.get('/:userId', adminsOnly, async (req, res, next) => {
+  try {
+    const user = await User.findByPk(req.params.userId)
+    res.json(user)
+  } catch (error) {
+    next(error)
+  }
+})
