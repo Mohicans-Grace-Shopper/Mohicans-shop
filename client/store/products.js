@@ -4,7 +4,8 @@ import history from '../history'
 const initialState = {
     products: [],
     product: {},
-    loading: true
+    loading: true,
+    singleLoading: true,
 }
 
 const SET_PRODUCTS = 'SET_PRODUCTS'
@@ -47,7 +48,7 @@ const productsReducer = (state = initialState, action) => {
         case SET_PRODUCTS:
             return { ...state, products: action.products, loading: false };
         case SET_PRODUCT:
-            return { ...state, product: action.product, loading: false };
+            return { ...state, product: action.product, singleLoading: false };
         default:
             return state
     }
