@@ -1,9 +1,9 @@
-import React, {Component} from 'react'
-import {connect} from 'react-redux'
-import {withRouter, Route, Switch} from 'react-router-dom'
+import React, { Component } from 'react'
+import { connect } from 'react-redux'
+import { withRouter, Route, Switch } from 'react-router-dom'
 import PropTypes from 'prop-types'
-import {Login, Signup, UserHome} from './components'
-import {me} from './store'
+import { Login, Signup, UserHome, Products, SingleProduct } from './components'
+import { me } from './store'
 
 /**
  * COMPONENT
@@ -14,7 +14,7 @@ class Routes extends Component {
   }
 
   render() {
-    const {isLoggedIn} = this.props
+    const { isLoggedIn } = this.props
 
     return (
       <Switch>
@@ -27,6 +27,8 @@ class Routes extends Component {
             <Route path="/home" component={UserHome} />
           </Switch>
         )}
+        <Route path="/products" component={Products} />
+        <Route path="/products/:productId" component={SingleProduct} />
         {/* Displays our Login component as a fallback */}
         <Route component={Login} />
       </Switch>
