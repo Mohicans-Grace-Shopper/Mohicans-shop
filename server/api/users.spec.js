@@ -33,14 +33,14 @@ describe('User routes', () => {
   describe('/api/users/:userId', () => {
     const codysEmail = 'cody@puppybook.com'
 
-    beforeEach(() => {
-      return User.create({
+    beforeEach(async () => {
+      await User.create({
         email: codysEmail
       })
     })
     it('GET /api/users/:userId', async () => {
       const res = await request(app)
-        .get('/api/users/:userId')
+        .get('/api/users/1')
         .expect(200)
 
       expect(res.body).to.be.an('object')
