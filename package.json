@@ -1,5 +1,5 @@
 {
-  "name": "boilermaker",
+  "name": "mohicans",
   "version": "2.0.0",
   "description": "Some boilerplate code to get you started - get shakin'!",
   "engines": {
@@ -60,7 +60,7 @@
     "redux": "^4.0.1",
     "redux-logger": "^3.0.6",
     "redux-thunk": "^2.3.0",
-    "sequelize": "^5.3.1",
+    "sequelize": "^5.21.5",
     "socket.io": "^2.2.0"
   },
   "devDependencies": {

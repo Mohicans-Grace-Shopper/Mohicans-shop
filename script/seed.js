@@ -1,11 +1,35 @@
 'use strict'
 
 const db = require('../server/db')
-const {User} = require('../server/db/models')
+const {User, Product} = require('../server/db/models')
+
+const seedProducts = [
+  {
+    name: 'love potion',
+    description: 'how voldemort was created, beware.',
+    price: 420.0
+  },
+  {
+    name: 'get rich quick gem',
+    description: 'rub 3 times for $500',
+    price: 500.0
+  },
+  {
+    name: 'invisibility potion',
+    description: 'warning: does not work on clothes, 2 hour limit',
+    price: 300
+  }
+]
 
 async function seed() {
   await db.sync({force: true})
   console.log('db synced!')
+
+  await Promise.all(
+    seedProducts.map(async prod => {
+      await Product.create(prod)
+    })
+  )
 
   const users = await Promise.all([
     User.create({email: 'cody@email.com', password: '123'}),
