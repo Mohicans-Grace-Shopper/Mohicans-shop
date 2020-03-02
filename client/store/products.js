@@ -1,5 +1,5 @@
 import axios from 'axios'
-import history from '../history'
+
 
 const initialState = {
     products: [],
@@ -32,7 +32,7 @@ export const fetchProducts = () => {
     };
 };
 
-export const fetchProduct = () => {
+export const fetchProduct = productId => {
     return async dispatch => {
         try {
             const { data } = await axios.get(`/api/products/${productId}`);
@@ -43,7 +43,7 @@ export const fetchProduct = () => {
     };
 };
 
-const productsReducer = (state = initialState, action) => {
+export default function (state = initialState, action) {
     switch (action.type) {
         case SET_PRODUCTS:
             return { ...state, products: action.products, loading: false };
@@ -53,5 +53,3 @@ const productsReducer = (state = initialState, action) => {
             return state
     }
 }
-
-export default productsReducer
