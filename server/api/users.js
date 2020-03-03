@@ -24,7 +24,7 @@ const isUser = (req, res, next) => {
   next();
 }
 
-router.get('/', isAdmin, async (req, res, next) => {
+router.get('/', async (req, res, next) => {
   try {
     const users = await User.findAll({
       // explicitly select only the id and email fields - even though
@@ -38,7 +38,16 @@ router.get('/', isAdmin, async (req, res, next) => {
   }
 })
 
-router.get('/:userId', isAdmin, async (req, res, next) => {
+router.get('/:userId/cart', async (req, res, next) => {
+  try{
+    res.json(await Cart.findAll({where: {userId: req.params.userId}}))
+  }
+  catch (err) {
+    next(err)
+  }
+})
+
+router.get('/:userId', async (req, res, next) => {
   try {
     const user = await User.findByPk(req.params.userId)
     res.json(user)
