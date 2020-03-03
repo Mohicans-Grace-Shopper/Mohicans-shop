@@ -10,7 +10,7 @@ class Cart extends React.Component {
   }
 
   render () {
-    if(this.props.items.length === 0){
+    if(!this.props.items || this.props.items.length === 0){
       return 'No Items in Cart'
     }
     return (
