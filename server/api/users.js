@@ -5,12 +5,12 @@ module.exports = router
 
 // Admin Authorization
 const isAdmin = (req, res, next) => {
-  if (req.user.isAdmin) {
-    next()
-  } else {
+  if (!req.user.isAdmin) {
     const err = new Error('Unauthorized Permission')
     res.status(401).send(err)
     next(err)
+  } else {
+    next()
   }
 }
 
