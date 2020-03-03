@@ -1,45 +1,40 @@
 import React from 'react';
-import { connect } from 'react-redux';
-import { fetchCart } from '../store/cart';
-import { Link } from 'react-router-dom';
+import {connect} from 'react-redux';
+import {fetchCart} from '../store/cart';
+import {Link} from 'react-router-dom';
 
 class Cart extends React.Component {
-
-  componentDidMount () {
+  componentDidMount() {
     this.props.fetchCart();
   }
 
-  render () {
-    if(this.props.items.length === 0){
-      return 'No Items in Cart'
+  render() {
+    if (!this.props.items || this.props.items.length === 0) {
+      return 'No Items in Cart';
     }
     return (
       <div>
-        {this.props.items.map((item) => {
+        {this.props.items.map(item => {
           return (
             <div key={item.id}>
               <Link to={`/products/${item.id}`}>
                 <img src={item.imageUrl} />
-                <div>
-                  {item.name}
-                </div>
+                <div>{item.name}</div>
               </Link>
             </div>
-          )
+          );
         })}
       </div>
-    )
-
+    );
   }
-
 }
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = state => ({
   items: state.cart
-})
+});
 
-const mapDispatchToProps = (dispatch) => ({
+const mapDispatchToProps = dispatch => ({
   fetchCart: () => dispatch(fetchCart())
-})
+});
 
-export default connect(mapStateToProps, mapDispatchToProps)(Cart)
+export default connect(mapStateToProps, mapDispatchToProps)(Cart);

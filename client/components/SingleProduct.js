@@ -3,11 +3,12 @@ import {Link} from 'react-router-dom';
 import {connect} from 'react-redux';
 import Loader from 'react-loader-spinner';
 import {fetchProduct, decreaseQuantity} from '../store/products';
+import {addedToCart} from '../store/cart';
 
 class SingleProduct extends React.Component {
   constructor(props) {
     super(props);
-    // this.decrease = this.decrease.bind(this);
+    this.addToCart = this.addToCart.bind(this);
   }
 
   componentDidMount() {
@@ -18,10 +19,16 @@ class SingleProduct extends React.Component {
   //   decrease() {
   //     this.props.decreaseQuantity(this.props.match.params.productId);
   //   }
+  handleSubmit(evt) {
+    evt.preventDefault();
+  }
+
+  addToCart(product) {
+    this.props.addedToCart(product);
+  }
 
   render() {
     const product = this.props.product;
-    // const disabledDecrease = product.quantity === 0;
     if (this.props.loading)
       return <Loader type="Hearts" color="blue" height={600} width={600} />;
     return (
@@ -37,8 +44,8 @@ class SingleProduct extends React.Component {
         </div>
         <Link
           to="/addProduct"
-          // disabled={disabledDecrease}
-          // onClick={this.decrease}
+          onSubmit={this.handleSubmit}
+          onClick={this.addToCart(product)}
         >
           Add to Cart
         </Link>
@@ -54,7 +61,8 @@ const mapState = state => ({
 });
 
 const mapDispatch = dispatch => ({
-  fetchProduct: productId => dispatch(fetchProduct(productId))
+  fetchProduct: productId => dispatch(fetchProduct(productId)),
+  addedToCart: product => dispatch(addedToCart(product))
   // decreaseQuantity: productId => dispatch(decreaseQuantity(productId))
 });
 
