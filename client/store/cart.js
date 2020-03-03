@@ -18,7 +18,7 @@ export default function (state = initState, action) {
 
 export const fetchCart = function() {
   return async function (dispatch) {
-    console.log(window.localStorage.products);
+    console.log('hi');
     const cartArray = await JSON.parse(window.localStorage.products);
     dispatch(setCart(cartArray));
   }
