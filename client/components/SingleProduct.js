@@ -18,13 +18,14 @@ class SingleProduct extends React.Component {
             <div>
                 <h3>{product.title} </h3>
                 <div>
-                    {product.imageUrl}
+                    <img src={product.imageUrl} />
                 </div>
                 <div>
                     <p>Price: {product.price} </p>
                     <p>Quantity: {product.quantity} </p>
                     <p>Description: {product.description} </p>
                 </div>
+                <Link to="/addProduct">Add to Cart</Link>
                 <Link to="/products">Back to Products</Link>
             </div >
 

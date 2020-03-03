@@ -10,6 +10,7 @@ const initialState = {
 
 const SET_PRODUCTS = 'SET_PRODUCTS'
 const SET_PRODUCT = 'SET_PRODUCT'
+const UPDATED_QUANTITY = 'UPDATED_QUANTITY';
 
 const setProducts = products => ({
     type: SET_PRODUCTS,
@@ -20,6 +21,11 @@ const setProduct = product => ({
     type: SET_PRODUCT,
     product
 })
+
+const updatedQuantity = (product) => ({
+    type: UPDATED_QUANTITY,
+    product
+});
 
 export const fetchProducts = () => {
     return async dispatch => {
@@ -43,12 +49,24 @@ export const fetchProduct = productId => {
     };
 };
 
+export const increaseQuantity = (id) => async (dispatch) => {
+    const { data } = await axios.put(`/api/products/${id}/increase`);
+    dispatch(updatedQuantity(data));
+}
+
+export const decreaseQuantity = (id) => async (dispatch) => {
+    const { data } = await axios.put(`/api/products/${id}/decrease`);
+    dispatch(updatedQuantity(data));
+}
+
 export default function (state = initialState, action) {
     switch (action.type) {
         case SET_PRODUCTS:
             return { ...state, products: action.products, loading: false };
         case SET_PRODUCT:
             return { ...state, product: action.product, singleLoading: false };
+        case UPDATED_QUANTITY:
+            return { ...state, product: action.product };
         default:
             return state
     }
