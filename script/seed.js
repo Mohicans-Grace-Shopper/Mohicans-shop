@@ -107,6 +107,13 @@ async function seed() {
     User.create({email: 'gkmurray124@gmail.com', password: '123', isAdmin: true})
   ])
 
+  // Add some products to users cards
+  const user1 = await User.findByPk(1)
+    await user1.addProduct([1, 2, 3])
+  const user2 = await User.findByPk(1)
+    await user2.addProduct([1, 2, 3])
+
+
   console.log(`seeded ${users.length} users`)
   console.log(`seeded successfully`)
 }
