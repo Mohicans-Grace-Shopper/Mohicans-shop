@@ -42,6 +42,8 @@ const mapState = state => {
 const mapDispatch = dispatch => {
   return {
     handleClick() {
+      window.localStorage.clear();
+
       dispatch(logout())
     }
   }
