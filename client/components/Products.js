@@ -6,9 +6,8 @@ import { fetchProducts } from '../store/products'
 
 class Products extends React.Component {
     componentDidMount() {
-        if (this.props.fetchProducts) {
-            this.props.fetchProducts();
-        }
+        this.props.fetchProducts();
+
     }
 
     render() {
