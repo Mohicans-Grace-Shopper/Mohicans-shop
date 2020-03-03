@@ -16,7 +16,8 @@ describe('User routes', () => {
 
     beforeEach(() => {
       return User.create({
-        email: codysEmail
+        email: codysEmail, 
+        isAdmin: true
       })
     })
 
@@ -35,7 +36,8 @@ describe('User routes', () => {
 
     beforeEach(async () => {
       await User.create({
-        email: codysEmail
+        email: codysEmail, 
+        isAdmin: true
       })
     })
     it('GET /api/users/:userId', async () => {

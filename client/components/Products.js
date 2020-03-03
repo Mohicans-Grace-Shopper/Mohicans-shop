@@ -3,11 +3,20 @@ import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
 import Loader from "react-loader-spinner";
 import { fetchProducts } from '../store/products'
+import axios from 'axios'
 
 class Products extends React.Component {
+    constructor() { 
+        super()
+        this.handleClick = this.handleClick.bind(this)
+    }
     componentDidMount() {
         this.props.fetchProducts();
+    }
 
+    async handleClick() { 
+        // temp function to submit new Product
+        const newProduct = await axios.post('/api/products', {name: 'potion', price: 500.00})
     }
 
     render() {
@@ -27,6 +36,7 @@ class Products extends React.Component {
 
                     </div>
                 ))}
+                <button onClick={this.handleClick}>Add Product</button>
             </div>
         );
     }
