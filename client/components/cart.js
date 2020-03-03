@@ -1,15 +1,20 @@
 import React from 'react';
 import {connect} from 'react-redux';
 import {fetchCart} from '../store/cart';
+import Loader from 'react-loader-spinner';
 import {Link} from 'react-router-dom';
 
 class Cart extends React.Component {
   componentDidMount() {
-    this.props.fetchCart();
+    const userId = this.props.match.params.userId;
+    console.log(this.props.match);
+    this.props.fetchCart(userId);
   }
 
   render() {
-    if (!this.props.items || this.props.items.length === 0) {
+    if (this.props.loading) {
+      return <Loader type="Hearts" color="blue" height={600} width={600} />;
+    } else if (!this.props.items || this.props.items.length === 0) {
       return 'No Items in Cart';
     }
     return (
@@ -30,11 +35,12 @@ class Cart extends React.Component {
 }
 
 const mapStateToProps = state => ({
-  items: state.cart
+  items: state.cart.products,
+  loading: state.cart.loading
 });
 
 const mapDispatchToProps = dispatch => ({
-  fetchCart: () => dispatch(fetchCart())
+  fetchCart: userId => dispatch(fetchCart(userId))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Cart);

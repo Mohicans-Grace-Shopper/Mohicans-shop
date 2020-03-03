@@ -1,15 +1,15 @@
 const router = require('express').Router();
-const {User, Cart} = require('../db/models');
+const {User, Cart, Product} = require('../db/models');
 module.exports = router;
 
 // Admin Authorization
 const isAdmin = (req, res, next) => {
-  if (req.user.isAdmin) {
-    next();
-  } else {
+  if (!req.user.isAdmin) {
     const err = new Error('Unauthorized Permission');
     res.status(401).send(err);
     next(err);
+  } else {
+    next();
   }
 };
 
@@ -23,7 +23,7 @@ const isUser = (req, res, next) => {
   next();
 };
 
-router.get('/', isAdmin, async (req, res, next) => {
+router.get('/', async (req, res, next) => {
   try {
     const users = await User.findAll({
       // explicitly select only the id and email fields - even though
@@ -37,7 +37,25 @@ router.get('/', isAdmin, async (req, res, next) => {
   }
 });
 
-router.get('/:userId', isAdmin, async (req, res, next) => {
+router.get('/:userId/cart', async (req, res, next) => {
+  try {
+    const array = await User.findOne({
+      where: {
+        id: req.params.userId
+      },
+      include: [
+        {
+          model: Product
+        }
+      ]
+    });
+    res.json(array);
+  } catch (err) {
+    next(err);
+  }
+});
+
+router.get('/:userId', async (req, res, next) => {
   try {
     const user = await User.findByPk(req.params.userId);
     res.json(user);

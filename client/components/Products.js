@@ -11,6 +11,7 @@ class Products extends React.Component {
 
   render() {
     const products = this.props.products;
+    const {userId} = this.props;
     if (this.props.loading)
       return <Loader type="Hearts" color="blue" height={600} width={600} />;
     return (
@@ -18,7 +19,13 @@ class Products extends React.Component {
         {products.map(product => (
           <div key={product.id}>
             <div>
-              <Link to={`/products/${product.id}`}>{product.name}</Link>
+              {this.props.isLoggedIn ? (
+                <Link to={`/${userId}/products/${product.id}`}>
+                  {product.name}
+                </Link>
+              ) : (
+                <Link to={`/products/${product.id}`}>{product.name}</Link>
+              )}
               <img src={product.imageUrl} />
             </div>
           </div>
@@ -30,7 +37,9 @@ class Products extends React.Component {
 
 const mapState = state => ({
   products: state.products.products,
-  loading: state.products.loading
+  loading: state.products.loading,
+  isLoggedIn: !!state.user.id,
+  userId: state.user.id
 });
 
 const mapDispatch = dispatch => ({

@@ -2,15 +2,10 @@ import React from 'react';
 import {Link} from 'react-router-dom';
 import {connect} from 'react-redux';
 import Loader from 'react-loader-spinner';
-import {fetchProduct, decreaseQuantity} from '../store/products';
+import {fetchProduct} from '../store/products';
 import {addedToCart} from '../store/cart';
 
 class SingleProduct extends React.Component {
-  constructor(props) {
-    super(props);
-    this.addToCart = this.addToCart.bind(this);
-  }
-
   componentDidMount() {
     const productId = this.props.match.params.productId;
     this.props.fetchProduct(productId);
@@ -21,10 +16,9 @@ class SingleProduct extends React.Component {
   //   }
   handleSubmit(evt) {
     evt.preventDefault();
-  }
-
-  addToCart(product) {
-    this.props.addedToCart(product);
+    const userId = this.props.match.params.userId;
+    const productId = this.props.match.params.productId;
+    this.props.addedToCart(userId, productId);
   }
 
   render() {
@@ -42,11 +36,7 @@ class SingleProduct extends React.Component {
           <p>Quantity: {product.quantity} </p>
           <p>Description: {product.description} </p>
         </div>
-        <Link
-          to="/addProduct"
-          onSubmit={this.handleSubmit}
-          onClick={this.addToCart(product)}
-        >
+        <Link to="/addProduct" onSubmit={this.handleSubmit}>
           Add to Cart
         </Link>
         <Link to="/products">Back to Products</Link>
@@ -62,7 +52,7 @@ const mapState = state => ({
 
 const mapDispatch = dispatch => ({
   fetchProduct: productId => dispatch(fetchProduct(productId)),
-  addedToCart: product => dispatch(addedToCart(product))
+  addedToCart: (userId, product) => dispatch(addedToCart(userId, product))
   // decreaseQuantity: productId => dispatch(decreaseQuantity(productId))
 });
 

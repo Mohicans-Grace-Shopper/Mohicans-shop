@@ -1,7 +1,9 @@
 import axios from 'axios';
-import {createDispatchHook} from 'react-redux';
 
-const initState = [];
+const initState = {
+  products: [],
+  loading: true
+};
 
 const SET_CART = 'SET_CART';
 const ADD_PRODUCT = 'ADD_PRODUCT';
@@ -31,38 +33,34 @@ const reduceProduct = product => ({
 
 export const fetchCart = function(userId) {
   return async function(dispatch) {
-    const {data} = await axios.get(`api/${userId}/cart`);
-    dispatch(setCart(data));
+    const {data} = await axios.get(`/api/users/${userId}/cart`);
+    console.log(data.products);
+    dispatch(setCart(data.products));
   };
 };
 
-export const addedToCart = function(userId, product) {
+export const addedToCart = function(userId, productId) {
   return async function(dispatch) {
-    const {data} = await axios.get(`api/${userId}/cart`);
-    let cartContents = data;
-    if (cartContents.filter(pdt => pdt.id === product.id)) {
-      cartContents = cartContents.map(item => {
-        if (item.id === product.id) item.quantity += 1;
-        return item;
-      });
-    } else {
-      cartContents.push(product);
-    }
-    const addedProduct = await axios.post(`api/${userId}/cart/${product.id}`);
+    const addedProduct = await axios.post(
+      `api/users/${userId}/cart/${productId}`
+    );
+    console.log(addedProduct);
     dispatch(addToCart(addedProduct));
   };
 };
 
 export const increasedProduct = function(userId, product) {
   return async function(dispatch) {
-    const {data} = await axios.post(`api/${userId}/cart/${product.id}`);
+    const {data} = await axios.post(`api/users/${userId}/cart/${product.id}`);
     dispatch(increaseInCart(data));
   };
 };
 
 export const reducedProduct = function(userId, product) {
   return async function(dispatch) {
-    const {data} = await axios.delete(`/${userId}/cart/${product.id}`);
+    const {data} = await axios.delete(
+      `/api/users/${userId}/cart/${product.id}`
+    );
     dispatch(reduceProduct(data));
   };
 };
@@ -70,13 +68,13 @@ export const reducedProduct = function(userId, product) {
 export default function(state = initState, action) {
   switch (action.type) {
     case SET_CART:
-      return action.products;
+      return {...state, products: action.products, loading: false};
     case ADD_PRODUCT:
       state = state.filter(product => product.id !== action.product.id);
-      return [...state, action.product];
+      return {...state, products: action.product, loading: false};
     case INCREASE_PRODUCT:
       state = state.filter(product => product.id !== action.product.id);
-      return [...state, action.product];
+      return {...state, products: action.product, loading: false};
 
     default:
       return state;
