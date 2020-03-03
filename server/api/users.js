@@ -2,7 +2,29 @@ const router = require('express').Router()
 const {User} = require('../db/models')
 module.exports = router
 
-router.get('/', async (req, res, next) => {
+
+// Admin Authorization
+const isAdmin = (req, res, next) => {
+  if (req.user.isAdmin) {
+    next()
+  } else {
+    const err = new Error('Unauthorized Permission')
+    res.status(401).send(err)
+    next(err)
+  }
+}
+
+// User Authorization 
+const isUser = (req, res, next) => { 
+  if(!req.user.id) { 
+    const err = new Error('Unauthorized Permission')
+    res.status(401).send(err)
+    next(err)
+  }
+  next();
+}
+
+router.get('/', isAdmin, async (req, res, next) => {
   try {
     const users = await User.findAll({
       // explicitly select only the id and email fields - even though
@@ -16,15 +38,7 @@ router.get('/', async (req, res, next) => {
   }
 })
 
-// const adminsOnly = (req, res, next) => {
-//   if (req.user.isAdmin) {
-//     next()
-//   } else {
-//     res.status(401).send('Unauthorized Permission')
-//   }
-// }
-
-router.get('/:userId', async (req, res, next) => {
+router.get('/:userId', isAdmin, async (req, res, next) => {
   try {
     const user = await User.findByPk(req.params.userId)
     res.json(user)
