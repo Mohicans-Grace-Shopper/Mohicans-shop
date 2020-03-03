@@ -20,17 +20,3 @@ form div {
   display: inline-block;
 }
 
-.products {
-  display: flex;
-  flex-direction: column;
-}
-
-.product {
-  display: flex;
-  flex-direction: column;
-}
-
-img {
-  height: 130px;
-  width: 150px;
-}

@@ -1,9 +1,9 @@
-import React from 'react';
-import {connect} from 'react-redux';
-import {Link} from 'react-router-dom';
-import Loader from 'react-loader-spinner';
-import {fetchProducts} from '../store/products';
-import axios from 'axios';
+import React from 'react'
+import { connect } from 'react-redux'
+import { Link } from 'react-router-dom'
+import Loader from "react-loader-spinner";
+import { fetchProducts } from '../store/products'
+import axios from 'axios'
 
 class Products extends React.Component {
   constructor() {
@@ -21,22 +21,28 @@ class Products extends React.Component {
       price: 500.0
     });
   }
+  
+    render() {
+        const products = this.props.products;
+        if (this.props.loading)
+            return <Loader type="Hearts" color="blue" height={600} width={600} />;
+        return (
+            <div >
+                {products.map(product => (
+                    <div key={product.id} >
+                        <div >
+                            <Link to={`/products/${product.id}`}>
+                                {product.name}
+                            </Link>
+                            <img src={product.imageUrl} />
+                        </div>
 
-  render() {
-    const products = this.props.products;
-    if (this.props.loading)
-      return <Loader type="Hearts" color="blue" height={600} width={600} />;
-    return (
-      <div>
-        {products.map(product => (
-          <div className="products" key={product.id}>
-            <div className="product">
-              <Link to={`/products/${product.id}`}>{product.name}</Link>
-              <img src={product.imageUrl} />
+                    </div>
+                ))}
+                <button type="submit" onClick={this.handleClick}>Add Product</button>
             </div>
           </div>
         ))}
-        <button onClick={this.handleClick}>Add Product</button>
       </div>
     );
   }
@@ -44,7 +50,9 @@ class Products extends React.Component {
 
 const mapState = state => ({
   products: state.products.products,
-  loading: state.products.loading
+  loading: state.products.loading,
+  isLoggedIn: !!state.user.id,
+  userId: state.user.id
 });
 
 const mapDispatch = dispatch => ({
