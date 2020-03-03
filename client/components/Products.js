@@ -1,3 +1,4 @@
+
 import React from 'react'
 import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
@@ -36,19 +37,24 @@ class Products extends React.Component {
 
                     </div>
                 ))}
-                <button onClick={this.handleClick}>Add Product</button>
+                <button type="submit" onClick={this.handleClick}>Add Product</button>
             </div>
-        );
-    }
+          </div>
+        ))}
+      </div>
+    );
+  }
 }
 
 const mapState = state => ({
-    products: state.products.products,
-    loading: state.products.loading
-})
+  products: state.products.products,
+  loading: state.products.loading,
+  isLoggedIn: !!state.user.id,
+  userId: state.user.id
+});
 
 const mapDispatch = dispatch => ({
-    fetchProducts: () => dispatch(fetchProducts())
-})
+  fetchProducts: () => dispatch(fetchProducts())
+});
 
-export default connect(mapState, mapDispatch)(Products)
+export default connect(mapState, mapDispatch)(Products);
