@@ -23,6 +23,7 @@ class Products extends React.Component {
                             <Link to={`/products/${product.id}`}>
                                 {product.name}
                             </Link>
+                            <img src={product.imageUrl} />
                         </div>
 
                     </div>
