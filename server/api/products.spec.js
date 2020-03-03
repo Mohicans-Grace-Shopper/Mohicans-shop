@@ -33,11 +33,7 @@ describe('Product routes', () => {
     const lovePotion = 'love_potion'
 
     beforeEach(async () => {
-<<<<<<< HEAD
-    await Product.create({
-=======
       await Product.create({
->>>>>>> 6fb7b98655acec2868cc3456c979332ac13183b8
         name: lovePotion,
         price: 420.0
       })
