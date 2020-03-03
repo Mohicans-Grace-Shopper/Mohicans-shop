@@ -47,7 +47,7 @@ const seedProducts = [
 {
     name: 'Felix Felicis',
     description: 'A magical potion that makes the drinker lucky for a period of time, during which everything they attempt will be successful. It turns an ordinary day into an extraordinary one.',
-    price: 300;
+    price: 300,
     imageUrl: 'https://vignette.wikia.nocookie.net/harrypotter/images/8/84/Felix_Felicis_Phial_HBP.png/revision/latest/scale-to-width-down/187?cb=20161125004911'
   },
 {
@@ -60,7 +60,7 @@ const seedProducts = [
     name: 'Pepperup Potion',
     description: 'A potion which cures the common cold. It has the side-effect of causing steam to come out of the drinkers ears for several hours after it is imbibed.',
     price: 300,
-    imageUrl: 'https://pm1.narvii.com/5937/0265641bd2aa08c57ec10e13ef7b6ae74f18105d_hq.jpg':
+    imageUrl: 'https://pm1.narvii.com/5937/0265641bd2aa08c57ec10e13ef7b6ae74f18105d_hq.jpg'
   },
 {
     name: 'Polyjuice Potion',
