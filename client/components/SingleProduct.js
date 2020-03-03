@@ -7,7 +7,7 @@ import {fetchProduct, decreaseQuantity} from '../store/products';
 class SingleProduct extends React.Component {
   constructor(props) {
     super(props);
-    this.decrease = this.decrease.bind(this);
+    // this.decrease = this.decrease.bind(this);
   }
 
   componentDidMount() {
@@ -15,13 +15,13 @@ class SingleProduct extends React.Component {
     this.props.fetchProduct(productId);
   }
 
-  decrease() {
-    this.props.decreaseQuantity(this.props.match.params.productId);
-  }
+  //   decrease() {
+  //     this.props.decreaseQuantity(this.props.match.params.productId);
+  //   }
 
   render() {
     const product = this.props.product;
-    const disabledDecrease = product.quantity === 0;
+    // const disabledDecrease = product.quantity === 0;
     if (this.props.loading)
       return <Loader type="Hearts" color="blue" height={600} width={600} />;
     return (
@@ -37,8 +37,8 @@ class SingleProduct extends React.Component {
         </div>
         <Link
           to="/addProduct"
-          disabled={disabledDecrease}
-          onClick={this.decrease}
+          // disabled={disabledDecrease}
+          // onClick={this.decrease}
         >
           Add to Cart
         </Link>
@@ -54,8 +54,8 @@ const mapState = state => ({
 });
 
 const mapDispatch = dispatch => ({
-  fetchProduct: productId => dispatch(fetchProduct(productId)),
-  decreaseQuantity: productId => dispatch(decreaseQuantity(productId))
+  fetchProduct: productId => dispatch(fetchProduct(productId))
+  // decreaseQuantity: productId => dispatch(decreaseQuantity(productId))
 });
 
 export default connect(mapState, mapDispatch)(SingleProduct);
