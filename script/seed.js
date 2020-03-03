@@ -30,7 +30,7 @@ const seedProducts = [
     description: 'A potion which causes confusion in the drinker. Its known ingredients are scurvy grass, lovage, and sneezewort',
     price: 300,
     imageUrl: 'https://d.wattpad.com/story_parts/699873420/images/158695304eb09911855926916674.jpg'
-    
+
   },
 {
     name: 'Draught of Living Death',
@@ -47,20 +47,20 @@ const seedProducts = [
 {
     name: 'Felix Felicis',
     description: 'A magical potion that makes the drinker lucky for a period of time, during which everything they attempt will be successful. It turns an ordinary day into an extraordinary one.',
-    price: 300;
+    price: 300,
     imageUrl: 'https://vignette.wikia.nocookie.net/harrypotter/images/8/84/Felix_Felicis_Phial_HBP.png/revision/latest/scale-to-width-down/187?cb=20161125004911'
   },
 {
     name: 'Hiccoughing Solution',
     description: 'A potion that presumably causes hiccoughs.',
     price: 300,
-    imageUrl 'https://vignette.wikia.nocookie.net/harrypotter/images/9/92/HiccoughingSolution.png/revision/latest/scale-to-width-down/145?cb=20131128000240':
+    imageUrl: 'https://vignette.wikia.nocookie.net/harrypotter/images/9/92/HiccoughingSolution.png/revision/latest/scale-to-width-down/145?cb=20131128000240'
   },
 {
     name: 'Pepperup Potion',
-    description: 'A potion which cures the common cold. It has the side-effect of causing steam to come out of the drinker's ears for several hours after it is imbibed.',
+    description: 'A potion which cures the common cold. It has the side-effect of causing steam to come out of the drinkers ears for several hours after it is imbibed.',
     price: 300,
-    imageUrl: 'https://pm1.narvii.com/5937/0265641bd2aa08c57ec10e13ef7b6ae74f18105d_hq.jpg':
+    imageUrl: 'https://pm1.narvii.com/5937/0265641bd2aa08c57ec10e13ef7b6ae74f18105d_hq.jpg'
   },
 {
     name: 'Polyjuice Potion',
@@ -75,9 +75,8 @@ const seedProducts = [
     imageUrl: 'https://vignette.wikia.nocookie.net/harrypotter/images/b/b5/Skele-gro-lrg.png/revision/latest?cb=20121031212109'
   },
   {
-    name: 'Sleekeazy's Hair Potion',
-    description: 'A hair care potion and scalp treatment that was invented by Fleamont Potter.[1][3][2] It was originally sold with the slogan "Two drops tames even the most bothersome barnet".
-Noted as being suitable for all hair types on its label,[1] it was particularly effective at taming bushy, unruly hair, allowing it to be styled "sleek."[3] However, the label apparently cautioned against use of the product by redheads, stating it would have "unique results" for them',
+    name: 'Sleekeazys Hair Potion',
+    description: 'A hair care potion and scalp treatment that was invented by Fleamont Potter.[1][3][2] It was originally sold with the slogan "Two drops tames even the most bothersome barnet.',
     price: 300,
     imageUrl: 'https://vignette.wikia.nocookie.net/harrypotter/images/c/c6/SleekeasysHairPotion2.jpg/revision/latest/scale-to-width-down/250?cb=20120913080454'
   },
