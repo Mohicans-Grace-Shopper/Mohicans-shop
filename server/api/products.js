@@ -21,17 +21,21 @@ router.get('/:productId', async (req, res, next) => {
 
 // Admin Authorization
 const isAdmin = (req, res, next) => {
-  if (!req.session.user.isAdmin) {
-    const err = new Error('Unauthorized Permission');
-    res.status(401).send(err);
-    next(err);
+
+  if (!req.user.dataValues.isAdmin) {
+    const err = new Error('Unauthorized Permission')
+    res.status(401).send(err)
+    next(err)
+
   } else {
     next();
   }
 };
 
 // restrict access to creating products to Admin Only
-router.post('/', isAdmin, async (req, res, next) => {
+
+router.post('/', isAdmin, async (req, res, next) => { 
+
   try {
     const {name, description, price, imageUrl} = req.body;
     const newProduct = {};
