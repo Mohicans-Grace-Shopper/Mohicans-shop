@@ -17,17 +17,7 @@ class Users extends React.Component {
         <h3>Active Users:</h3>
         {users.map(user => (
           <div key={user.id}>
-            <div>
-              {!user.isAdmin ? (
-                <div>
-                  <Link to={`/users/${user.id}`}>{user.email}</Link>
-                </div>
-              ) : (
-                <div>
-                  <Link to={`/users/${user.id}`}>Admin: {user.email}</Link>
-                </div>
-              )}
-            </div>
+            <Link to={`/users/${user.id}`}>{user.email}</Link>
           </div>
         ))}
       </div>

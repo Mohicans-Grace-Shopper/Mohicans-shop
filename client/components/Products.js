@@ -4,6 +4,7 @@ import {Link} from 'react-router-dom';
 import Loader from 'react-loader-spinner';
 import {fetchProducts} from '../store/products';
 import {addedToCart} from '../store/cart';
+import AddProduct from './AddProduct';
 
 class Products extends React.Component {
   componentDidMount() {
@@ -37,6 +38,7 @@ class Products extends React.Component {
             </button> */}
           </div>
         ))}
+        <div>{this.props.isAdmin ? <AddProduct /> : <div />}</div>
       </div>
     );
   }
@@ -46,7 +48,8 @@ const mapState = state => ({
   products: state.products.products,
   loading: state.products.loading,
   isLoggedIn: !!state.user.id,
-  userId: state.user.id
+  userId: state.user.id,
+  isAdmin: state.user.isAdmin
 });
 
 const mapDispatch = dispatch => ({
