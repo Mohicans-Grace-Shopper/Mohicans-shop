@@ -7,12 +7,18 @@ import {Link} from 'react-router-dom';
 class Cart extends React.Component {
   componentDidMount() {
     const userId = this.props.match.params.userId;
-    console.log(this.props.match);
-    this.props.fetchCart(userId);
+    if (!localStorage.getItem('cartContent')) {
+      this.props.fetchCart(userId);
+    } else {
+      console.log('using local storage');
+    }
   }
 
   render() {
-    if (this.props.loading) {
+    const {isLoggedIn} = this.props;
+    if (!isLoggedIn) {
+      return 'No Items in Cart';
+    } else if (this.props.loading) {
       return <Loader type="Hearts" color="blue" height={600} width={600} />;
     } else if (!this.props.items || this.props.items.length === 0) {
       return 'No Items in Cart';
@@ -36,7 +42,8 @@ class Cart extends React.Component {
 
 const mapStateToProps = state => ({
   items: state.cart.products,
-  loading: state.cart.loading
+  loading: state.cart.loading,
+  isLoggedIn: !!state.user.id
 });
 
 const mapDispatchToProps = dispatch => ({
