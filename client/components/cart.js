@@ -7,7 +7,7 @@ import {Link} from 'react-router-dom';
 class Cart extends React.Component {
   componentDidMount() {
     const userId = this.props.match.params.userId;
-    if (!window.localStorage.getItem('cartContents')) {
+    if (userId) {
       this.props.fetchCart(userId);
     } else {
       console.log('using local storage');
@@ -34,7 +34,8 @@ class Cart extends React.Component {
               <Link to={`/products/${item.id}`}>
                 <img src={item.imageUrl} />
                 <div>{item.name}</div>
-                <div>{item.cart.quantity}</div>
+                <div>Quantity: {item.cart.quantity}</div>
+                <div>Price: ${item.price * item.cart.quantity}</div>
                 <button type="button">X</button>
               </Link>
             </div>
@@ -46,6 +47,7 @@ class Cart extends React.Component {
 }
 
 const mapStateToProps = state => ({
+  orderId: state.cart.orderId,
   items: state.cart.products,
   loading: state.cart.loading,
   isLoggedIn: !!state.user.id
