@@ -50,7 +50,7 @@ router.get('/:userId/cart', async (req, res, next) => {
         }
       ]
     });
-    res.json(order.products);
+    res.json(order);
   } catch (err) {
     next(err);
   }
@@ -69,19 +69,21 @@ router.get('/:userId', async (req, res, next) => {
 //TBD - Need to protect the Route, should be available for the user only
 //TBD - Need to handle errors
 //TBD - We should not be able to add more items to the cart, than total quantity for the product
-router.post('/:userId/cart/:productId', async (req, res, next) => {
+router.put('/:userId/cart', async (req, res, next) => {
   try {
+    const orderId = req.body.orderId;
+    const productId = req.body.productId;
     const item = await Cart.findOne({
       where: {
-        productId: req.params.productId,
-        userId: req.params.userId
+        productId: productId,
+        orderId: orderId
       }
     });
     if (item) {
       await item.increment('quantity', {by: 1});
     } else {
-      const user = await User.findByPk(req.params.userId);
-      await user.addProduct(req.params.productId);
+      const order = await Order.findByPk(orderId);
+      await order.addProduct(productId);
     }
     res.json(item);
   } catch (error) {
