@@ -1,5 +1,5 @@
 const router = require('express').Router();
-const {User, Cart, Product} = require('../db/models');
+const {User, Cart, Product, Order} = require('../db/models');
 module.exports = router;
 
 // Admin Authorization
@@ -39,9 +39,10 @@ router.get('/', async (req, res, next) => {
 
 router.get('/:userId/cart', async (req, res, next) => {
   try {
-    const array = await User.findOne({
+    const order = await Order.findOne({
       where: {
-        id: req.params.userId
+        userId: req.params.userId,
+        isFulfilled: false
       },
       include: [
         {
@@ -49,7 +50,7 @@ router.get('/:userId/cart', async (req, res, next) => {
         }
       ]
     });
-    res.json(array);
+    res.json(order.products);
   } catch (err) {
     next(err);
   }

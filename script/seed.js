@@ -138,9 +138,8 @@ async function seed() {
   ]);
 
   // Add some products to users cards
-  // const order1 = await Order.create();
-  // await order1.addProduct([1, 2, 3]);
-  // await Cart.create({orderId: 1, productId: 1});
+  const order1 = await Order.create({userId: 1});
+  await order1.addProduct([1, 2, 3]);
 
   console.log(`seeded ${users.length} users`);
   console.log(`seeded successfully`);
