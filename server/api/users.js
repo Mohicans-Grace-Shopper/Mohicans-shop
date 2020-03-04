@@ -2,6 +2,8 @@ const router = require('express').Router();
 const {User, Cart, Product} = require('../db/models');
 module.exports = router;
 
+// moving the isAdmin/other pieces of middleware into a utils file, or a gatekeeping file so that you can export it and use it anywhere.
+
 // Admin Authorization
 const isAdmin = (req, res, next) => {
   if (!req.user.isAdmin) {
@@ -37,6 +39,8 @@ router.get('/', async (req, res, next) => {
   }
 });
 
+// RESTfulness -> this is still fine to use
+// /users/:userId/orders/:orderId
 router.get('/:userId/cart', async (req, res, next) => {
   try {
     const array = await User.findOne({
@@ -55,6 +59,7 @@ router.get('/:userId/cart', async (req, res, next) => {
   }
 });
 
+// would hide immediately before people hack.
 router.get('/:userId', async (req, res, next) => {
   try {
     const user = await User.findByPk(req.params.userId);
@@ -68,6 +73,8 @@ router.get('/:userId', async (req, res, next) => {
 //TBD - Need to protect the Route, should be available for the user only
 //TBD - Need to handle errors
 //TBD - We should not be able to add more items to the cart, than total quantity for the product
+// would also recommend passing in the product as a body and not in the route
+// looks like i am trying to access the user's cart number productId
 router.post('/:userId/cart/:productId', async (req, res, next) => {
   try {
     const item = await Cart.findOne({
