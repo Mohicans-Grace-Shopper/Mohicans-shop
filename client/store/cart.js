@@ -41,11 +41,10 @@ export const fetchCart = function(userId) {
 
 export const addedToCart = function(userId, productObj) {
   return async function(dispatch) {
-    const product = await axios.put(`api/users/${userId}/cart/`, productObj);
-    console.log(productObj);
-    // let addedProduct = JSON.parse(product.config.data)
-    console.log(product);
-    dispatch(addToCart(addedProduct));
+    await axios.put(`/api/users/${userId}/cart`, productObj);
+    const {data} = await axios.get(`/api/users/${userId}/cart`);
+    console.log(data);
+    dispatch(setCart(data));
   };
 };
 
@@ -74,12 +73,12 @@ export default function(state = initState, action) {
         products: action.order.products,
         loading: false
       };
-    case ADD_PRODUCT:
-      // eslint-disable-next-line no-case-declarations
-      let prods = state.products.filter(
-        product => product.id !== action.product.id
-      );
-      return {...state, products: [...prods, action.product], loading: false};
+    // case ADD_PRODUCT:
+    //   // eslint-disable-next-line no-case-declarations
+    //   let prods = state.products.filter(
+    //     product => product.id !== action.product.id
+    //   );
+    //   return { ...state, products: [...prods, action.product], loading: false };
     case INCREASE_PRODUCT:
       state = state.filter(product => product.id !== action.product.id);
       return {...state, products: action.product, loading: false};

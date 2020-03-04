@@ -37,7 +37,7 @@ class SingleProduct extends React.Component {
       orderId: this.props.orderId,
       productId: this.props.product.id,
       action: 'add',
-      quant: this.state.quantity
+      quantity: this.state.quantity
     };
     if (!userId) {
       let localCart = JSON.parse(window.localStorage.getItem('cartContents'));

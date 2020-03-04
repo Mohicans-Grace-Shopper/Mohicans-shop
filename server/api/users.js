@@ -75,6 +75,7 @@ router.put('/:userId/cart', async (req, res, next) => {
     const productId = req.body.productId;
     const action = req.body.action;
     const quant = req.body.quantity;
+    console.log('hi', req.body);
     let order;
     let item = await Cart.findOne({
       where: {
@@ -92,6 +93,8 @@ router.put('/:userId/cart', async (req, res, next) => {
     } else if (action === 'subtract' && item.quantity > 1) {
       await item.decrement('quantity', {by: 1});
     }
+    // const addedProduct = await Product.findByPk(item.productId);
+    // addedProduct.quantity = item.quantity
     res.json(item);
   } catch (error) {
     next(error);
