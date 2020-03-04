@@ -1,7 +1,7 @@
 'use strict';
 
 const db = require('../server/db');
-const {User, Product, Cart} = require('../server/db/models');
+const {User, Product, Cart, Order} = require('../server/db/models');
 
 const seedProducts = [
   {
@@ -138,9 +138,8 @@ async function seed() {
   ]);
 
   // Add some products to users cards
-  const user1 = await User.findByPk(1);
-  await user1.addProduct([1, 2, 3]);
-  await Cart.create({userId: 2, productId: 1});
+  const order1 = await Order.create({userId: 1});
+  await order1.addProduct([1, 2, 3]);
 
   console.log(`seeded ${users.length} users`);
   console.log(`seeded successfully`);

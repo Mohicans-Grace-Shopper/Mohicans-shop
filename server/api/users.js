@@ -1,5 +1,5 @@
 const router = require('express').Router();
-const {User, Cart, Product} = require('../db/models');
+const {User, Cart, Product, Order} = require('../db/models');
 module.exports = router;
 
 // Admin Authorization
@@ -39,9 +39,10 @@ router.get('/', async (req, res, next) => {
 
 router.get('/:userId/cart', async (req, res, next) => {
   try {
-    const array = await User.findOne({
+    const order = await Order.findOne({
       where: {
-        id: req.params.userId
+        userId: req.params.userId,
+        isFulfilled: false
       },
       include: [
         {
@@ -49,7 +50,7 @@ router.get('/:userId/cart', async (req, res, next) => {
         }
       ]
     });
-    res.json(array);
+    res.json(order);
   } catch (err) {
     next(err);
   }
@@ -65,22 +66,31 @@ router.get('/:userId', async (req, res, next) => {
 });
 
 //Route to add item to the cart
+//Route to change quantity of existing items in the cart
 //TBD - Need to protect the Route, should be available for the user only
 //TBD - Need to handle errors
-//TBD - We should not be able to add more items to the cart, than total quantity for the product
-router.post('/:userId/cart/:productId', async (req, res, next) => {
+router.put('/:userId/cart', async (req, res, next) => {
   try {
-    const item = await Cart.findOne({
+    const orderId = req.body.orderId;
+    const productId = req.body.productId;
+    const action = req.body.action;
+    let order;
+    let item = await Cart.findOne({
       where: {
-        productId: req.params.productId,
-        userId: req.params.userId
+        productId: productId,
+        orderId: orderId
       }
     });
     if (item) {
-      await item.increment('quantity', {by: 1});
+      if (action === 'add') {
+        await item.increment('quantity', {by: 1});
+      } else if (action === 'subtract' && item.quantity > 1) {
+        await item.decrement('quantity', {by: 1});
+      }
     } else {
-      const user = await User.findByPk(req.params.userId);
-      await user.addProduct(req.params.productId);
+      order = await Order.findByPk(orderId);
+      item = await order.addProduct(productId);
+      item = item[0];
     }
     res.json(item);
   } catch (error) {
@@ -88,24 +98,16 @@ router.post('/:userId/cart/:productId', async (req, res, next) => {
   }
 });
 
-//Route to remove item from the cart
+//Route to remove product from the cart
 //TBD - Need to protect the Route, should be available for the user only
 //TBD - Need to handle errors
-router.delete('/:userId/cart/:productId', async (req, res, next) => {
+router.delete('/:userId/cart', async (req, res, next) => {
+  const orderId = req.body.orderId;
+  const productId = req.body.productId;
   try {
-    const item = await Cart.findOne({
-      where: {
-        productId: req.params.productId,
-        userId: req.params.userId
-      }
-    });
-    if (item.quantity > 1) {
-      await item.decrement('quantity', {by: 1});
-    } else {
-      const user = await User.findByPk(req.params.userId);
-      await user.removeProduct(req.params.productId);
-    }
-    res.json(item);
+    const order = await Order.findByPk(orderId);
+    const removed = await order.removeProduct(productId);
+    res.json(removed);
   } catch (error) {
     next(error);
   }

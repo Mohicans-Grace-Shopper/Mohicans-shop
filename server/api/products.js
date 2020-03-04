@@ -76,7 +76,7 @@ router.delete('/:productId', isAdmin, async (req, res, next) => {
       await foundProduct.destroy();
     }
   } catch (error) {
-    nect(error);
+    next(error);
   }
 });
 
