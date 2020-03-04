@@ -7,10 +7,13 @@ import {Link} from 'react-router-dom';
 class Cart extends React.Component {
   componentDidMount() {
     const userId = this.props.match.params.userId;
-    if (!localStorage.getItem('cartContent')) {
+    if (!window.localStorage.getItem('cartContents')) {
       this.props.fetchCart(userId);
     } else {
       console.log('using local storage');
+      let cartContents = JSON.parse(
+        window.localStorage.getItem('cartContents')
+      );
     }
   }
 
@@ -31,6 +34,8 @@ class Cart extends React.Component {
               <Link to={`/products/${item.id}`}>
                 <img src={item.imageUrl} />
                 <div>{item.name}</div>
+                <div>{item.cart.quantity}</div>
+                <button type="button">X</button>
               </Link>
             </div>
           );
