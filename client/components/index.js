@@ -9,6 +9,7 @@ export {default as UserHome} from './user-home';
 export {Login, Signup} from './auth-form';
 export {default as Products} from './Products';
 export {default as SingleProduct} from './SingleProduct';
-// export { default as Users } from './Users'
-// export { default as SingleUser } from './SingleUser'
+export {default as Users} from './Users';
+export {default as SingleUser} from './SingleUser';
+export {default as AddProduct} from './AddProduct';
 export {default as Cart} from './cart';
