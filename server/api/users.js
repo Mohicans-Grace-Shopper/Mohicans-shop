@@ -73,7 +73,7 @@ router.put('/:userId/cart', async (req, res, next) => {
   try {
     const orderId = req.body.orderId;
     const productId = req.body.productId;
-    const item = await Cart.findOne({
+    let item = await Cart.findOne({
       where: {
         productId: productId,
         orderId: orderId
@@ -83,7 +83,7 @@ router.put('/:userId/cart', async (req, res, next) => {
       await item.increment('quantity', {by: 1});
     } else {
       const order = await Order.findByPk(orderId);
-      await order.addProduct(productId);
+      item = await order.addProduct(productId);
     }
     res.json(item);
   } catch (error) {
