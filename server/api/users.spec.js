@@ -1,52 +1,50 @@
 /* global describe beforeEach it */
 
-const {expect} = require('chai')
-const request = require('supertest')
-const db = require('../db')
-const app = require('../index')
-const User = db.model('user')
+const {expect} = require('chai');
+const request = require('supertest');
+const db = require('../db');
+const app = require('../index');
+const User = db.model('user');
 
 describe('User routes', () => {
   beforeEach(() => {
-    return db.sync({force: true})
-  })
+    return db.sync({force: true});
+  });
 
   describe('/api/users/', () => {
-    const codysEmail = 'cody@puppybook.com'
+    const codysEmail = 'cody@puppybook.com';
 
     beforeEach(() => {
       return User.create({
-        email: codysEmail, 
-        isAdmin: true
-      })
-    })
+        email: codysEmail
+      });
+    });
 
     it('GET /api/users', async () => {
       const res = await request(app)
         .get('/api/users')
-        .expect(200)
+        .expect(200);
 
-      expect(res.body).to.be.an('array')
-      expect(res.body[0].email).to.be.equal(codysEmail)
-    })
-  }) // end describe('/api/users')
+      expect(res.body).to.be.an('array');
+      expect(res.body[0].email).to.be.equal(codysEmail);
+    });
+  }); // end describe('/api/users')
 
   describe('/api/users/:userId', () => {
-    const codysEmail = 'cody@puppybook.com'
+    const codysEmail = 'cody@puppybook.com';
 
     beforeEach(async () => {
       await User.create({
-        email: codysEmail, 
-        isAdmin: true
-      })
-    })
+        email: codysEmail
+      });
+    });
     it('GET /api/users/:userId', async () => {
       const res = await request(app)
         .get('/api/users/1')
-        .expect(200)
+        .expect(200);
 
-      expect(res.body).to.be.an('object')
-      expect(res.body.email).to.be.equal(codysEmail)
-    })
-  }) // end describe ('/api/users/:userId')
-}) // end describe('User routes')
+      expect(res.body).to.be.an('object');
+      expect(res.body.email).to.be.equal(codysEmail);
+    });
+  }); // end describe ('/api/users/:userId')
+}); // end describe('User routes')

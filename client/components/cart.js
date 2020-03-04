@@ -7,8 +7,11 @@ import {Link} from 'react-router-dom';
 class Cart extends React.Component {
   componentDidMount() {
     const userId = this.props.match.params.userId;
-    console.log(this.props.match);
-    this.props.fetchCart(userId);
+    if (!localStorage.getItem('cartContent')) {
+      this.props.fetchCart(userId);
+    } else {
+      console.log('using local storage');
+    }
   }
 
   render() {

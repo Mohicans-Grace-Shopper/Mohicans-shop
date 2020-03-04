@@ -4,12 +4,11 @@
  * having to figure out which file they belong to!
  */
 
-export { default as Navbar } from './navbar'
-export { default as UserHome } from './user-home'
-export { Login, Signup } from './auth-form'
-export { default as Products } from './Products'
-export { default as SingleProduct } from './SingleProduct'
-export { default as Users } from './Users'
-export { default as SingleUser } from './SingleUser'
-export { default as Cart } from './cart'
-
+export {default as Navbar} from './navbar';
+export {default as UserHome} from './user-home';
+export {Login, Signup} from './auth-form';
+export {default as Products} from './Products';
+export {default as SingleProduct} from './SingleProduct';
+// export { default as Users } from './Users'
+// export { default as SingleUser } from './SingleUser'
+export {default as Cart} from './cart';
