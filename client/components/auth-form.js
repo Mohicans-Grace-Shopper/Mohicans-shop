@@ -61,9 +61,6 @@ const mapDispatch = dispatch => {
   return {
     handleSubmit(evt) {
       evt.preventDefault();
-      window.localStorage.setItem('name', 'Obaseki Nosa');
-      console.log(window.localStorage.getItem('name'));
-      console.log(window.localStorage);
       const formName = evt.target.name;
       const email = evt.target.email.value;
       const password = evt.target.password.value;

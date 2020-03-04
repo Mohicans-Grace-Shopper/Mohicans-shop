@@ -70,8 +70,11 @@ export default function(state = initState, action) {
     case SET_CART:
       return {...state, products: action.products, loading: false};
     case ADD_PRODUCT:
-      state = state.filter(product => product.id !== action.product.id);
-      return {...state, products: action.product, loading: false};
+      // eslint-disable-next-line no-case-declarations
+      let prods = state.products.filter(
+        product => product.id !== action.product.id
+      );
+      return {...state, products: [...prods, action.product], loading: false};
     case INCREASE_PRODUCT:
       state = state.filter(product => product.id !== action.product.id);
       return {...state, products: action.product, loading: false};
