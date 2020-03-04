@@ -39,6 +39,9 @@ class SingleProduct extends React.Component {
         <Link to="/addProduct" onSubmit={this.handleSubmit}>
           Add to Cart
         </Link>
+        <button type="submit" onClick={this.handleClick}>
+          Add Product
+        </button>
         <Link to="/products">Back to Products</Link>
       </div>
     );

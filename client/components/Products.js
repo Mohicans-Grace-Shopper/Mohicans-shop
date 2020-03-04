@@ -3,6 +3,7 @@ import {connect} from 'react-redux';
 import {Link} from 'react-router-dom';
 import Loader from 'react-loader-spinner';
 import {fetchProducts} from '../store/products';
+import {addedToCart} from '../store/cart';
 
 class Products extends React.Component {
   componentDidMount() {
@@ -28,9 +29,9 @@ class Products extends React.Component {
               )}
             </div>
             <img src={product.imageUrl} />
-            <button type="submit" onClick={this.handleClick}>
+            {/* <button type="submit" onClick={this.handleClick}>
               Add Product
-            </button>
+            </button> */}
           </div>
         ))}
       </div>
@@ -46,7 +47,8 @@ const mapState = state => ({
 });
 
 const mapDispatch = dispatch => ({
-  fetchProducts: () => dispatch(fetchProducts())
+  fetchProducts: () => dispatch(fetchProducts()),
+  addedToCart: (userId, productId) => dispatch(addedToCart(userId, productId))
 });
 
 export default connect(mapState, mapDispatch)(Products);
