@@ -3,13 +3,13 @@ import {Link} from 'react-router-dom';
 import {connect} from 'react-redux';
 import Loader from 'react-loader-spinner';
 import {fetchProduct} from '../store/products';
-import {addedToCart} from '../store/cart';
+import {fetchCart, addedToCart} from '../store/cart';
 
 class SingleProduct extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      quantity: 0
+      quantity: 1
     };
     this.increase = this.increase.bind(this);
     this.decrease = this.decrease.bind(this);
@@ -19,11 +19,11 @@ class SingleProduct extends React.Component {
   componentDidMount() {
     const productId = this.props.match.params.productId;
     this.props.fetchProduct(productId);
+    this.props.fetchCart(this.props.match.params.userId);
   }
 
   increase() {
     this.setState({quantity: this.state.quantity + 1});
-    // this.props.increaseQuantity(this.props.match.params.productId);
   }
 
   decrease() {
@@ -33,20 +33,25 @@ class SingleProduct extends React.Component {
   handleSubmit(evt) {
     evt.preventDefault();
     const userId = this.props.match.params.userId;
-    const productId = this.props.match.params.productId;
+    let productObj = {
+      orderId: this.props.orderId,
+      productId: this.props.product.id,
+      action: 'add',
+      quant: this.state.quantity
+    };
     if (!userId) {
       let localCart = JSON.parse(window.localStorage.getItem('cartContents'));
       localCart.push({...this.props.product, quantity: this.state.quantity});
       window.localStorage.setItem('cartContents', JSON.stringify(localCart));
     } else {
-      this.props.addedToCart(userId, productId);
+      this.props.addedToCart(userId, productObj);
     }
-    this.setState({quantity: 0});
+    this.setState({quantity: 1});
   }
 
   render() {
     const product = this.props.product;
-    const disabledDecrease = this.state.quantity === 0;
+    const disabledDecrease = this.state.quantity === 1;
     if (this.props.loading)
       return <Loader type="Hearts" color="blue" height={600} width={600} />;
     return (
@@ -83,6 +88,7 @@ class SingleProduct extends React.Component {
 }
 
 const mapState = state => ({
+  orderId: state.cart.orderId,
   product: state.products.product,
   loading: state.products.singleLoading
 });
@@ -90,8 +96,8 @@ const mapState = state => ({
 const mapDispatch = dispatch => ({
   fetchProduct: productId => dispatch(fetchProduct(productId)),
   addedToCart: (userId, product) => dispatch(addedToCart(userId, product)),
-  decreaseQuantity: productId => dispatch(decreaseQuantity(productId)),
-  increaseQuantity: productId => dispatch(increaseQuantity(productId))
+  fetchCart: userId => dispatch(fetchCart(userId))
+  // increaseQuantity: productId => dispatch(increaseQuantity(productId))
 });
 
 export default connect(mapState, mapDispatch)(SingleProduct);
