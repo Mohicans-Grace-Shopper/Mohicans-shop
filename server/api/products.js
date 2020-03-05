@@ -34,9 +34,10 @@ const isAdmin = (req, res, next) => {
 
 router.post('/', isAdmin, async (req, res, next) => {
   try {
-    const {name, description, price, imageUrl} = req.body;
+    const {name, quantity, description, price, imageUrl} = req.body;
     const newProduct = {};
     if (name) newProduct.name = name;
+    if (quantity) newProduct.quantity = quantity;
     if (description) newProduct.description = description;
     if (price) newProduct.price = price;
     if (imageUrl) newProduct.imageUrl = imageUrl;
@@ -52,9 +53,10 @@ router.post('/', isAdmin, async (req, res, next) => {
 router.put('/:productId', isAdmin, async (req, res, next) => {
   try {
     const foundProduct = await Product.findByPk(req.params.productId);
-    const {name, description, price, imageUrl} = req.body;
+    const {name, quantity, description, price, imageUrl} = req.body;
     const updateProduct = {};
     if (name) updateProduct.name = name;
+    if (quantity) updateProduct.quantity = quantity;
     if (description) updateProduct.description = description;
     if (price) updateProduct.price = price;
     if (imageUrl) updateProduct.imageUrl = imageUrl;
