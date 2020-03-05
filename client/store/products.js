@@ -39,9 +39,9 @@ const updateProduct = product => ({
   product
 });
 
-const deleteProduct = product => ({
+const deleteProduct = productId => ({
   type: DELETE_PRODUCT,
-  product
+  productId
 });
 
 export const fetchProducts = () => {
@@ -101,8 +101,8 @@ export const updateProductThunk = (productId, params) => {
 export const deleteProductThunk = productId => {
   return async dispatch => {
     try {
-      const {data} = await axios.delete(`/api/products/${productId}`);
-      dispatch(deleteProduct(data));
+      await axios.delete(`/api/products/${productId}`);
+      dispatch(deleteProduct(productId));
     } catch (error) {
       console.error(error);
     }
