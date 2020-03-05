@@ -1,14 +1,14 @@
 import React from 'react';
 import {connect} from 'react-redux';
-import {fetchCart, increasedProduct, reducedProduct} from '../store/cart';
+import {fetchCart, editProductQuant, removedProduct} from '../store/cart';
 import Loader from 'react-loader-spinner';
 import {Link} from 'react-router-dom';
 
 class Cart extends React.Component {
   constructor(props) {
     super(props);
-    this.increase = this.increase.bind(this);
-    this.decrease = this.decrease.bind(this);
+    this.editProduct = this.editProduct.bind(this);
+    this.deleteProduct = this.deleteProduct.bind(this);
   }
   componentDidMount() {
     const userId = this.props.match.params.userId;
@@ -22,25 +22,25 @@ class Cart extends React.Component {
     }
   }
 
-  increase(productId) {
+  editProduct(productId, action) {
     const userId = this.props.match.params.userId;
     let productObj = {
       orderId: this.props.orderId,
       productId: productId,
-      action: 'add',
+      action: action,
       quantity: 1
     };
-    this.props.increasedProduct(userId, productObj);
+    this.props.editProductQuant(userId, productObj);
   }
 
-  decrease(productId) {
+  deleteProduct(productId) {
     const userId = this.props.match.params.userId;
+    console.log(this.props);
     let productObj = {
       orderId: this.props.orderId,
-      productId: productId,
-      action: 'subtract'
+      productId: productId
     };
-    this.props.reducedProduct(userId, productObj);
+    this.props.removedProduct(userId, productObj);
   }
 
   render() {
@@ -60,12 +60,18 @@ class Cart extends React.Component {
               <Link to={`/products/${item.id}`} />
               <img src={item.imageUrl} height="200" width="320" />
               <div>{item.name}</div>
-              <button type="submit" onClick={() => this.increase(item.id)}>
+              <button
+                type="submit"
+                onClick={() => this.editProduct(item.id, 'add')}
+              >
                 Increase
               </button>
               <div>Quantity: {item.cart.quantity}</div>
               {item.cart.quantity > 1 ? (
-                <button type="submit" onClick={() => this.decrease(item.id)}>
+                <button
+                  type="submit"
+                  onClick={() => this.editProduct(item.id, 'subtract')}
+                >
                   Decrease
                 </button>
               ) : (
@@ -73,7 +79,9 @@ class Cart extends React.Component {
               )}
 
               <div>Price: ${item.price * item.cart.quantity}</div>
-              <button type="button">X</button>
+              <button type="submit" onClick={() => this.deleteProduct(item.id)}>
+                X
+              </button>
             </div>
           );
         })}
@@ -91,10 +99,10 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
   fetchCart: userId => dispatch(fetchCart(userId)),
-  increasedProduct: (userId, productObj) =>
-    dispatch(increasedProduct(userId, productObj)),
-  reducedProduct: (userId, productObj) =>
-    dispatch(reducedProduct(userId, productObj))
+  editProductQuant: (userId, productObj) =>
+    dispatch(editProductQuant(userId, productObj)),
+  removedProduct: (userId, productObj) =>
+    dispatch(removedProduct(userId, productObj))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Cart);

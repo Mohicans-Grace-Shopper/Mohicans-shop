@@ -14,9 +14,9 @@ const setCart = order => ({
   order
 });
 
-const removeProduct = item => ({
+const removeProduct = productId => ({
   type: REMOVE_PRODUCT,
-  item
+  productId
 });
 
 export const fetchCart = function(userId) {
@@ -34,7 +34,7 @@ export const addedToCart = function(userId, productObj) {
   };
 };
 
-export const increasedProduct = function(userId, productObj) {
+export const editProductQuant = function(userId, productObj) {
   return async function(dispatch) {
     await axios.put(`/api/users/${userId}/cart`, productObj);
     const {data} = await axios.get(`/api/users/${userId}/cart`);
@@ -42,9 +42,12 @@ export const increasedProduct = function(userId, productObj) {
   };
 };
 
-export const reducedProduct = function(userId, productObj) {
+export const removedProduct = function(userId, productObj) {
   return async function(dispatch) {
-    await axios.put(`/api/users/${userId}/cart/`, productObj);
+    console.log(productObj);
+    await axios.delete(
+      `/api/users/${userId}/cart/${productObj.orderId}/${productObj.productId}`
+    );
     const {data} = await axios.get(`/api/users/${userId}/cart`);
     dispatch(setCart(data));
   };
@@ -65,8 +68,9 @@ export default function(state = initState, action) {
     //     product => product.id !== action.product.id
     //   );
     //   return { ...state, products: [...prods, action.product], loading: false };
-    // case REDUCE_PRODUCT:
-    //   let withoutpdt = state.products.filter(product => product.id !== action.product.id);
+    // case REMOVE_PRODUCT:
+    //   // eslint-disable-next-line no-case-declarations
+    //   let withoutpdt = state.products.filter(product => product.id !== action.productId);
     //   return { ...state, products: withoutpdt, loading: false };
     default:
       return state;
