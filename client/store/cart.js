@@ -7,28 +7,16 @@ const initState = {
 };
 
 const SET_CART = 'SET_CART';
-// const ADD_PRODUCT = 'ADD_PRODUCT';
-const INCREASE_PRODUCT = 'INCREASE_PRODUCT';
-const REDUCE_PRODUCT = 'REDUCE_PRODUCT';
+const REMOVE_PRODUCT = 'REMOVE_PRODUCT';
 
 const setCart = order => ({
   type: SET_CART,
   order
 });
 
-// const addToCart = product => ({
-//   type: ADD_PRODUCT,
-//   product
-// });
-
-const increaseInCart = product => ({
-  type: INCREASE_PRODUCT,
-  product
-});
-
-const reduceProduct = product => ({
-  type: REDUCE_PRODUCT,
-  product
+const removeProduct = item => ({
+  type: REMOVE_PRODUCT,
+  item
 });
 
 export const fetchCart = function(userId) {
@@ -48,15 +36,17 @@ export const addedToCart = function(userId, productObj) {
 
 export const increasedProduct = function(userId, productObj) {
   return async function(dispatch) {
-    const {data} = await axios.put(`api/users/${userId}/cart/`, productObj);
-    dispatch(increaseInCart(data));
+    await axios.put(`/api/users/${userId}/cart`, productObj);
+    const {data} = await axios.get(`/api/users/${userId}/cart`);
+    dispatch(setCart(data));
   };
 };
 
 export const reducedProduct = function(userId, productObj) {
   return async function(dispatch) {
-    const {data} = await axios.put(`api/users/${userId}/cart/`, productObj);
-    dispatch(reduceProduct(data));
+    await axios.put(`/api/users/${userId}/cart/`, productObj);
+    const {data} = await axios.get(`/api/users/${userId}/cart`);
+    dispatch(setCart(data));
   };
 };
 
@@ -75,12 +65,9 @@ export default function(state = initState, action) {
     //     product => product.id !== action.product.id
     //   );
     //   return { ...state, products: [...prods, action.product], loading: false };
-    case INCREASE_PRODUCT:
-      state = state.filter(product => product.id !== action.product.id);
-      return {...state, products: action.product, loading: false};
-    case REDUCE_PRODUCT:
-      state = state.filter(product => product.id !== action.product.id);
-      return {...state, products: action.product, loading: false};
+    // case REDUCE_PRODUCT:
+    //   let withoutpdt = state.products.filter(product => product.id !== action.product.id);
+    //   return { ...state, products: withoutpdt, loading: false };
     default:
       return state;
   }
