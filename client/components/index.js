@@ -13,3 +13,4 @@ export {default as Users} from './Users';
 export {default as SingleUser} from './SingleUser';
 export {default as AddProduct} from './AddProduct';
 export {default as Cart} from './cart';
+export {default as OrderConfirmation} from './orderConfirmation';
