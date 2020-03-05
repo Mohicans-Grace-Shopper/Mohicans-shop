@@ -120,7 +120,6 @@ class SingleProduct extends React.Component {
 const mapState = state => ({
   orderId: state.cart.orderId,
   product: state.products.product,
-  products: state.products.products,
   loading: state.products.singleLoading,
   isAdmin: state.user.isAdmin
 });
