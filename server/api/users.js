@@ -93,9 +93,9 @@ router.put('/:userId/cart', async (req, res, next) => {
     } else if (action === 'subtract' && item.quantity > 1) {
       await item.decrement('quantity', {by: 1});
     }
-    // const addedProduct = await Product.findByPk(item.productId);
-    // addedProduct.quantity = item.quantity
-    res.json(item);
+    const addedProduct = await Product.findByPk(item.productId);
+    addedProduct.quantity = item.quantity;
+    res.json(addedProduct);
   } catch (error) {
     next(error);
   }

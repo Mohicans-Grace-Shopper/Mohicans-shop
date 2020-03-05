@@ -20,23 +20,26 @@ class Products extends React.Component {
       return <Loader type="Hearts" color="blue" height={600} width={600} />;
     return (
       <div>
-        {products.map(product => (
-          <div key={product.id}>
-            <div>
-              {this.props.isLoggedIn ? (
-                <Link to={`/${userId}/products/${product.id}`}>
-                  {product.name}
-                </Link>
-              ) : (
-                <Link to={`/products/${product.id}`}>{product.name}</Link>
-              )}
-            </div>
-            <img src={product.imageUrl} />
-            {/* <button type="submit" onClick={this.handleClick}>
+        <h2 className="section-title">Products</h2>
+        <ul className="container">
+          {products.map(product => (
+            <div key={product.id} className="card">
+              <div>
+                {this.props.isLoggedIn ? (
+                  <Link to={`/${userId}/products/${product.id}`}>
+                    {product.name}
+                  </Link>
+                ) : (
+                  <Link to={`/products/${product.id}`}>{product.name}</Link>
+                )}
+              </div>
+              <img src={product.imageUrl} height="200" width="320" />
+              {/* <button type="submit" onClick={this.handleClick}>
               Add Product
             </button> */}
-          </div>
-        ))}
+            </div>
+          ))}
+        </ul>
       </div>
     );
   }
