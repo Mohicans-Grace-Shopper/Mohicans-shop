@@ -43,6 +43,15 @@ const ProductForm = props => {
           onChange={props.handleChange}
         />
       </div>
+      <div id="input">
+        <label htmlFor="imageUrl">Image URL: </label>
+        <input
+          type="text"
+          value={props.imageUrl}
+          name="imageUrl"
+          onChange={props.handleChange}
+        />
+      </div>
       <button type="submit">Submit</button>
     </form>
   );
