@@ -1,27 +1,7 @@
+const {isAdmin, isUser} = require('./utils');
 const router = require('express').Router();
 const {User, Cart, Product, Order} = require('../db/models');
 module.exports = router;
-
-// Admin Authorization
-const isAdmin = (req, res, next) => {
-  if (!req.user.isAdmin) {
-    const err = new Error('Unauthorized Permission');
-    res.status(401).send(err);
-    next(err);
-  } else {
-    next();
-  }
-};
-
-// User Authorization
-const isUser = (req, res, next) => {
-  if (!req.user.id) {
-    const err = new Error('Unauthorized Permission');
-    res.status(401).send(err);
-    next(err);
-  }
-  next();
-};
 
 router.get('/', async (req, res, next) => {
   try {
