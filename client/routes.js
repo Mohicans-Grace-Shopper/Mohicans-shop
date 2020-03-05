@@ -9,6 +9,7 @@ import {
   Products,
   SingleProduct,
   Cart,
+  OrderConfirmation,
   Users,
   SingleUser,
   AddProduct
@@ -45,6 +46,11 @@ class Routes extends Component {
               component={SingleProduct}
             />
             <Route exact path="/users/:userId/cart" component={Cart} />
+            <Route
+              exact
+              path="/users/:userId/cart/orderconfirmation"
+              component={OrderConfirmation}
+            />
             <Route exact path="/users" component={Users} />
             <Route exact path="/users/:userId" component={SingleUser} />
             <Route exact path="/products/addproduct" component={AddProduct} />
