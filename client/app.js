@@ -4,7 +4,8 @@ import {Navbar} from './components';
 import Routes from './routes';
 
 const App = () => {
-  window.localStorage.setItem('cartContents', JSON.stringify([]));
+  if (window.localStorage.length === 0)
+    window.localStorage.setItem('cartContents', JSON.stringify([]));
 
   return (
     <div>

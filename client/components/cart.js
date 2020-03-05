@@ -15,6 +15,7 @@ class Cart extends React.Component {
   }
   componentDidMount() {
     const userId = this.props.match.params.userId;
+
     if (userId) {
       this.props.fetchCart(userId);
     } else {
@@ -52,20 +53,18 @@ class Cart extends React.Component {
     const userId = this.props.match.params.userId;
     let cartItems;
     isLoggedIn ? (cartItems = this.props.items) : (cartItems = this.state.cart);
-   if (
-      isLoggedIn &&
-      this.props.loading
-    ) {
+    if (isLoggedIn && this.props.loading) {
       return <Loader type="Hearts" color="blue" height={600} width={600} />;
     } else if (!cartItems || cartItems.length === 0) {
       return 'No Items in Cart';
     }
-    console.log('cartitems', cartItems);
+
     let cartTotal = cartItems.reduce(
       (accum, item) =>
         accum + item.price * (isLoggedIn ? item.cart.quantity : item.quantity),
       0
     );
+
     return (
       <div>
         <h3>Shopping Cart</h3>
