@@ -12,7 +12,6 @@ class Cart extends React.Component {
   }
   componentDidMount() {
     const userId = this.props.match.params.userId;
-    console.log('blah', userId);
     if (userId) {
       this.props.fetchCart(userId);
     } else {
@@ -31,7 +30,7 @@ class Cart extends React.Component {
       action: 'add',
       quantity: 1
     };
-    increasedProduct(userId, productObj);
+    this.props.increasedProduct(userId, productObj);
   }
 
   decrease(productId) {
@@ -41,7 +40,7 @@ class Cart extends React.Component {
       productId: productId,
       action: 'subtract'
     };
-    reducedProduct(userId, productObj);
+    this.props.reducedProduct(userId, productObj);
   }
 
   render() {
@@ -58,24 +57,23 @@ class Cart extends React.Component {
         {this.props.items.map(item => {
           return (
             <div key={item.id}>
-              <Link to={`/products/${item.id}`}>
-                <img src={item.imageUrl} height="200" width="320" />
-                <div>{item.name}</div>
-                <button type="button" onClick={this.increase(item.id)}>
-                  Increase
+              <Link to={`/products/${item.id}`} />
+              <img src={item.imageUrl} height="200" width="320" />
+              <div>{item.name}</div>
+              <button type="submit" onClick={() => this.increase(item.id)}>
+                Increase
+              </button>
+              <div>Quantity: {item.cart.quantity}</div>
+              {item.cart.quantity > 1 ? (
+                <button type="submit" onClick={() => this.decrease(item.id)}>
+                  Decrease
                 </button>
-                <div>Quantity: {item.cart.quantity}</div>
-                {item.cart.quantity > 1 ? (
-                  <button type="button" onClick={this.decrease(item.id)}>
-                    Decrease
-                  </button>
-                ) : (
-                  <span />
-                )}
+              ) : (
+                <span />
+              )}
 
-                <div>Price: ${item.price * item.cart.quantity}</div>
-                <button type="button">X</button>
-              </Link>
+              <div>Price: ${item.price * item.cart.quantity}</div>
+              <button type="button">X</button>
             </div>
           );
         })}
