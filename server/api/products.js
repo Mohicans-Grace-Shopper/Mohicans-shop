@@ -1,5 +1,6 @@
 const router = require('express').Router();
 const {Product} = require('../db/models');
+const {isAdmin, isUser} = require('./utils');
 
 router.get('/', async (req, res, next) => {
   try {
@@ -18,17 +19,6 @@ router.get('/:productId', async (req, res, next) => {
     next(error);
   }
 });
-
-// Admin Authorization
-const isAdmin = (req, res, next) => {
-  if (!req.user.dataValues.isAdmin) {
-    const err = new Error('Unauthorized Permission');
-    res.status(401).send(err);
-    next(err);
-  } else {
-    next();
-  }
-};
 
 // restrict access to creating products to Admin Only
 

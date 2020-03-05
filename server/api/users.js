@@ -1,27 +1,7 @@
+const {isAdmin, isUser} = require('./utils');
 const router = require('express').Router();
-const { User, Cart, Product, Order } = require('../db/models');
+const {User, Cart, Product, Order} = require('../db/models');
 module.exports = router;
-
-// Admin Authorization
-const isAdmin = (req, res, next) => {
-  if (!req.user.isAdmin) {
-    const err = new Error('Unauthorized Permission');
-    res.status(401).send(err);
-    next(err);
-  } else {
-    next();
-  }
-};
-
-// User Authorization
-const isUser = (req, res, next) => {
-  if (!req.user.id) {
-    const err = new Error('Unauthorized Permission');
-    res.status(401).send(err);
-    next(err);
-  }
-  next();
-};
 
 router.get('/', async (req, res, next) => {
   try {
@@ -88,14 +68,13 @@ router.put('/:userId/cart', async (req, res, next) => {
       item = item[0];
     }
     if (action === 'add') {
-      await item.increment('quantity', { by: quant });
+      await item.increment('quantity', {by: quant});
     } else if (action === 'subtract' && item.quantity > 1) {
-      await item.decrement('quantity', { by: 1 });
+      await item.decrement('quantity', {by: 1});
     }
     const addedProduct = await Product.findByPk(item.productId);
     addedProduct.quantity = item.quantity;
-    res.json(addedProduct);
-    // res.json(item);
+    res.send(addedProduct);
   } catch (error) {
     next(error);
   }
