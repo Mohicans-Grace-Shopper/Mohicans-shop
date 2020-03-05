@@ -7,6 +7,9 @@ import {Link} from 'react-router-dom';
 class Cart extends React.Component {
   constructor(props) {
     super(props);
+    this.state = {
+      cart: []
+    };
     this.editProduct = this.editProduct.bind(this);
     this.deleteProduct = this.deleteProduct.bind(this);
   }
@@ -15,10 +18,11 @@ class Cart extends React.Component {
     if (userId) {
       this.props.fetchCart(userId);
     } else {
-      console.log('using local storage');
+      console.log('using local storage', window.localStorage);
       let cartContents = JSON.parse(
         window.localStorage.getItem('cartContents')
       );
+      this.setState({cart: cartContents});
     }
   }
 
@@ -46,21 +50,27 @@ class Cart extends React.Component {
   render() {
     const {isLoggedIn} = this.props;
     const userId = this.props.match.params.userId;
-    if (!isLoggedIn) {
-      return 'No Items in Cart';
-    } else if (this.props.loading) {
+    let cartItems;
+    isLoggedIn ? (cartItems = this.props.items) : (cartItems = this.state.cart);
+   if (
+      isLoggedIn &&
+      this.props.loading
+    ) {
       return <Loader type="Hearts" color="blue" height={600} width={600} />;
-    } else if (!this.props.items || this.props.items.length === 0) {
+    } else if (!cartItems || cartItems.length === 0) {
       return 'No Items in Cart';
     }
-    let cartTotal = this.props.items.reduce(
-      (accum, item) => accum + item.price * item.cart.quantity,
+    console.log('cartitems', cartItems);
+    let cartTotal = cartItems.reduce(
+      (accum, item) =>
+        accum + item.price * (isLoggedIn ? item.cart.quantity : item.quantity),
       0
     );
     return (
       <div>
         <h3>Shopping Cart</h3>
-        {this.props.items.map(item => {
+
+        {cartItems.map(item => {
           return (
             <div key={item.id}>
               <Link to={`/products/${item.id}`} />
@@ -72,8 +82,10 @@ class Cart extends React.Component {
               >
                 Increase
               </button>
-              <div>Quantity: {item.cart.quantity}</div>
-              {item.cart.quantity > 1 ? (
+              <div>
+                Quantity: {isLoggedIn ? item.cart.quantity : item.quantity}
+              </div>
+              {(isLoggedIn ? item.cart.quantity : item.quantity) > 1 ? (
                 <button
                   type="submit"
                   onClick={() => this.editProduct(item.id, 'subtract')}
@@ -84,7 +96,10 @@ class Cart extends React.Component {
                 <span />
               )}
 
-              <div>Price: ${item.price * item.cart.quantity}</div>
+              <div>
+                Price: $
+                {item.price * (isLoggedIn ? item.cart.quantity : item.quantity)}
+              </div>
               <button type="submit" onClick={() => this.deleteProduct(item.id)}>
                 X
               </button>

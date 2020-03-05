@@ -66,6 +66,7 @@ router.delete('/:productId', isAdmin, async (req, res, next) => {
       res.sendStatus(404);
     } else {
       await foundProduct.destroy();
+      res.send(200);
     }
   } catch (error) {
     next(error);
