@@ -45,6 +45,7 @@ class Cart extends React.Component {
 
   render() {
     const {isLoggedIn} = this.props;
+    const userId = this.props.match.params.userId;
     if (!isLoggedIn) {
       return 'No Items in Cart';
     } else if (this.props.loading) {
@@ -52,6 +53,10 @@ class Cart extends React.Component {
     } else if (!this.props.items || this.props.items.length === 0) {
       return 'No Items in Cart';
     }
+    let cartTotal = this.props.items.reduce(
+      (accum, item) => accum + item.price * item.cart.quantity,
+      0
+    );
     return (
       <div>
         {this.props.items.map(item => {
@@ -85,6 +90,8 @@ class Cart extends React.Component {
             </div>
           );
         })}
+        <p>Total: ${cartTotal}</p>
+        <Link to={`/users/${userId}/cart/orderconfirmation`}>Checkout</Link>
       </div>
     );
   }
