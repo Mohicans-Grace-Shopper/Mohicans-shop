@@ -1,12 +1,18 @@
 import React from 'react';
 import {connect} from 'react-redux';
-import {fetchCart} from '../store/cart';
+import {fetchCart, increasedProduct, reducedProduct} from '../store/cart';
 import Loader from 'react-loader-spinner';
 import {Link} from 'react-router-dom';
 
 class Cart extends React.Component {
+  constructor(props) {
+    super(props);
+    this.increase = this.increase.bind(this);
+    this.decrease = this.decrease.bind(this);
+  }
   componentDidMount() {
     const userId = this.props.match.params.userId;
+    console.log('blah', userId);
     if (userId) {
       this.props.fetchCart(userId);
     } else {
@@ -15,6 +21,27 @@ class Cart extends React.Component {
         window.localStorage.getItem('cartContents')
       );
     }
+  }
+
+  increase(productId) {
+    const userId = this.props.match.params.userId;
+    let productObj = {
+      orderId: this.props.orderId,
+      productId: productId,
+      action: 'add',
+      quantity: 1
+    };
+    increasedProduct(userId, productObj);
+  }
+
+  decrease(productId) {
+    const userId = this.props.match.params.userId;
+    let productObj = {
+      orderId: this.props.orderId,
+      productId: productId,
+      action: 'subtract'
+    };
+    reducedProduct(userId, productObj);
   }
 
   render() {
@@ -32,9 +59,20 @@ class Cart extends React.Component {
           return (
             <div key={item.id}>
               <Link to={`/products/${item.id}`}>
-                <img src={item.imageUrl} />
+                <img src={item.imageUrl} height="200" width="320" />
                 <div>{item.name}</div>
+                <button type="button" onClick={this.increase(item.id)}>
+                  Increase
+                </button>
                 <div>Quantity: {item.cart.quantity}</div>
+                {item.cart.quantity > 1 ? (
+                  <button type="button" onClick={this.decrease(item.id)}>
+                    Decrease
+                  </button>
+                ) : (
+                  <span />
+                )}
+
                 <div>Price: ${item.price * item.cart.quantity}</div>
                 <button type="button">X</button>
               </Link>
@@ -54,7 +92,11 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  fetchCart: userId => dispatch(fetchCart(userId))
+  fetchCart: userId => dispatch(fetchCart(userId)),
+  increasedProduct: (userId, productObj) =>
+    dispatch(increasedProduct(userId, productObj)),
+  reducedProduct: (userId, productObj) =>
+    dispatch(reducedProduct(userId, productObj))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Cart);

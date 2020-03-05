@@ -37,7 +37,7 @@ class SingleProduct extends React.Component {
       orderId: this.props.orderId,
       productId: this.props.product.id,
       action: 'add',
-      quant: this.state.quantity
+      quantity: this.state.quantity
     };
     if (!userId) {
       let localCart = JSON.parse(window.localStorage.getItem('cartContents'));
@@ -58,7 +58,7 @@ class SingleProduct extends React.Component {
       <div>
         <h3>{product.title} </h3>
         <div>
-          <img src={product.imageUrl} />
+          <img src={product.imageUrl} height="300" width="420" />
         </div>
         <div>
           <p>Price: {product.price} </p>
