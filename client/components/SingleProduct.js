@@ -55,11 +55,10 @@ class SingleProduct extends React.Component {
     evt.preventDefault();
     const userId = this.props.match.params.userId;
     this.props.deleteProductThunk(this.props.product.id);
-    this.setState({...this.state});
-    //console.log(this.props.history)
+    //this.setState({...this.state});
+    console.log(this.props);
     this.props.history.push({
-      pathname: `/${userId}/products`,
-      state: this.props.products
+      pathname: `/${userId}/products`
     });
   }
 
