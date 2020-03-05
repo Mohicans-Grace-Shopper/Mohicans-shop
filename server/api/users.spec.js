@@ -61,7 +61,6 @@ describe('User routes', () => {
       const res = await request(app)
         .get('/api/users/1/cart')
         .expect(200);
-      console.log(res.body);
       expect(res.body.id).to.be.equal(1);
       expect(res.body.isFulfilled).to.be.equal(false);
       expect(Array.isArray(res.body.products)).to.be.equal(true);

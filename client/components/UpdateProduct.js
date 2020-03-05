@@ -1,22 +1,23 @@
 import React, {Component} from 'react';
 import ProductForm from './admin-product-form';
 import {connect} from 'react-redux';
-import {addProductThunk} from '../store/products';
+import {updateProductThunk} from '../store/products';
 
-class AddProduct extends Component {
+class UpdateProduct extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      products: []
+      product: {}
     };
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleChange = this.handleChange.bind(this);
   }
   handleSubmit(evt) {
     evt.preventDefault();
-    this.props.addProductThunk(this.state);
+    this.props.updateProductThunk(this.props.product.id, this.state);
     this.setState({...this.state});
   }
+
   handleChange(evt) {
     this.setState({[evt.target.name]: evt.target.value});
   }
@@ -25,8 +26,8 @@ class AddProduct extends Component {
     return (
       <div>
         <ProductForm
-          handleSubmit={this.handleSubmit}
           handleChange={this.handleChange}
+          handleSubmit={this.handleSubmit}
         />
       </div>
     );
@@ -34,11 +35,12 @@ class AddProduct extends Component {
 }
 
 const mapState = state => ({
-  products: state.products.products
+  product: state.products.product
 });
 
 const mapDispatch = dispatch => ({
-  addProductThunk: params => dispatch(addProductThunk(params))
+  updateProductThunk: (productId, params) =>
+    dispatch(updateProductThunk(productId, params))
 });
 
-export default connect(mapState, mapDispatch)(AddProduct);
+export default connect(mapState, mapDispatch)(UpdateProduct);
