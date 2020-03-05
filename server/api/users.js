@@ -31,7 +31,7 @@ router.get('/:userId/cart', async (req, res, next) => {
       ]
     });
     if (order === null) {
-      const newOrder = await Order.create({userId: 1});
+      const newOrder = await Order.create({userId: req.params.userId});
       res.json(newOrder);
     } else {
       res.json(order);
