@@ -1,5 +1,5 @@
 const router = require('express').Router();
-const {User, Cart, Product, Order} = require('../db/models');
+const { User, Cart, Product, Order } = require('../db/models');
 module.exports = router;
 
 // Admin Authorization
@@ -88,9 +88,9 @@ router.put('/:userId/cart', async (req, res, next) => {
       item = item[0];
     }
     if (action === 'add') {
-      await item.increment('quantity', {by: quant});
+      await item.increment('quantity', { by: quant });
     } else if (action === 'subtract' && item.quantity > 1) {
-      await item.decrement('quantity', {by: 1});
+      await item.decrement('quantity', { by: 1 });
     }
     const addedProduct = await Product.findByPk(item.productId);
     addedProduct.quantity = item.quantity;
@@ -103,11 +103,13 @@ router.put('/:userId/cart', async (req, res, next) => {
 //Route to remove product from the cart
 //TBD - Need to protect the Route, should be available for the user only
 //TBD - Need to handle errors
-router.delete('/:userId/cart', async (req, res, next) => {
-  const orderId = req.body.orderId;
-  const productId = req.body.productId;
+router.delete('/:userId/cart/:orderId/:productId', async (req, res, next) => {
+  const orderId = req.params.orderId;
+  const productId = req.params.productId;
+
   try {
     const order = await Order.findByPk(orderId);
+    console.log(orderId);
     const removed = await order.removeProduct(productId);
     res.json(removed);
   } catch (error) {
