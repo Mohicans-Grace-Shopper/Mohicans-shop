@@ -2,8 +2,9 @@ import React from 'react';
 import {Link} from 'react-router-dom';
 import {connect} from 'react-redux';
 import Loader from 'react-loader-spinner';
-import {fetchProduct} from '../store/products';
+import {fetchProduct, deleteProductThunk} from '../store/products';
 import {fetchCart, addedToCart} from '../store/cart';
+import UpdateProduct from './UpdateProduct';
 
 class SingleProduct extends React.Component {
   constructor(props) {
@@ -14,6 +15,7 @@ class SingleProduct extends React.Component {
     this.increase = this.increase.bind(this);
     this.decrease = this.decrease.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.deleteProduct = this.deleteProduct.bind(this);
   }
 
   componentDidMount() {
@@ -49,6 +51,12 @@ class SingleProduct extends React.Component {
     this.setState({quantity: 1});
   }
 
+  deleteProduct(evt) {
+    evt.preventDefault();
+    this.props.deleteProductThunk(this.props.product.id);
+    this.setState({...this.state});
+  }
+
   render() {
     const product = this.props.product;
     const disabledDecrease = this.state.quantity === 1;
@@ -81,6 +89,20 @@ class SingleProduct extends React.Component {
         <button type="submit" onClick={this.handleSubmit}>
           Add to Cart
         </button>
+        <div>
+          <h3>Update Product: </h3>
+          {this.props.isAdmin ? <UpdateProduct /> : <div />}
+        </div>
+        <div>
+          <h3>Delete Product? </h3>
+          {this.props.isAdmin ? (
+            <button type="submit" onClick={this.deleteProduct}>
+              Delete
+            </button>
+          ) : (
+            <div />
+          )}
+        </div>
         <Link to="/products">Back to Products</Link>
       </div>
     );
@@ -90,13 +112,16 @@ class SingleProduct extends React.Component {
 const mapState = state => ({
   orderId: state.cart.orderId,
   product: state.products.product,
-  loading: state.products.singleLoading
+  loading: state.products.singleLoading,
+  isAdmin: state.user.isAdmin
 });
 
 const mapDispatch = dispatch => ({
   fetchProduct: productId => dispatch(fetchProduct(productId)),
   addedToCart: (userId, product) => dispatch(addedToCart(userId, product)),
-  fetchCart: userId => dispatch(fetchCart(userId))
+  fetchCart: userId => dispatch(fetchCart(userId)),
+  deleteProductThunk: productId => dispatch(deleteProductThunk(productId))
+
   // increaseQuantity: productId => dispatch(increaseQuantity(productId))
 });
 
