@@ -12,7 +12,6 @@ class Cart extends React.Component {
   }
   componentDidMount() {
     const userId = this.props.match.params.userId;
-    console.log('blah', userId);
     if (userId) {
       this.props.fetchCart(userId);
     } else {
@@ -31,7 +30,7 @@ class Cart extends React.Component {
       action: 'add',
       quantity: 1
     };
-    increasedProduct(userId, productObj);
+    this.props.increasedProduct(userId, productObj);
   }
 
   decrease(productId) {
@@ -41,7 +40,7 @@ class Cart extends React.Component {
       productId: productId,
       action: 'subtract'
     };
-    reducedProduct(userId, productObj);
+    this.props.reducedProduct(userId, productObj);
   }
 
   render() {
@@ -61,12 +60,12 @@ class Cart extends React.Component {
               <Link to={`/products/${item.id}`} />
               <img src={item.imageUrl} height="200" width="320" />
               <div>{item.name}</div>
-              <button type="submit" onClick={this.increase(item.id)}>
+              <button type="submit" onClick={() => this.increase(item.id)}>
                 Increase
               </button>
               <div>Quantity: {item.cart.quantity}</div>
               {item.cart.quantity > 1 ? (
-                <button type="submit" onClick={this.decrease(item.id)}>
+                <button type="submit" onClick={() => this.decrease(item.id)}>
                   Decrease
                 </button>
               ) : (
