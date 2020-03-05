@@ -1,15 +1,27 @@
 import React from 'react';
 import {connect} from 'react-redux';
-import {fetchCart} from '../store/cart';
+import {fetchCart, completeOrder} from '../store/cart';
 import Loader from 'react-loader-spinner';
 import {Link} from 'react-router-dom';
 
 class OrderConfirmation extends React.Component {
+  constructor(props) {
+    super(props);
+    this.checkout = this.checkout.bind(this);
+  }
+
   componentDidMount() {
     const userId = this.props.match.params.userId;
     if (userId) {
       this.props.fetchCart(userId);
     }
+  }
+
+  checkout() {
+    const userId = this.props.match.params.userId;
+    this.props.completeOrder(this.props.orderId);
+    let path = `/users/${userId}/cart/thankyou`;
+    this.props.history.push(path);
   }
 
   render() {
@@ -33,8 +45,10 @@ class OrderConfirmation extends React.Component {
             </div>
           );
         })}
-        <p>Total: {cartTotal}</p>
-        <p>Place Order</p>
+        <p>Total: ${cartTotal}</p>
+        <button type="submit" onClick={() => this.checkout()}>
+          Place Order
+        </button>
       </div>
     );
   }
@@ -47,7 +61,8 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  fetchCart: userId => dispatch(fetchCart(userId))
+  fetchCart: userId => dispatch(fetchCart(userId)),
+  completeOrder: orderId => dispatch(completeOrder(orderId))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(OrderConfirmation);

@@ -12,7 +12,8 @@ import {
   OrderConfirmation,
   Users,
   SingleUser,
-  AddProduct
+  AddProduct,
+  ThankYou
 } from './components';
 import {me} from './store';
 
@@ -51,6 +52,7 @@ class Routes extends Component {
               path="/users/:userId/cart/orderconfirmation"
               component={OrderConfirmation}
             />
+            <Route path="/users/:userId/cart/thankyou" component={ThankYou} />
             <Route exact path="/users" component={Users} />
             <Route exact path="/users/:userId" component={SingleUser} />
             <Route exact path="/products/addproduct" component={AddProduct} />

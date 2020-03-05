@@ -30,7 +30,12 @@ router.get('/:userId/cart', async (req, res, next) => {
         }
       ]
     });
-    res.json(order);
+    if (order === null) {
+      const newOrder = await Order.create({userId: 1});
+      res.json(newOrder);
+    } else {
+      res.json(order);
+    }
   } catch (err) {
     next(err);
   }
@@ -92,6 +97,20 @@ router.delete('/:userId/cart/:orderId/:productId', async (req, res, next) => {
     console.log(orderId);
     const removed = await order.removeProduct(productId);
     res.json(removed);
+  } catch (error) {
+    next(error);
+  }
+});
+
+//Route to checkout and complete order
+router.put('/:userId/cart/:orderId', async (req, res, next) => {
+  const orderId = req.params.orderId;
+  try {
+    const [rowsUpdate, [updatedOrder]] = await Order.update(
+      {isFulfilled: true},
+      {returning: true, where: {id: orderId}}
+    );
+    res.json(updatedOrder);
   } catch (error) {
     next(error);
   }
