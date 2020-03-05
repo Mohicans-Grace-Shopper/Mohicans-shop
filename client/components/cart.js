@@ -59,6 +59,7 @@ class Cart extends React.Component {
     );
     return (
       <div>
+        <h3>Shopping Cart</h3>
         {this.props.items.map(item => {
           return (
             <div key={item.id}>
@@ -90,7 +91,7 @@ class Cart extends React.Component {
             </div>
           );
         })}
-        <p>Total: ${cartTotal}</p>
+        <div>Total: ${cartTotal}</div>
         <Link to={`/users/${userId}/cart/orderconfirmation`}>
           Proceed to Checkout
         </Link>

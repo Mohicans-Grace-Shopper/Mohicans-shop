@@ -7,10 +7,15 @@ const initState = {
 };
 
 const SET_CART = 'SET_CART';
+const PURCHASE_CART = 'PURCHASE_CART';
 
 const setCart = order => ({
   type: SET_CART,
   order
+});
+
+const purchaseCart = () => ({
+  type: PURCHASE_CART
 });
 
 export const fetchCart = function(userId) {
@@ -38,12 +43,21 @@ export const editProductQuant = function(userId, productObj) {
 
 export const removedProduct = function(userId, productObj) {
   return async function(dispatch) {
-    console.log(productObj);
     await axios.delete(
       `/api/users/${userId}/cart/${productObj.orderId}/${productObj.productId}`
     );
     const {data} = await axios.get(`/api/users/${userId}/cart`);
     dispatch(setCart(data));
+  };
+};
+
+export const completeOrder = function(orderId) {
+  return async function(dispatch) {
+    const {data} = await axios.put(`/api/users/:userId/cart/${orderId}`);
+    console.log(data);
+    if (data.isFulfilled) {
+      dispatch(purchaseCart());
+    }
   };
 };
 
@@ -56,16 +70,8 @@ export default function(state = initState, action) {
         products: action.order.products,
         loading: false
       };
-    // case ADD_PRODUCT:
-    //   // eslint-disable-next-line no-case-declarations
-    //   let prods = state.products.filter(
-    //     product => product.id !== action.product.id
-    //   );
-    //   return { ...state, products: [...prods, action.product], loading: false };
-    // case REMOVE_PRODUCT:
-    //   // eslint-disable-next-line no-case-declarations
-    //   let withoutpdt = state.products.filter(product => product.id !== action.productId);
-    //   return { ...state, products: withoutpdt, loading: false };
+    case PURCHASE_CART:
+      return {...initState, orderId: state.orderId + 1};
     default:
       return state;
   }
