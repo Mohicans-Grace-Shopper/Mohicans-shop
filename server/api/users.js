@@ -94,7 +94,8 @@ router.put('/:userId/cart', async (req, res, next) => {
     }
     const addedProduct = await Product.findByPk(item.productId);
     addedProduct.quantity = item.quantity;
-    res.send(addedProduct);
+    res.json(addedProduct);
+    // res.json(item);
   } catch (error) {
     next(error);
   }
