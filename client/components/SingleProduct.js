@@ -1,5 +1,5 @@
 import React from 'react';
-import {Link} from 'react-router-dom';
+import {Link, Redirect} from 'react-router-dom';
 import {connect} from 'react-redux';
 import Loader from 'react-loader-spinner';
 import {fetchProduct, deleteProductThunk} from '../store/products';
@@ -53,8 +53,10 @@ class SingleProduct extends React.Component {
 
   deleteProduct(evt) {
     evt.preventDefault();
+    const userId = this.props.match.params.userId;
     this.props.deleteProductThunk(this.props.product.id);
     this.setState({...this.state});
+    this.props.history.push(`/${userId}/products`);
   }
 
   render() {
@@ -90,15 +92,22 @@ class SingleProduct extends React.Component {
           Add to Cart
         </button>
         <div>
-          <h3>Update Product: </h3>
-          {this.props.isAdmin ? <UpdateProduct /> : <div />}
+          {this.props.isAdmin ? (
+            <div>
+              <h3>Update Product: </h3> <UpdateProduct />
+            </div>
+          ) : (
+            <div />
+          )}
         </div>
         <div>
-          <h3>Delete Product? </h3>
           {this.props.isAdmin ? (
-            <button type="submit" onClick={this.deleteProduct}>
-              Delete
-            </button>
+            <div>
+              <h3>Delete Product? </h3>{' '}
+              <button type="submit" onClick={this.deleteProduct}>
+                Delete
+              </button>
+            </div>
           ) : (
             <div />
           )}

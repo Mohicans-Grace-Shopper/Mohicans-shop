@@ -6,7 +6,6 @@ const ProductForm = props => {
       <div id="input">
         <label htmlFor="name">Product Name: </label>
         <input
-          placeholder="This field is required!"
           type="text"
           value={props.name}
           name="name"
@@ -17,7 +16,6 @@ const ProductForm = props => {
       <div id="input">
         <label htmlFor="price">Price: </label>
         <input
-          placeholder="This field is required!"
           type="text"
           value={props.price}
           name="price"
