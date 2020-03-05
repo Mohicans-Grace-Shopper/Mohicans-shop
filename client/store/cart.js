@@ -48,7 +48,10 @@ export const addedToCart = function(userId, productObj) {
 
 export const increasedProduct = function(userId, productObj) {
   return async function(dispatch) {
+    console.log('Hit it');
+    console.log(productObj);
     const {data} = await axios.put(`api/users/${userId}/cart/`, productObj);
+    console.log(data);
     dispatch(increaseInCart(data));
   };
 };
@@ -76,8 +79,10 @@ export default function(state = initState, action) {
     //   );
     //   return { ...state, products: [...prods, action.product], loading: false };
     case INCREASE_PRODUCT:
-      state = state.filter(product => product.id !== action.product.id);
-      return {...state, products: action.product, loading: false};
+      state = state
+        .filter(product => product.id !== action.product.id)
+        .push(action.product);
+      return {...state, products: state, loading: false};
     case REDUCE_PRODUCT:
       state = state.filter(product => product.id !== action.product.id);
       return {...state, products: action.product, loading: false};
