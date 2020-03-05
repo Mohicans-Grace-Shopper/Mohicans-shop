@@ -75,7 +75,6 @@ router.put('/:userId/cart', async (req, res, next) => {
     const productId = req.body.productId;
     const action = req.body.action;
     const quant = req.body.quantity;
-    console.log('hi', req.body);
     let order;
     let item = await Cart.findOne({
       where: {
