@@ -34,6 +34,7 @@ class OrderConfirmation extends React.Component {
           );
         })}
         <p>Total: {cartTotal}</p>
+        <p>Place Order</p>
       </div>
     );
   }

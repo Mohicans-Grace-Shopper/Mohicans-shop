@@ -7,16 +7,10 @@ const initState = {
 };
 
 const SET_CART = 'SET_CART';
-const REMOVE_PRODUCT = 'REMOVE_PRODUCT';
 
 const setCart = order => ({
   type: SET_CART,
   order
-});
-
-const removeProduct = productId => ({
-  type: REMOVE_PRODUCT,
-  productId
 });
 
 export const fetchCart = function(userId) {

@@ -91,7 +91,9 @@ class Cart extends React.Component {
           );
         })}
         <p>Total: ${cartTotal}</p>
-        <Link to={`/users/${userId}/cart/orderconfirmation`}>Checkout</Link>
+        <Link to={`/users/${userId}/cart/orderconfirmation`}>
+          Proceed to Checkout
+        </Link>
       </div>
     );
   }
