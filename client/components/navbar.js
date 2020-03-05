@@ -3,30 +3,67 @@ import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 import {Link} from 'react-router-dom';
 import {logout} from '../store';
+import AppBar from '@material-ui/core/AppBar';
+import Toolbar from '@material-ui/core/Toolbar';
+import Button from '@material-ui/core/Button';
 
 const Navbar = ({handleClick, isLoggedIn, userId}) => (
   <div>
     <h1>Magic</h1>
     <nav>
-      {isLoggedIn ? (
-        <div>
-          {/* The navbar will show these links after you log in */}
-          <Link to="/home">Home</Link>
-          <a href="#" onClick={handleClick}>
-            Logout
-          </a>
-          <Link to={`/${userId}/products`}>Products</Link>
-          <Link to={`/users/${userId}/cart`}>Cart</Link>
-        </div>
-      ) : (
-        <div>
-          {/* The navbar will show these links before you log in */}
-          <Link to="/login">Login</Link>
-          <Link to="/signup">Sign Up</Link>
-          <Link to="/products">Products</Link>
-          <Link to="/cart">Cart</Link>
-        </div>
-      )}
+      <AppBar position="static">
+        <Toolbar>
+          {isLoggedIn ? (
+            <div>
+              {/* The navbar will show these links after you log in */}
+              <Button color="inherit">
+                <Link className="navlink" to="/home">
+                  Home
+                </Link>
+              </Button>
+              <Button color="inherit">
+                <a className="navlink" href="#" onClick={handleClick}>
+                  Logout
+                </a>
+              </Button>
+              <Button color="inherit">
+                <Link className="navlink" to={`/${userId}/products`}>
+                  Products
+                </Link>
+              </Button>
+              <Button color="inherit">
+                <Link className="navlink" to={`/users/${userId}/cart`}>
+                  Cart
+                </Link>
+              </Button>
+            </div>
+          ) : (
+            <div>
+              {/* The navbar will show these links before you log in */}
+              <Button color="inherit">
+                <Link className="navlink" to="/login">
+                  Login
+                </Link>
+              </Button>
+              <Button color="inherit">
+                <Link className="navlink" to="/signup">
+                  Sign Up
+                </Link>
+              </Button>
+              <Button color="inherit">
+                <Link className="navlink" to="/products">
+                  Products
+                </Link>
+              </Button>
+              <Button color="inherit">
+                <Link className="navlink" to="/cart">
+                  Cart
+                </Link>
+              </Button>
+            </div>
+          )}
+        </Toolbar>
+      </AppBar>
     </nav>
     <hr />
   </div>
