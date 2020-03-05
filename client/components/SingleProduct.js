@@ -21,7 +21,8 @@ class SingleProduct extends React.Component {
   componentDidMount() {
     const productId = this.props.match.params.productId;
     this.props.fetchProduct(productId);
-    this.props.fetchCart(this.props.match.params.userId);
+    if (this.props.match.params.userId)
+      this.props.fetchCart(this.props.match.params.userId);
   }
 
   increase() {
@@ -43,7 +44,14 @@ class SingleProduct extends React.Component {
     };
     if (!userId) {
       let localCart = JSON.parse(window.localStorage.getItem('cartContents'));
-      localCart.push({...this.props.product, quantity: this.state.quantity});
+      const productIndex = localCart.findIndex(
+        product => product.id === this.props.product.id
+      );
+      if (productIndex === -1) {
+        localCart.push({...this.props.product, quantity: this.state.quantity});
+      } else {
+        localCart[productIndex].quantity += this.state.quantity;
+      }
       window.localStorage.setItem('cartContents', JSON.stringify(localCart));
     } else {
       this.props.addedToCart(userId, productObj);
@@ -56,7 +64,6 @@ class SingleProduct extends React.Component {
     const userId = this.props.match.params.userId;
     this.props.deleteProductThunk(this.props.product.id);
     this.props.history.push(`/${userId}/products`);
-
   }
 
   render() {

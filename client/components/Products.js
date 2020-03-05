@@ -9,9 +9,6 @@ import AddProduct from './AddProduct';
 class Products extends React.Component {
   componentDidMount() {
     this.props.fetchProducts();
-    // if (!this.props.match.params.userId) {
-    //   window.localStorage.setItem('cartContents', JSON.stringify([]));
-    // }
   }
 
   render() {
