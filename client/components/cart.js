@@ -23,7 +23,8 @@ class Cart extends React.Component {
       let cartContents = JSON.parse(
         window.localStorage.getItem('cartContents')
       );
-      this.setState({cart: cartContents});
+      // this.setState({cart: cartContents});
+      this.setState({cart: Object.values(cartContents)});
     }
   }
 
@@ -48,7 +49,8 @@ class Cart extends React.Component {
         localCart[productId].quantity -= 1;
       }
       window.localStorage.setItem('cartContents', JSON.stringify(localCart));
-      this.setState({cart: localCart});
+      // this.setState({cart: localCart});
+      this.setState({cart: Object.values(localCart)});
     }
   }
 
@@ -63,9 +65,11 @@ class Cart extends React.Component {
       this.props.removedProduct(userId, productObj);
     } else {
       let localCart = JSON.parse(window.localStorage.getItem('cartContents'));
-      localCart.splice(productId, 1);
+      // localCart.splice(productId, 1);
+      delete localCart[productId];
       window.localStorage.setItem('cartContents', JSON.stringify(localCart));
-      this.setState({cart: localCart});
+      // this.setState({cart: localCart});
+      this.setState({cart: Object.values(localCart)});
     }
   }
 
@@ -90,9 +94,9 @@ class Cart extends React.Component {
       <div>
         <h3>Shopping Cart</h3>
 
-        {cartItems.map((item, idx) => {
-          let itemIdentifier;
-          isLoggedIn ? (itemIdentifier = item.id) : (itemIdentifier = idx);
+        {cartItems.map(item => {
+          // let itemIdentifier;
+          // isLoggedIn ? (itemIdentifier = item.id) : (itemIdentifier = idx);
           return (
             <div key={item.id}>
               <Link to={`/products/${item.id}`} />
@@ -100,7 +104,7 @@ class Cart extends React.Component {
               <div>{item.name}</div>
               <button
                 type="submit"
-                onClick={() => this.editProduct(itemIdentifier, 'add')}
+                onClick={() => this.editProduct(item.id, 'add')}
               >
                 Increase
               </button>
@@ -110,7 +114,7 @@ class Cart extends React.Component {
               {(isLoggedIn ? item.cart.quantity : item.quantity) > 1 ? (
                 <button
                   type="submit"
-                  onClick={() => this.editProduct(itemIdentifier, 'subtract')}
+                  onClick={() => this.editProduct(item.id, 'subtract')}
                 >
                   Decrease
                 </button>
@@ -122,10 +126,7 @@ class Cart extends React.Component {
                 Price: $
                 {item.price * (isLoggedIn ? item.cart.quantity : item.quantity)}
               </div>
-              <button
-                type="submit"
-                onClick={() => this.deleteProduct(itemIdentifier)}
-              >
+              <button type="submit" onClick={() => this.deleteProduct(item.id)}>
                 X
               </button>
             </div>
