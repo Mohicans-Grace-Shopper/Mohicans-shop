@@ -32,7 +32,7 @@ const Navbar = ({handleClick, isLoggedIn, userId}) => (
                 </Link>
               </Button>
               <Button color="inherit">
-                <Link className="navlink" to={`/users/${userId}/cart`}>
+                <Link className="navlink" to="/users/cart">
                   Cart
                 </Link>
               </Button>

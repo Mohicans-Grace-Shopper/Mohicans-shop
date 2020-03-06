@@ -14,10 +14,8 @@ class Cart extends React.Component {
     this.deleteProduct = this.deleteProduct.bind(this);
   }
   componentDidMount() {
-    const userId = this.props.match.params.userId;
-
-    if (userId) {
-      this.props.fetchCart(userId);
+    if (this.props.isLoggedIn) {
+      this.props.fetchCart();
     } else {
       console.log('using local storage', window.localStorage);
       let cartContents = JSON.parse(
@@ -32,7 +30,7 @@ class Cart extends React.Component {
     const {isLoggedIn} = this.props;
     console.log('wheres it coming from', productId, action);
     if (isLoggedIn) {
-      const userId = this.props.match.params.userId;
+      const userId = this.props.userId;
       let productObj = {
         orderId: this.props.orderId,
         productId: productId,
@@ -55,7 +53,7 @@ class Cart extends React.Component {
   }
 
   deleteProduct(productId) {
-    const userId = this.props.match.params.userId;
+    const userId = this.props.userId;
     console.log(this.props);
     if (userId) {
       let productObj = {
@@ -75,7 +73,7 @@ class Cart extends React.Component {
 
   render() {
     const {isLoggedIn} = this.props;
-    const userId = this.props.match.params.userId;
+    const userId = this.props.userId;
     let cartItems;
     isLoggedIn ? (cartItems = this.props.items) : (cartItems = this.state.cart);
     if (isLoggedIn && this.props.loading) {
@@ -145,7 +143,8 @@ const mapStateToProps = state => ({
   orderId: state.cart.orderId,
   items: state.cart.products,
   loading: state.cart.loading,
-  isLoggedIn: !!state.user.id
+  isLoggedIn: !!state.user.id,
+  userId: state.user.id
 });
 
 const mapDispatchToProps = dispatch => ({
