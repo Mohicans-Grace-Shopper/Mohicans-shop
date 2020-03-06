@@ -7,7 +7,6 @@ const app = require('../index');
 const User = db.model('user');
 const Order = db.model('order');
 const Product = db.model('product');
-const Cart = 'cart';
 
 describe('User routes', () => {
   beforeEach(() => {
@@ -327,4 +326,85 @@ describe('User routes', () => {
 
     //Maybe we also want to check if guest cannot delete from others carts
   }); // end describe('DELETE /api/users/:userId/cart/:orderId/:productId')
+
+  describe('PUT /api/users/:userId/cart', () => {
+    const codysEmail = 'cody@puppybook.com';
+    const moorsEmail = 'moor@email.com';
+
+    beforeEach(async () => {
+      await User.create({
+        email: codysEmail,
+        password: '123',
+        isAdmin: true
+      });
+      await User.create({
+        email: moorsEmail,
+        password: '456',
+        isAdmin: false
+      });
+      await Product.create({
+        name: 'Product One',
+        price: 100
+      });
+      await Product.create({
+        name: 'Product Two',
+        price: 200
+      });
+      await Product.create({
+        name: 'Product Three',
+        price: 300
+      });
+      await Order.create({userId: 1});
+      const order2 = await Order.create({userId: 2});
+      const prods = await order2.addProduct([1, 2]);
+      const prod1 = prods[0];
+      const prod2 = prods[1];
+      await prod1.increment('quantity', {by: 1});
+      await prod2.increment('quantity', {by: 2});
+    });
+
+    it('COMPLETES ORDER for current cart', async () => {
+      //login as moor
+      await request(app)
+        .post('/auth/login')
+        .send({email: moorsEmail, password: '456'})
+        .expect(200);
+
+      const res = await request(app)
+        .put('/api/users/2/cart/2')
+        .expect(200);
+      //marks current order as fulfilled
+      expect(res.body.isFulfilled).to.be.equal(true);
+    });
+
+    //Not sure if we need this test
+    xit('DOES NOT COMPLETE already fullfilled order', async () => {
+      //login as moor
+      await request(app)
+        .post('/auth/login')
+        .send({email: moorsEmail, password: '456'})
+        .expect(200);
+      //complete unfulfilled order
+      await request(app)
+        .put('/api/users/2/cart/2')
+        .expect(200);
+      //try to complete same order
+      await request(app)
+        .put('/api/users/2/cart/2')
+        .expect(500);
+    });
+
+    it('DOES NOT complete order for other users carts', async () => {
+      //login as cody
+      await request(app)
+        .post('/auth/login')
+        .send({email: codysEmail, password: '123'})
+        .expect(200);
+
+      const res = await request(app)
+        .put('/api/users/2/cart/2')
+        .expect(403);
+      expect(res.body).to.be.equal({});
+    });
+  }); // end describe('PUT /api/users/:userId/cart/orderId')
 }); // end describe('User routes')
