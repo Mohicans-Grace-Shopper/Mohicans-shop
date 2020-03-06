@@ -3,7 +3,7 @@ const router = require('express').Router();
 const {User, Cart, Product, Order} = require('../db/models');
 module.exports = router;
 
-router.get('/', async (req, res, next) => {
+router.get('/', isAdmin, async (req, res, next) => {
   try {
     const users = await User.findAll({
       // explicitly select only the id and email fields - even though
@@ -17,7 +17,7 @@ router.get('/', async (req, res, next) => {
   }
 });
 
-router.get('/:userId/cart', async (req, res, next) => {
+router.get('/:userId/cart', isUser, async (req, res, next) => {
   try {
     const order = await Order.findOne({
       where: {
@@ -41,7 +41,7 @@ router.get('/:userId/cart', async (req, res, next) => {
   }
 });
 
-router.get('/:userId', async (req, res, next) => {
+router.get('/:userId', isAdmin, isUser, async (req, res, next) => {
   try {
     const user = await User.findByPk(req.params.userId);
     res.json(user);
@@ -54,7 +54,7 @@ router.get('/:userId', async (req, res, next) => {
 //Route to change quantity of existing items in the cart
 //TBD - Need to protect the Route, should be available for the user only
 //TBD - Need to handle errors
-router.put('/:userId/cart', async (req, res, next) => {
+router.put('/:userId/cart', isUser, async (req, res, next) => {
   try {
     const orderId = req.body.orderId;
     const productId = req.body.productId;
@@ -88,22 +88,26 @@ router.put('/:userId/cart', async (req, res, next) => {
 //Route to remove product from the cart
 //TBD - Need to protect the Route, should be available for the user only
 //TBD - Need to handle errors
-router.delete('/:userId/cart/:orderId/:productId', async (req, res, next) => {
-  const orderId = req.params.orderId;
-  const productId = req.params.productId;
+router.delete(
+  '/:userId/cart/:orderId/:productId',
+  isUser,
+  async (req, res, next) => {
+    const orderId = req.params.orderId;
+    const productId = req.params.productId;
 
-  try {
-    const order = await Order.findByPk(orderId);
-    console.log(orderId);
-    const removed = await order.removeProduct(productId);
-    res.json(removed);
-  } catch (error) {
-    next(error);
+    try {
+      const order = await Order.findByPk(orderId);
+      console.log(orderId);
+      const removed = await order.removeProduct(productId);
+      res.json(removed);
+    } catch (error) {
+      next(error);
+    }
   }
-});
+);
 
 //Route to checkout and complete order
-router.put('/:userId/cart/:orderId', async (req, res, next) => {
+router.put('/:userId/cart/:orderId', isUser, async (req, res, next) => {
   const orderId = req.params.orderId;
   try {
     const [rowsUpdate, [updatedOrder]] = await Order.update(
