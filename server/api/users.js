@@ -17,11 +17,11 @@ router.get('/', isAdmin, async (req, res, next) => {
   }
 });
 
-router.get('/:userId/cart', isUser, async (req, res, next) => {
+router.get('/cart', isUser, async (req, res, next) => {
   try {
     const order = await Order.findOne({
       where: {
-        userId: req.params.userId,
+        userId: req.session.passport.user,
         isFulfilled: false
       },
       include: [
