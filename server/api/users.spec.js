@@ -14,20 +14,55 @@ describe('User routes', () => {
 
   describe('/api/users/', () => {
     const codysEmail = 'cody@puppybook.com';
+    const moorsEmail = 'moor@email.com';
 
-    beforeEach(() => {
-      return User.create({
-        email: codysEmail
+    beforeEach(async () => {
+      await User.create({
+        email: codysEmail,
+        password: '123',
+        isAdmin: true
+      });
+      await User.create({
+        email: moorsEmail,
+        password: '456',
+        isAdmin: false
       });
     });
 
-    it('GET /api/users', async () => {
+    it('GETS all users for admin', async () => {
+      const resPost = await request(app)
+        .post('/auth/login')
+        .send({email: codysEmail, password: '123'})
+        .expect(200);
+      expect(resPost.body.isAdmin).to.be.equal(true);
+
       const res = await request(app)
         .get('/api/users')
         .expect(200);
+      expect(res.body).to.be.an('array');
+      expect(res.body.length).to.be.equal(2);
+      expect(res.body[0].email).to.be.equal(codysEmail);
+    });
+
+    it('DOES NOT GET users for user', async () => {
+      const resPost = await request(app)
+        .post('/auth/login')
+        .send({email: moorsEmail, password: '456'})
+        .expect(200);
+      expect(resPost.body.isAdmin).to.be.equal(false);
+
+      const res = await request(app).get('/api/users');
+      // .expect(403);
+      expect(res.body).to.be.an('array');
+      expect(res.body).to.be.equal([]);
+    });
+
+    it('DOES NOT GET users for guest', async () => {
+      const res = await request(app).get('/api/users');
+      // .expect(403);
 
       expect(res.body).to.be.an('array');
-      expect(res.body[0].email).to.be.equal(codysEmail);
+      expect(res.body).to.be.equal([]);
     });
   }); // end describe('/api/users')
 
