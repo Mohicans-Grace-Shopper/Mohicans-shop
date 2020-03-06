@@ -18,9 +18,9 @@ const purchaseCart = () => ({
   type: PURCHASE_CART
 });
 
-export const fetchCart = function(userId) {
+export const fetchCart = function() {
   return async function(dispatch) {
-    const {data} = await axios.get(`/api/users/${userId}/cart`);
+    const {data} = await axios.get('/api/users/cart');
     dispatch(setCart(data));
   };
 };

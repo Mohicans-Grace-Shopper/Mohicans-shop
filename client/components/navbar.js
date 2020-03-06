@@ -9,7 +9,7 @@ import Button from '@material-ui/core/Button';
 
 const Navbar = ({handleClick, isLoggedIn, userId}) => (
   <div>
-    <h1>Magic</h1>
+    <h1>Twilight Gems & Apothecary</h1>
     <nav>
       <AppBar position="static">
         <Toolbar>
@@ -32,7 +32,7 @@ const Navbar = ({handleClick, isLoggedIn, userId}) => (
                 </Link>
               </Button>
               <Button color="inherit">
-                <Link className="navlink" to={`/users/${userId}/cart`}>
+                <Link className="navlink" to="/users/cart">
                   Cart
                 </Link>
               </Button>
