@@ -7,7 +7,10 @@ class UpdateProduct extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      product: {}
+      product: {
+        name: this.props.product.name,
+        price: this.props.product.price
+      }
     };
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleChange = this.handleChange.bind(this);

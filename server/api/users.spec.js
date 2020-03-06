@@ -52,16 +52,18 @@ describe('User routes', () => {
         .expect(200);
       expect(resPost.body.isAdmin).to.be.equal(false);
 
-      const res = await request(app).get('/api/users');
-      // .expect(403);
-      expect(res.body).to.be.an('array');
-      expect(res.body).to.be.equal([]);
+      const res = await request(app)
+        .get('/api/users')
+        .expect(403);
+      // expect(res.body).to.be.an('array');
+      // expect(res.body).to.be.equal([]);
     });
 
     it('DOES NOT GET users for guest', async () => {
-      const res = await request(app).get('/api/users');
-      // .expect(403);
-      expect(res.body).to.be.equal([]);
+      const res = await request(app)
+        .get('/api/users')
+        .expect(403);
+      // expect(res.body).to.be.equal([]);
     });
   }); // end describe('/api/users')
 
@@ -121,15 +123,17 @@ describe('User routes', () => {
         .send({email: moorsEmail, password: '456'})
         .expect(200);
 
-      const res = await request(app).get('/api/users/1/cart');
-      // .expect(403);
-      expect(res.body).to.be.equal({});
+      const res = await request(app)
+        .get('/api/users/1/cart')
+        .expect(403);
+      // expect(res.body).to.be.equal({});
     });
 
     it('DOES NOT GET cart for a user if guest', async () => {
-      const res = await request(app).get('/api/users/1/cart');
-      // .expect(403);
-      expect(res.body).to.be.equal({});
+      const res = await request(app)
+        .get('/api/users/1/cart')
+        .expect(403);
+      // expect(res.body).to.be.equal({});
     });
   }); // end describe ('/api/users/:userId/cart')
 
@@ -221,9 +225,9 @@ describe('User routes', () => {
           productId: 2,
           action: 'add',
           quantity: 1
-        });
-      // .expect(403);
-      expect(res.body).to.be.equal({});
+        })
+        .expect(403);
+      // expect(res.body).to.be.equal({});
     });
 
     it('DOES NOT increment product quantity in other users carts', async () => {
@@ -234,9 +238,9 @@ describe('User routes', () => {
           productId: 2,
           action: 'add',
           quantity: 1
-        });
-      // .expect(403);
-      expect(res.body).to.be.equal({});
+        })
+        .expect(403);
+      // expect(res.body).to.be.equal({});
     });
 
     it('DOES NOT decrement product quantity in other users carts', async () => {
@@ -247,9 +251,9 @@ describe('User routes', () => {
           productId: 2,
           action: 'subtract',
           quantity: 1
-        });
-      // .expect(403);
-      expect(res.body).to.be.equal({});
+        })
+        .expect(403);
+      // expect(res.body).to.be.equal({});
     });
     //Maybe we also want to check if guest cannot edit quantity
   }); // end describe('PUT /api/users/:userId/cart')
@@ -404,7 +408,7 @@ describe('User routes', () => {
       const res = await request(app)
         .put('/api/users/2/cart/2')
         .expect(403);
-      expect(res.body).to.be.equal({});
+      // expect(res.body).to.be.equal({});
     });
   }); // end describe('PUT /api/users/:userId/cart/orderId')
 }); // end describe('User routes')
