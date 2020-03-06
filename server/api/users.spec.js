@@ -6,6 +6,8 @@ const db = require('../db');
 const app = require('../index');
 const User = db.model('user');
 const Order = db.model('order');
+const Product = db.model('product');
+const Cart = 'cart';
 
 describe('User routes', () => {
   beforeEach(() => {
@@ -127,6 +129,126 @@ describe('User routes', () => {
 
     it('DOES NOT GET cart for a user if guest', async () => {
       const res = await request(app).get('/api/users/1/cart');
+      // .expect(403);
+      expect(res.body).to.be.equal({});
+    });
+  }); // end describe ('/api/users/:userId/cart')
+
+  describe('PUT /api/users/:userId/cart', () => {
+    const codysEmail = 'cody@puppybook.com';
+    const moorsEmail = 'moor@email.com';
+
+    beforeEach(async () => {
+      await User.create({
+        email: codysEmail,
+        password: '123',
+        isAdmin: true
+      });
+      await User.create({
+        email: moorsEmail,
+        password: '456',
+        isAdmin: false
+      });
+      await Product.create({
+        name: 'Product One',
+        price: 100
+      });
+      await Product.create({
+        name: 'Product Two',
+        price: 200
+      });
+      await Product.create({
+        name: 'Product Three',
+        price: 300
+      });
+      await Order.create({userId: 1});
+      const order2 = await Order.create({userId: 2});
+      const prods = await order2.addProduct([1, 2]);
+      const prod1 = prods[0];
+      const prod2 = prods[1];
+      await prod1.increment('quantity', {by: 1});
+      await prod2.increment('quantity', {by: 2});
+
+      await request(app)
+        .post('/auth/login')
+        .send({email: moorsEmail, password: '456'})
+        .expect(200);
+    });
+
+    it('ADDS product to the cart', async () => {
+      const res = await request(app)
+        .put('/api/users/2/cart')
+        .send({
+          orderId: 2,
+          productId: 3,
+          action: 'add',
+          quantity: 3
+        })
+        .expect(200);
+      expect(res.body.quantity).to.be.equal(3);
+    });
+
+    it('INCREMENTS product quantity', async () => {
+      const res = await request(app)
+        .put('/api/users/2/cart')
+        .send({
+          orderId: 2,
+          productId: 1,
+          action: 'add',
+          quantity: 1
+        })
+        .expect(200);
+      expect(res.body.quantity).to.be.equal(2);
+    });
+
+    it('DECREMENTS product quantity', async () => {
+      const res = await request(app)
+        .put('/api/users/2/cart')
+        .send({
+          orderId: 2,
+          productId: 2,
+          action: 'subtract',
+          quantity: 1
+        })
+        .expect(200);
+      expect(res.body.quantity).to.be.equal(1);
+    });
+
+    it('DOES NOT add product to other users carts', async () => {
+      const res = await request(app)
+        .put('/api/users/1/cart')
+        .send({
+          orderId: 2,
+          productId: 2,
+          action: 'add',
+          quantity: 1
+        });
+      // .expect(403);
+      expect(res.body).to.be.equal({});
+    });
+
+    it('DOES NOT increment product quantity in other users carts', async () => {
+      const res = await request(app)
+        .put('/api/users/1/cart')
+        .send({
+          orderId: 2,
+          productId: 2,
+          action: 'add',
+          quantity: 1
+        });
+      // .expect(403);
+      expect(res.body).to.be.equal({});
+    });
+
+    it('DOES NOT decrement product quantity in other users carts', async () => {
+      const res = await request(app)
+        .put('/api/users/1/cart')
+        .send({
+          orderId: 2,
+          productId: 2,
+          action: 'subtract',
+          quantity: 1
+        });
       // .expect(403);
       expect(res.body).to.be.equal({});
     });
