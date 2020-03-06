@@ -44,13 +44,22 @@ class SingleProduct extends React.Component {
     };
     if (!userId) {
       let localCart = JSON.parse(window.localStorage.getItem('cartContents'));
-      const productIndex = localCart.findIndex(
-        product => product.id === this.props.product.id
-      );
-      if (productIndex === -1) {
-        localCart.push({...this.props.product, quantity: this.state.quantity});
+      // const productIndex = localCart.findIndex(
+      //   product => product.id === this.props.product.id
+      // );
+      // if (productIndex === -1) {
+      //   localCart.push({...this.props.product, quantity: this.state.quantity});
+      // } else {
+      //   localCart[productIndex].quantity += this.state.quantity;
+      // }
+      if (!localCart[this.props.product.id]) {
+        localCart[this.props.product.id] = {
+          ...this.props.product,
+          quantity: this.state.quantity
+        };
+        console.log('localCart', this.props.product.id);
       } else {
-        localCart[productIndex].quantity += this.state.quantity;
+        localCart[this.props.product.id].quantity += this.state.quantity;
       }
       window.localStorage.setItem('cartContents', JSON.stringify(localCart));
     } else {

@@ -23,29 +23,54 @@ class Cart extends React.Component {
       let cartContents = JSON.parse(
         window.localStorage.getItem('cartContents')
       );
-      this.setState({cart: cartContents});
+      // this.setState({cart: cartContents});
+      this.setState({cart: Object.values(cartContents)});
     }
   }
 
   editProduct(productId, action) {
-    const userId = this.props.match.params.userId;
-    let productObj = {
-      orderId: this.props.orderId,
-      productId: productId,
-      action: action,
-      quantity: 1
-    };
-    this.props.editProductQuant(userId, productObj);
+    const {isLoggedIn} = this.props;
+    console.log('wheres it coming from', productId, action);
+    if (isLoggedIn) {
+      const userId = this.props.match.params.userId;
+      let productObj = {
+        orderId: this.props.orderId,
+        productId: productId,
+        action: action,
+        quantity: 1
+      };
+      this.props.editProductQuant(userId, productObj);
+    } else {
+      let localCart = JSON.parse(window.localStorage.getItem('cartContents'));
+      if (action === 'add') {
+        localCart[productId].quantity += 1;
+      }
+      if (action === 'subtract' && localCart[productId].quantity > 1) {
+        localCart[productId].quantity -= 1;
+      }
+      window.localStorage.setItem('cartContents', JSON.stringify(localCart));
+      // this.setState({cart: localCart});
+      this.setState({cart: Object.values(localCart)});
+    }
   }
 
   deleteProduct(productId) {
     const userId = this.props.match.params.userId;
     console.log(this.props);
-    let productObj = {
-      orderId: this.props.orderId,
-      productId: productId
-    };
-    this.props.removedProduct(userId, productObj);
+    if (userId) {
+      let productObj = {
+        orderId: this.props.orderId,
+        productId: productId
+      };
+      this.props.removedProduct(userId, productObj);
+    } else {
+      let localCart = JSON.parse(window.localStorage.getItem('cartContents'));
+      // localCart.splice(productId, 1);
+      delete localCart[productId];
+      window.localStorage.setItem('cartContents', JSON.stringify(localCart));
+      // this.setState({cart: localCart});
+      this.setState({cart: Object.values(localCart)});
+    }
   }
 
   render() {
@@ -70,6 +95,8 @@ class Cart extends React.Component {
         <h3>Shopping Cart</h3>
 
         {cartItems.map(item => {
+          // let itemIdentifier;
+          // isLoggedIn ? (itemIdentifier = item.id) : (itemIdentifier = idx);
           return (
             <div key={item.id}>
               <Link to={`/products/${item.id}`} />
