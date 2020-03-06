@@ -25,35 +25,35 @@ export const fetchCart = function() {
   };
 };
 
-export const addedToCart = function(userId, productObj) {
+export const addedToCart = function(productObj) {
   return async function(dispatch) {
-    await axios.put(`/api/users/${userId}/cart`, productObj);
-    const {data} = await axios.get(`/api/users/${userId}/cart`);
+    await axios.put(`/api/users/cart`, productObj);
+    const {data} = await axios.get('/api/users/cart');
     dispatch(setCart(data));
   };
 };
 
-export const editProductQuant = function(userId, productObj) {
+export const editProductQuant = function(productObj) {
   return async function(dispatch) {
-    await axios.put(`/api/users/${userId}/cart`, productObj);
-    const {data} = await axios.get(`/api/users/${userId}/cart`);
+    await axios.put(`/api/users/cart`, productObj);
+    const {data} = await axios.get('/api/users/cart');
     dispatch(setCart(data));
   };
 };
 
-export const removedProduct = function(userId, productObj) {
+export const removedProduct = function(productObj) {
   return async function(dispatch) {
     await axios.delete(
-      `/api/users/${userId}/cart/${productObj.orderId}/${productObj.productId}`
+      `/api/users/cart/${productObj.orderId}/${productObj.productId}`
     );
-    const {data} = await axios.get(`/api/users/${userId}/cart`);
+    const {data} = await axios.get('/api/users/cart');
     dispatch(setCart(data));
   };
 };
 
 export const completeOrder = function(orderId) {
   return async function(dispatch) {
-    const {data} = await axios.put(`/api/users/:userId/cart/${orderId}`);
+    const {data} = await axios.put(`/api/users/cart/${orderId}`);
     console.log(data);
     if (data.isFulfilled) {
       dispatch(purchaseCart());

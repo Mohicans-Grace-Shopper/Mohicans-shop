@@ -27,7 +27,7 @@ const Navbar = ({handleClick, isLoggedIn, userId, isAdmin}) => (
                 </a>
               </Button>
               <Button color="inherit">
-                <Link className="navlink" to={`/${userId}/products`}>
+                <Link className="navlink" to="/products">
                   Products
                 </Link>
               </Button>
