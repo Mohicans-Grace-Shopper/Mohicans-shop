@@ -2,13 +2,26 @@ import React from 'react';
 import {connect} from 'react-redux';
 import PropTypes from 'prop-types';
 import {auth} from '../store';
+import {makeStyles} from '@material-ui/core/styles';
 
+const useStyles = makeStyles(theme => ({
+  form: {
+    marginTop: theme.spacing(6)
+  },
+  button: {
+    marginTop: theme.spacing(3),
+    marginBottom: theme.spacing(2)
+  },
+  feedback: {
+    marginTop: theme.spacing(2)
+  }
+}));
 /**
  * COMPONENT
  */
 const AuthForm = props => {
   const {name, displayName, handleSubmit, error} = props;
-
+  const classes = useStyles();
   return (
     <div>
       <form onSubmit={handleSubmit} name={name}>
