@@ -252,5 +252,79 @@ describe('User routes', () => {
       // .expect(403);
       expect(res.body).to.be.equal({});
     });
-  });
+    //Maybe we also want to check if guest cannot edit quantity
+  }); // end describe('PUT /api/users/:userId/cart')
+
+  describe('DELETE /api/users/:userId/cart/:orderId/:productId', () => {
+    const codysEmail = 'cody@puppybook.com';
+    const moorsEmail = 'moor@email.com';
+
+    beforeEach(async () => {
+      await User.create({
+        email: codysEmail,
+        password: '123',
+        isAdmin: true
+      });
+      await User.create({
+        email: moorsEmail,
+        password: '456',
+        isAdmin: false
+      });
+      await Product.create({
+        name: 'Product One',
+        price: 100
+      });
+      await Product.create({
+        name: 'Product Two',
+        price: 200
+      });
+      await Product.create({
+        name: 'Product Three',
+        price: 300
+      });
+      const order1 = await Order.create({userId: 1});
+      const prods1 = await order1.addProduct([3]);
+      const prod11 = prods1[0];
+      await prod11.increment('quantity', {by: 1});
+      const order2 = await Order.create({userId: 2});
+      const prods2 = await order2.addProduct([1, 2]);
+      const prod21 = prods2[0];
+      const prod22 = prods2[1];
+      await prod21.increment('quantity', {by: 1});
+      await prod22.increment('quantity', {by: 2});
+      const order3 = await Order.create({userId: 2});
+      const prods3 = await order3.addProduct([1]);
+      const prod31 = prods3[0];
+      await prod31.increment('quantity', {by: 1});
+      await order3.update({isFulfilled: true});
+
+      await request(app)
+        .post('/auth/login')
+        .send({email: moorsEmail, password: '456'})
+        .expect(200);
+    });
+
+    it('DELETES product from the cart', async () => {
+      const res = await request(app)
+        .delete('/api/users/2/cart/2/1')
+        .expect(200);
+      expect(res.body).to.be.equal(1);
+    });
+
+    it('DOES NOT DELETE product from fulfilled orders', async () => {
+      const res = await request(app)
+        .delete('/api/users/1/cart/3/1')
+        .expect(500);
+      // expect(res.body).to.be.equal();
+    });
+
+    it('DOES NOT DELETE product from others cart', async () => {
+      const res = await request(app)
+        .delete('/api/users/1/cart/1/1')
+        .expect(403);
+      // expect(res.body).to.be.equal(1);
+    });
+
+    //Maybe we also want to check if guest cannot delete from others carts
+  }); // end describe('DELETE /api/users/:userId/cart/:orderId/:productId')
 }); // end describe('User routes')
