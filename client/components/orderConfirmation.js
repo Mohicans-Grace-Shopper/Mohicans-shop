@@ -11,16 +11,15 @@ class OrderConfirmation extends React.Component {
   }
 
   componentDidMount() {
-    const userId = this.props.match.params.userId;
+    const userId = this.props.userId;
     if (userId) {
-      this.props.fetchCart(userId);
+      this.props.fetchCart();
     }
   }
 
   checkout() {
-    const userId = this.props.match.params.userId;
     this.props.completeOrder(this.props.orderId);
-    let path = `/users/${userId}/cart/thankyou`;
+    let path = '/users/cart/thankyou';
     this.props.history.push(path);
   }
 
@@ -57,11 +56,12 @@ class OrderConfirmation extends React.Component {
 const mapStateToProps = state => ({
   orderId: state.cart.orderId,
   items: state.cart.products,
-  loading: state.cart.loading
+  loading: state.cart.loading,
+  userId: state.user.id
 });
 
 const mapDispatchToProps = dispatch => ({
-  fetchCart: userId => dispatch(fetchCart(userId)),
+  fetchCart: () => dispatch(fetchCart()),
   completeOrder: orderId => dispatch(completeOrder(orderId))
 });
 

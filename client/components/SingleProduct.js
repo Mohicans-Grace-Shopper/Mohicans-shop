@@ -21,8 +21,7 @@ class SingleProduct extends React.Component {
   componentDidMount() {
     const productId = this.props.match.params.productId;
     this.props.fetchProduct(productId);
-    if (this.props.match.params.userId)
-      this.props.fetchCart(this.props.match.params.userId);
+    if (this.props.userId) this.props.fetchCart(this.props.userId);
   }
 
   increase() {
@@ -35,7 +34,7 @@ class SingleProduct extends React.Component {
 
   handleSubmit(evt) {
     evt.preventDefault();
-    const userId = this.props.match.params.userId;
+    const userId = this.props.userId;
     let productObj = {
       orderId: this.props.orderId,
       productId: this.props.product.id,
@@ -63,16 +62,15 @@ class SingleProduct extends React.Component {
       }
       window.localStorage.setItem('cartContents', JSON.stringify(localCart));
     } else {
-      this.props.addedToCart(userId, productObj);
+      this.props.addedToCart(productObj);
     }
     this.setState({quantity: 1});
   }
 
   deleteProduct(evt) {
     evt.preventDefault();
-    const userId = this.props.match.params.userId;
     this.props.deleteProductThunk(this.props.product.id);
-    this.props.history.push(`/${userId}/products`);
+    this.props.history.push('/products');
   }
 
   render() {
@@ -138,7 +136,8 @@ const mapState = state => ({
   orderId: state.cart.orderId,
   product: state.products.product,
   loading: state.products.singleLoading,
-  isAdmin: state.user.isAdmin
+  isAdmin: state.user.isAdmin,
+  userId: state.user.id
 });
 
 const mapDispatch = dispatch => ({
