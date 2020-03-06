@@ -82,7 +82,7 @@ class SingleProduct extends React.Component {
       return <Loader type="Hearts" color="blue" height={600} width={600} />;
     return (
       <div>
-        <h3>{product.title} </h3>
+        <h3>{product.name} </h3>
         <div>
           <img src={product.imageUrl} height="300" width="420" />
         </div>
