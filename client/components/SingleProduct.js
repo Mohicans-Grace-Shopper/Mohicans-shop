@@ -106,7 +106,8 @@ class SingleProduct extends React.Component {
         </div>
         <button type="submit" onClick={this.handleSubmit}>
           Add to Cart
-        </button>
+        </button>{' '}
+        {this.handleSubmit ? <text>Added to Cart</text> : <div>nothing</div>}
         <div>
           {this.props.isAdmin ? (
             <div>

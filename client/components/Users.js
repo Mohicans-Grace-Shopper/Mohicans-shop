@@ -14,29 +14,19 @@ class Users extends React.Component {
     const users = this.props.users;
     return (
       <div>
-        {this.props.user.isAdmin ? (
-          <div>
-            <h3>Active Users:</h3>
-            {users.map(user => (
-              <div key={user.id}>
-                <Link to={`/users/${user.id}`}>{user.email}</Link>
-              </div>
-            ))}
+        <h3>Active Users:</h3>
+        {users.map(user => (
+          <div key={user.id}>
+            <Link to={`/users/${user.id}`}>{user.email}</Link>
           </div>
-        ) : (
-          <div>
-            <h3>Page Not Found</h3>
-            <Link to="/">Go Home</Link>
-          </div>
-        )}
+        ))}
       </div>
     );
   }
 }
 
 const mapState = state => ({
-  users: state.users.users,
-  user: state.users.user
+  users: state.users.users
 });
 
 const mapDispatch = dispatch => ({
