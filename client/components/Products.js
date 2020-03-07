@@ -25,9 +25,6 @@ class Products extends React.Component {
                 <Link to={`/products/${product.id}`}>{product.name}</Link>
               </div>
               <img src={product.imageUrl} height="200" width="320" />
-              {/* <button type="submit" onClick={this.handleClick}>
-              Add Product
-            </button> */}
             </div>
           ))}
         </ul>
