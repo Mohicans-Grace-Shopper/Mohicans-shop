@@ -30,14 +30,13 @@ class Cart extends React.Component {
     const {isLoggedIn} = this.props;
     console.log('wheres it coming from', productId, action);
     if (isLoggedIn) {
-      const userId = this.props.userId;
       let productObj = {
         orderId: this.props.orderId,
         productId: productId,
         action: action,
         quantity: 1
       };
-      this.props.editProductQuant(userId, productObj);
+      this.props.editProductQuant(productObj);
     } else {
       let localCart = JSON.parse(window.localStorage.getItem('cartContents'));
       if (action === 'add') {
@@ -54,13 +53,12 @@ class Cart extends React.Component {
 
   deleteProduct(productId) {
     const userId = this.props.userId;
-    console.log(this.props);
     if (userId) {
       let productObj = {
         orderId: this.props.orderId,
         productId: productId
       };
-      this.props.removedProduct(userId, productObj);
+      this.props.removedProduct(productObj);
     } else {
       let localCart = JSON.parse(window.localStorage.getItem('cartContents'));
       // localCart.splice(productId, 1);
@@ -73,7 +71,6 @@ class Cart extends React.Component {
 
   render() {
     const {isLoggedIn} = this.props;
-    const userId = this.props.userId;
     let cartItems;
     isLoggedIn ? (cartItems = this.props.items) : (cartItems = this.state.cart);
     if (isLoggedIn && this.props.loading) {
@@ -97,9 +94,10 @@ class Cart extends React.Component {
           // isLoggedIn ? (itemIdentifier = item.id) : (itemIdentifier = idx);
           return (
             <div key={item.id}>
-              <Link to={`/products/${item.id}`} />
-              <img src={item.imageUrl} height="200" width="320" />
-              <div>{item.name}</div>
+              <Link to={`/products/${item.id}`}>
+                <img src={item.imageUrl} height="200" width="320" />
+                <div>{item.name}</div>
+              </Link>
               <button
                 type="submit"
                 onClick={() => this.editProduct(item.id, 'add')}
@@ -131,9 +129,7 @@ class Cart extends React.Component {
           );
         })}
         <div>Total: ${cartTotal}</div>
-        <Link to={`/users/${userId}/cart/orderconfirmation`}>
-          Proceed to Checkout
-        </Link>
+        <Link to="/users/cart/orderconfirmation">Proceed to Checkout</Link>
       </div>
     );
   }
@@ -149,10 +145,8 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
   fetchCart: userId => dispatch(fetchCart(userId)),
-  editProductQuant: (userId, productObj) =>
-    dispatch(editProductQuant(userId, productObj)),
-  removedProduct: (userId, productObj) =>
-    dispatch(removedProduct(userId, productObj))
+  editProductQuant: productObj => dispatch(editProductQuant(productObj)),
+  removedProduct: productObj => dispatch(removedProduct(productObj))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Cart);
