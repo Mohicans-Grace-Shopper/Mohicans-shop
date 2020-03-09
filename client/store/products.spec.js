@@ -43,24 +43,15 @@ describe('thunk creators', () => {
     });
   });
 
-  describe('fetchProduct', () => {
-    it('eventually dispatches the SET PRODUCT action', async () => {
-      const fakeProduct = {id: 1, name: 'Love Potion'};
-      mockAxios.onGet('/api/products/1').replyOnce(200, fakeProduct);
-      await store.dispatch(fetchProduct());
-      const actions = store.getActions();
-      expect(actions[0].type).to.be.equal('SET_PRODUCT');
-      expect(actions[0].products).to.be.deep.equal(fakeProduct);
-    });
-  });
-
-  // describe('logout', () => {
-  //     it('logout: eventually dispatches the REMOVE_USER action', async () => {
-  //         mockAxios.onPost('/auth/logout').replyOnce(204)
-  //         await store.dispatch(logout())
-  //         const actions = store.getActions()
-  //         expect(actions[0].type).to.be.equal('REMOVE_USER')
-  //         expect(history.location.pathname).to.be.equal('/login')
-  //     })
-  // })
+  // describe.only('fetchProduct', () => {
+  //   it('eventually dispatches the SET PRODUCT action', async () => {
+  //     const fakeProduct = {id: 1, name: 'Love Potion'};
+  //     mockAxios.onGet('/api/products/1').replyOnce(200, fakeProduct);
+  //     await store.dispatch(fetchProduct());
+  //     const actions = store.getActions();
+  //     console.log(actions)
+  //     expect(actions.type).to.be.equal('SET_PRODUCT');
+  //     expect(actions[0].products).to.be.deep.equal(fakeProduct);
+  //   });
+  // });
 });

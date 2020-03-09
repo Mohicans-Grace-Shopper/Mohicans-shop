@@ -2,7 +2,6 @@
 
 import {expect} from 'chai';
 import {fetchCart, SET_CART, setCart} from './cart';
-import store from '../store/index';
 import axios from 'axios';
 import MockAdapter from 'axios-mock-adapter';
 import configureMockStore from 'redux-mock-store';
@@ -15,11 +14,17 @@ const order = {
   products: [{name: 'Amortentia'}, {name: 'Rose Quartz'}]
 };
 
-// describe.only('setCart action creator', () => {
-//   const setCartAction = setCart(order);
+describe('setCart action creator', () => {
+  const setCartAction = setCart(order);
 
-//   it('returns a Plain Old JavaScript Object', () => {
-//     expect(typeof setCartAction).to.equal('object');
-//     expect(Object.getPrototypeOf(setCartAction)).to.equal(Object.prototype);
-//   });
-// });
+  it('returns a Plain Old JavaScript Object', () => {
+    expect(typeof setCartAction).to.equal('object');
+    expect(Object.getPrototypeOf(setCartAction)).to.equal(Object.prototype);
+  });
+
+  it('creates an object with `type` and `cart`', () => {
+    expect(setCartAction.type).to.equal(SET_CART);
+    // expect(Array.isArray(setCartAction.order.products)).to.be.true;
+    expect(setCartAction.order.orderId).to.equal(1);
+  });
+});

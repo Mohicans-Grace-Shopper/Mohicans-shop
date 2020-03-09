@@ -6,15 +6,15 @@ const initState = {
   loading: true
 };
 
-const SET_CART = 'SET_CART';
-const PURCHASE_CART = 'PURCHASE_CART';
+export const SET_CART = 'SET_CART';
+export const PURCHASE_CART = 'PURCHASE_CART';
 
-const setCart = order => ({
+export const setCart = order => ({
   type: SET_CART,
   order
 });
 
-const purchaseCart = () => ({
+export const purchaseCart = () => ({
   type: PURCHASE_CART
 });
 
