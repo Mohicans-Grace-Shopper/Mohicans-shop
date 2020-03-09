@@ -15,7 +15,7 @@ class Cart extends React.Component {
   }
   componentDidMount() {
     if (this.props.isLoggedIn) {
-      this.props.fetchCart();
+      this.props.fetchCart(this.props.userId);
     } else {
       console.log('using local storage', window.localStorage);
       let cartContents = JSON.parse(
@@ -36,7 +36,7 @@ class Cart extends React.Component {
         action: action,
         quantity: 1
       };
-      this.props.editProductQuant(productObj);
+      this.props.editProductQuant(this.props.userId, productObj);
     } else {
       let localCart = JSON.parse(window.localStorage.getItem('cartContents'));
       if (action === 'add') {
@@ -58,7 +58,7 @@ class Cart extends React.Component {
         orderId: this.props.orderId,
         productId: productId
       };
-      this.props.removedProduct(productObj);
+      this.props.removedProduct(this.props.userId, productObj);
     } else {
       let localCart = JSON.parse(window.localStorage.getItem('cartContents'));
       // localCart.splice(productId, 1);
@@ -146,8 +146,10 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
   fetchCart: userId => dispatch(fetchCart(userId)),
-  editProductQuant: productObj => dispatch(editProductQuant(productObj)),
-  removedProduct: productObj => dispatch(removedProduct(productObj))
+  editProductQuant: (userId, productObj) =>
+    dispatch(editProductQuant(userId, productObj)),
+  removedProduct: (userId, productObj) =>
+    dispatch(removedProduct(userId, productObj))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Cart);

@@ -18,35 +18,35 @@ const purchaseCart = () => ({
   type: PURCHASE_CART
 });
 
-export const fetchCart = function() {
+export const fetchCart = function(userId) {
   return async function(dispatch) {
-    const {data} = await axios.get('/api/users/cart');
+    const {data} = await axios.get(`/api/users/${userId}/cart`);
     dispatch(setCart(data));
   };
 };
 
-export const addedToCart = function(productObj) {
-  return async function(dispatch) {
-    await axios.put(`/api/users/cart`, productObj);
-    const {data} = await axios.get('/api/users/cart');
-    dispatch(setCart(data));
-  };
-};
-
-export const editProductQuant = function(productObj) {
+export const addedToCart = function(userId, productObj) {
   return async function(dispatch) {
     await axios.put(`/api/users/cart`, productObj);
-    const {data} = await axios.get('/api/users/cart');
+    const {data} = await axios.get(`/api/users/${userId}/cart`);
     dispatch(setCart(data));
   };
 };
 
-export const removedProduct = function(productObj) {
+export const editProductQuant = function(userId, productObj) {
+  return async function(dispatch) {
+    await axios.put(`/api/users/cart`, productObj);
+    const {data} = await axios.get(`/api/users/${userId}/cart`);
+    dispatch(setCart(data));
+  };
+};
+
+export const removedProduct = function(userId, productObj) {
   return async function(dispatch) {
     await axios.delete(
       `/api/users/cart/${productObj.orderId}/${productObj.productId}`
     );
-    const {data} = await axios.get('/api/users/cart');
+    const {data} = await axios.get(`/api/users/${userId}/cart`);
     dispatch(setCart(data));
   };
 };
