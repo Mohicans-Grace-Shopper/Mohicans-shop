@@ -104,9 +104,17 @@ class SingleProduct extends React.Component {
             Decrease
           </button>
         </div>
-        <button type="submit" onClick={this.handleSubmit}>
-          Add to Cart
-        </button>
+        <div>
+          {this.state.addButtonVisible ? (
+            <button type="submit" onClick={this.handleSubmit}>
+              Add to Cart
+            </button>
+          ) : (
+            <button type="button" disabled={true}>
+              added!
+            </button>
+          )}
+        </div>
         <div>
           {this.props.isAdmin ? (
             <div>
