@@ -15,11 +15,11 @@ const order = {
   products: [{name: 'Amortentia'}, {name: 'Rose Quartz'}]
 };
 
-describe.only('setCart action creator', () => {
-  const setCartAction = setCart(order);
+// describe.only('setCart action creator', () => {
+//   const setCartAction = setCart(order);
 
-  it('returns a Plain Old JavaScript Object', () => {
-    expect(typeof setCartAction).to.equal('object');
-    expect(Object.getPrototypeOf(setCartAction)).to.equal(Object.prototype);
-  });
-});
+//   it('returns a Plain Old JavaScript Object', () => {
+//     expect(typeof setCartAction).to.equal('object');
+//     expect(Object.getPrototypeOf(setCartAction)).to.equal(Object.prototype);
+//   });
+// });
