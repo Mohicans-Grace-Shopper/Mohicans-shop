@@ -13,18 +13,8 @@ class SingleUser extends React.Component {
     const user = this.props.user;
     return (
       <div>
-        {this.props.user.isAdmin ||
-        this.props.user.id === this.props.match.params.userId ? (
-          <div>
-            <h3>{user.email}</h3>
-            <Link to="/users">Back to Users</Link>
-          </div>
-        ) : (
-          <div>
-            <h3>Page Not Found</h3>
-            <Link to="/">Go Home</Link>
-          </div>
-        )}
+        <h3>{user.email}</h3>
+        <Link to="/users">Back to Users</Link>
       </div>
     );
   }
