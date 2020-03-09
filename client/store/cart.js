@@ -36,6 +36,7 @@ export const addedToCart = function(userId, productObj) {
 export const editProductQuant = function(userId, productObj) {
   return async function(dispatch) {
     await axios.put(`/api/users/cart`, productObj);
+
     const {data} = await axios.get(`/api/users/${userId}/cart`);
     dispatch(setCart(data));
   };

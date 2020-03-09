@@ -31,7 +31,7 @@ router.get('/:userId/cart', isUser, async (req, res, next) => {
       ]
     });
     if (order === null) {
-      const newOrder = await Order.create({userId: req.session.passport.user});
+      const newOrder = await Order.create({userId: req.params.user});
       res.json(newOrder);
     } else {
       res.json(order);
@@ -55,6 +55,8 @@ router.get('/:userId', isAdmin, isUser, async (req, res, next) => {
 //TBD - Need to protect the Route, should be available for the user only
 //TBD - Need to handle errors
 router.put('/cart', isUser, async (req, res, next) => {
+  console.log(req.params.userId);
+  console.log(req.user.id);
   try {
     const orderId = req.body.orderId;
     const productId = req.body.productId;
