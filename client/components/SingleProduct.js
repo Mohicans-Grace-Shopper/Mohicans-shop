@@ -10,7 +10,8 @@ class SingleProduct extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      quantity: 1
+      quantity: 1,
+      addButtonVisible: true
     };
     this.increase = this.increase.bind(this);
     this.decrease = this.decrease.bind(this);
@@ -64,7 +65,11 @@ class SingleProduct extends React.Component {
     } else {
       this.props.addedToCart(productObj);
     }
-    this.setState({quantity: 1});
+    // this.setState({quantity: 1});
+    this.setState({quantity: 1, addButtonVisible: false});
+    console.log(this.state);
+    setTimeout(() => this.setState({addButtonVisible: true}), 1200);
+    console.log(this.state);
   }
 
   deleteProduct(evt) {
@@ -102,10 +107,26 @@ class SingleProduct extends React.Component {
             Decrease
           </button>
         </div>
+<<<<<<< HEAD
         <button type="submit" onClick={this.handleSubmit}>
           Add to Cart
         </button>{' '}
         {this.handleSubmit ? <text>Added to Cart</text> : <div>nothing</div>}
+=======
+
+        <div>
+          {this.state.addButtonVisible ? (
+            <button type="submit" onClick={this.handleSubmit}>
+              Add to Cart
+            </button>
+          ) : (
+            <button type="button" disabled={true}>
+              added!
+            </button>
+          )}
+        </div>
+
+>>>>>>> 796cd9d6bcfd408fce2bc91ce87f6f9bfb813f13
         <div>
           {this.props.isAdmin ? (
             <div>
