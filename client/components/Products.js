@@ -38,7 +38,15 @@ class Products extends React.Component {
             </div>
           ))}
         </ul>
-        <div>{this.props.isAdmin ? <AddProduct /> : <div />}</div>
+        <div>
+          {this.props.isAdmin ? (
+            <h3>
+              Add Product <AddProduct />
+            </h3>
+          ) : (
+            <div />
+          )}
+        </div>
       </div>
     );
   }
