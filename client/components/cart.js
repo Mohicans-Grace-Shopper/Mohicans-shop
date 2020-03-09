@@ -73,6 +73,7 @@ class Cart extends React.Component {
     const {isLoggedIn} = this.props;
     let cartItems;
     isLoggedIn ? (cartItems = this.props.items) : (cartItems = this.state.cart);
+    console.log(' render state', this.state);
     if (isLoggedIn && this.props.loading) {
       return <Loader type="Hearts" color="blue" height={600} width={600} />;
     } else if (!cartItems || cartItems.length === 0) {
