@@ -45,7 +45,7 @@ export const editProductQuant = function(userId, productObj) {
 export const removedProduct = function(userId, productObj) {
   return async function(dispatch) {
     await axios.delete(
-      `/api/users/cart/${productObj.orderId}/${productObj.productId}`
+      `/api/users/${userId}/cart/${productObj.orderId}/${productObj.productId}`
     );
     const {data} = await axios.get(`/api/users/${userId}/cart`);
     dispatch(setCart(data));

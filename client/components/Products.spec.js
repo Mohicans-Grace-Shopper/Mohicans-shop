@@ -32,8 +32,7 @@ describe.only('Products component', () => {
       name: 'Confusing Concoction',
       imageUrl:
         'https://d.wattpad.com/story_parts/699873420/images/158695304eb09911855926916674.jpg'
-    },
-    {id: 3, name: 'Draught of Living Death'}
+    }
   ];
   beforeEach(() => {
     fakeStore = mockStore(initialState);
