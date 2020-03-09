@@ -65,7 +65,7 @@ export class SingleProduct extends React.Component {
       }
       window.localStorage.setItem('cartContents', JSON.stringify(localCart));
     } else {
-      this.props.addedToCart(productObj);
+      this.props.addedToCart(this.props.userId, productObj);
     }
     // this.setState({quantity: 1});
     this.setState({quantity: 1, addButtonVisible: false});
