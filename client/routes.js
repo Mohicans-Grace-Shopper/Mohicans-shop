@@ -42,19 +42,19 @@ class Routes extends Component {
           <Switch>
             {/* Routes placed here are only available after logging in */}
             <Route path="/home" component={UserHome} />
-            <Route exact path={`/${userId}/products`} component={Products} />
+            <Route exact path="/products" component={Products} />
             <Route
               exact
-              path="/:userId/products/:productId"
+              path="/products/:productId"
               component={SingleProduct}
             />
             <Route exact path="/users/cart" component={Cart} />
             <Route
               exact
-              path="/users/:userId/cart/orderconfirmation"
+              path="/users/cart/orderconfirmation"
               component={OrderConfirmation}
             />
-            <Route path="/users/:userId/cart/thankyou" component={ThankYou} />
+            <Route path="/users/cart/thankyou" component={ThankYou} />
             <Route exact path="/users" component={Users} />
             <Route exact path="/users/:userId" component={SingleUser} />
             <Route exact path="/products/addproduct" component={AddProduct} />
