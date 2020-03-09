@@ -54,9 +54,7 @@ router.get('/:userId', isAdmin, isUser, async (req, res, next) => {
 //Route to change quantity of existing items in the cart
 //TBD - Need to protect the Route, should be available for the user only
 //TBD - Need to handle errors
-router.put('/cart', isUser, async (req, res, next) => {
-  console.log(req.params.userId);
-  console.log(req.user.id);
+router.put('/:userId/cart', isUser, async (req, res, next) => {
   try {
     const orderId = req.body.orderId;
     const productId = req.body.productId;
