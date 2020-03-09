@@ -1,3 +1,4 @@
+import 'jsdom-global/register';
 const {expect} = require('chai');
 import enzyme, {mount} from 'enzyme';
 
@@ -62,8 +63,6 @@ describe.only('Products component', () => {
           </MemoryRouter>
         </Provider>
       );
-      // expect(wrapper.text()).to.include("Amortentia");
-      // expect(wrapper.text()).to.include("Confusing Concoction");
       const images = wrapper.find('img').map(node => node.get(0).props.src);
       expect(images).to.include.members([
         'https://vignette.wikia.nocookie.net/harrypotter/images/c/c1/Love_Potion_design_for_T-Shirt.jpg/revision/latest/scale-to-width-down/250?cb=20091220170731',
