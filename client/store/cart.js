@@ -52,9 +52,9 @@ export const removedProduct = function(userId, productObj) {
   };
 };
 
-export const completeOrder = function(orderId) {
+export const completeOrder = function(userId, orderId) {
   return async function(dispatch) {
-    const {data} = await axios.put(`/api/users/cart/${orderId}`);
+    const {data} = await axios.put(`/api/users/${userId}/cart/${orderId}`);
     console.log(data);
     if (data.isFulfilled) {
       dispatch(purchaseCart());

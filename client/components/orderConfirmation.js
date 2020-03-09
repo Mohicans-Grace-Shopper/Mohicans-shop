@@ -28,7 +28,7 @@ class OrderConfirmation extends React.Component {
   checkout() {
     let path = '/users/cart/thankyou';
     this.props.history.push(path);
-    this.props.completeOrder(this.props.orderId);
+    this.props.completeOrder(this.props.userId, this.props.orderId);
   }
 
   render() {

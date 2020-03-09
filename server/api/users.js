@@ -107,7 +107,7 @@ router.delete(
 );
 
 //Route to checkout and complete order
-router.put('/cart/:orderId', isUser, async (req, res, next) => {
+router.put('/:userId/cart/:orderId', isUser, async (req, res, next) => {
   const orderId = req.params.orderId;
   try {
     const [rowsUpdate, [updatedOrder]] = await Order.update(
