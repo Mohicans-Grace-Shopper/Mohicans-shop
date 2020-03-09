@@ -107,12 +107,6 @@ class SingleProduct extends React.Component {
             Decrease
           </button>
         </div>
-<<<<<<< HEAD
-        <button type="submit" onClick={this.handleSubmit}>
-          Add to Cart
-        </button>{' '}
-        {this.handleSubmit ? <text>Added to Cart</text> : <div>nothing</div>}
-=======
 
         <div>
           {this.state.addButtonVisible ? (
@@ -126,7 +120,6 @@ class SingleProduct extends React.Component {
           )}
         </div>
 
->>>>>>> 796cd9d6bcfd408fce2bc91ce87f6f9bfb813f13
         <div>
           {this.props.isAdmin ? (
             <div>
