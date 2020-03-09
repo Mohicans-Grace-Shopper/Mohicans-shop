@@ -6,9 +6,11 @@ import {fetchProducts} from '../store/products';
 import {addedToCart} from '../store/cart';
 import AddProduct from './AddProduct';
 
-class Products extends React.Component {
+export class Products extends React.Component {
   componentDidMount() {
-    this.props.fetchProducts();
+    if (this.props.fetchProducts) {
+      this.props.fetchProducts();
+    }
   }
 
   render() {
@@ -25,9 +27,6 @@ class Products extends React.Component {
                 <Link to={`/products/${product.id}`}>{product.name}</Link>
               </div>
               <img src={product.imageUrl} height="200" width="320" />
-              {/* <button type="submit" onClick={this.handleClick}>
-              Add Product
-            </button> */}
             </div>
           ))}
         </ul>

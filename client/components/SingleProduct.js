@@ -6,7 +6,7 @@ import {fetchProduct, deleteProductThunk} from '../store/products';
 import {fetchCart, addedToCart} from '../store/cart';
 import UpdateProduct from './UpdateProduct';
 
-class SingleProduct extends React.Component {
+export class SingleProduct extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -20,9 +20,11 @@ class SingleProduct extends React.Component {
   }
 
   componentDidMount() {
-    const productId = this.props.match.params.productId;
-    this.props.fetchProduct(productId);
-    if (this.props.userId) this.props.fetchCart(this.props.userId);
+    if (this.props.fetchProduct()) {
+      const productId = this.props.match.params.productId;
+      this.props.fetchProduct(productId);
+      if (this.props.userId) this.props.fetchCart(this.props.userId);
+    }
   }
 
   increase() {
