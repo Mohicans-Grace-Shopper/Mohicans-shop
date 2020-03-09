@@ -69,9 +69,8 @@ export class SingleProduct extends React.Component {
     }
     // this.setState({quantity: 1});
     this.setState({quantity: 1, addButtonVisible: false});
-    console.log(this.state);
+
     setTimeout(() => this.setState({addButtonVisible: true}), 1200);
-    console.log(this.state);
   }
 
   deleteProduct(evt) {

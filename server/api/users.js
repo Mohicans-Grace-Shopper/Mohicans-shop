@@ -103,14 +103,33 @@ router.delete('/cart/:orderId/:productId', isUser, async (req, res, next) => {
 });
 
 //Route to checkout and complete order
-router.put('/cart/:orderId', isUser, async (req, res, next) => {
+router.put('/cart/:orderId', async (req, res, next) => {
   const orderId = req.params.orderId;
+  console.log('hi im hitting');
   try {
     const [rowsUpdate, [updatedOrder]] = await Order.update(
       {isFulfilled: true},
       {returning: true, where: {id: orderId}}
     );
     res.json(updatedOrder);
+  } catch (error) {
+    next(error);
+  }
+});
+
+//Route to access shell account and order as a guest
+router.post('/guest/cart', async (req, res, next) => {
+  const products = req.body.orderItems;
+  try {
+    const order = await Order.create({userId: null});
+    for (let i = 0; i < products.length; i++) {
+      let product = products[i];
+      await order.addProduct([product.id], {
+        through: {quantity: product.quantity}
+      });
+    }
+
+    res.json(order);
   } catch (error) {
     next(error);
   }
