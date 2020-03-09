@@ -93,7 +93,7 @@ class OrderConfirmation extends React.Component {
           <p>Total: ${cartTotal}</p>
           <button
             type="submit"
-            disabled={!this.state.email}
+            disabled={!this.props.userId && !this.state.email}
             onClick={() => this.checkout()}
           >
             Place Order
