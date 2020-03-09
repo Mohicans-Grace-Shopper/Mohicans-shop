@@ -6,11 +6,12 @@ import {fetchProduct, deleteProductThunk} from '../store/products';
 import {fetchCart, addedToCart} from '../store/cart';
 import UpdateProduct from './UpdateProduct';
 
-class SingleProduct extends React.Component {
+export class SingleProduct extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      quantity: 1
+      quantity: 1,
+      addButtonVisible: true
     };
     this.increase = this.increase.bind(this);
     this.decrease = this.decrease.bind(this);
@@ -19,10 +20,11 @@ class SingleProduct extends React.Component {
   }
 
   componentDidMount() {
-    const productId = this.props.match.params.productId;
-    this.props.fetchProduct(productId);
-    if (this.props.match.params.userId)
-      this.props.fetchCart(this.props.match.params.userId);
+    if (this.props.fetchProduct()) {
+      const productId = this.props.match.params.productId;
+      this.props.fetchProduct(productId);
+      if (this.props.userId) this.props.fetchCart(this.props.userId);
+    }
   }
 
   increase() {
@@ -35,7 +37,7 @@ class SingleProduct extends React.Component {
 
   handleSubmit(evt) {
     evt.preventDefault();
-    const userId = this.props.match.params.userId;
+    const userId = this.props.userId;
     let productObj = {
       orderId: this.props.orderId,
       productId: this.props.product.id,
@@ -63,16 +65,19 @@ class SingleProduct extends React.Component {
       }
       window.localStorage.setItem('cartContents', JSON.stringify(localCart));
     } else {
-      this.props.addedToCart(userId, productObj);
+      this.props.addedToCart(productObj);
     }
-    this.setState({quantity: 1});
+    // this.setState({quantity: 1});
+    this.setState({quantity: 1, addButtonVisible: false});
+    console.log(this.state);
+    setTimeout(() => this.setState({addButtonVisible: true}), 1200);
+    console.log(this.state);
   }
 
   deleteProduct(evt) {
     evt.preventDefault();
-    const userId = this.props.match.params.userId;
     this.props.deleteProductThunk(this.props.product.id);
-    this.props.history.push(`/${userId}/products`);
+    this.props.history.push('/products');
   }
 
   render() {
@@ -104,6 +109,7 @@ class SingleProduct extends React.Component {
             Decrease
           </button>
         </div>
+
         <div>
           {this.state.addButtonVisible ? (
             <button type="submit" onClick={this.handleSubmit}>
@@ -115,6 +121,7 @@ class SingleProduct extends React.Component {
             </button>
           )}
         </div>
+
         <div>
           {this.props.isAdmin ? (
             <div>
@@ -146,7 +153,8 @@ const mapState = state => ({
   orderId: state.cart.orderId,
   product: state.products.product,
   loading: state.products.singleLoading,
-  isAdmin: state.user.isAdmin
+  isAdmin: state.user.isAdmin,
+  userId: state.user.id
 });
 
 const mapDispatch = dispatch => ({

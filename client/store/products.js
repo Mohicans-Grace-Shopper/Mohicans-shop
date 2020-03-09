@@ -14,7 +14,7 @@ const ADD_PRODUCT = 'ADD_PRODUCT';
 const UPDATE_PRODUCT = 'UPDATE_PRODUCT';
 const DELETE_PRODUCT = 'DELETE_PRODUCT';
 
-const setProducts = products => ({
+export const setProducts = products => ({
   type: SET_PRODUCTS,
   products
 });

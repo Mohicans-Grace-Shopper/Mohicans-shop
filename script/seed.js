@@ -190,6 +190,7 @@ async function seed() {
   ]);
 
   // Add some products to users cards
+
   const order1 = await Order.create({userId: 1});
   const order2 = await Order.create({userId: 2});
   const order3 = await Order.create({userId: 3});
@@ -203,19 +204,21 @@ async function seed() {
   const order11 = await Order.create({userId: 12});
   const order12 = await Order.create({userId: 13});
   const order13 = await Order.create({userId: 16});
-  await order1.addProduct([1, 2, 3]);
-  await order2.addProduct([3, 4, 5, 6, 7]);
-  await order3.addProduct([4, 5, 8, 7, 1]);
-  await order4.addProduct([1]);
-  await order5.addProduct([5, 6, 8]);
-  await order6.addProduct([14]);
-  await order7.addProduct([12, 13]);
-  await order8.addProduct([10, 5]);
-  await order9.addProduct([1, 6, 10]);
-  await order10.addProduct([10, 11, 12, 13, 14]);
-  await order11.addProduct([13, 2]);
-  await order12.addProduct([8, 4]);
-  await order13.addProduct([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14]);
+  await order1.addProduct([1, 2, 3], {through: {quantity: 5}});
+  await order2.addProduct([3, 4, 5, 6, 7], {through: {quantity: 1}});
+  await order3.addProduct([4, 5, 8, 7, 1], {through: {quantity: 2}});
+  await order4.addProduct([1], {through: {quantity: 1}});
+  await order5.addProduct([5, 6, 8], {through: {quantity: 1}});
+  await order6.addProduct([14], {through: {quantity: 7}});
+  await order7.addProduct([12, 13], {through: {quantity: 1}});
+  await order8.addProduct([10, 5], {through: {quantity: 1}});
+  await order9.addProduct([1, 6, 10], {through: {quantity: 1}});
+  await order10.addProduct([10, 11, 12, 13, 14], {through: {quantity: 1}});
+  await order11.addProduct([13, 2], {through: {quantity: 1}});
+  await order12.addProduct([8, 4], {through: {quantity: 1}});
+  await order13.addProduct([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14], {
+    through: {quantity: 1}
+  });
 
   console.log(`seeded ${users.length} users`);
   console.log(`seeded successfully`);

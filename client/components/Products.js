@@ -6,14 +6,15 @@ import {fetchProducts} from '../store/products';
 import {addedToCart} from '../store/cart';
 import AddProduct from './AddProduct';
 
-class Products extends React.Component {
+export class Products extends React.Component {
   componentDidMount() {
-    this.props.fetchProducts();
+    if (this.props.fetchProducts) {
+      this.props.fetchProducts();
+    }
   }
 
   render() {
     const products = this.props.products;
-    const {userId} = this.props;
     if (this.props.loading)
       return <Loader type="Hearts" color="blue" height={600} width={600} />;
     return (
@@ -23,18 +24,9 @@ class Products extends React.Component {
           {products.map(product => (
             <div key={product.id} className="card">
               <div>
-                {this.props.isLoggedIn ? (
-                  <Link to={`/${userId}/products/${product.id}`}>
-                    {product.name}
-                  </Link>
-                ) : (
-                  <Link to={`/products/${product.id}`}>{product.name}</Link>
-                )}
+                <Link to={`/products/${product.id}`}>{product.name}</Link>
               </div>
               <img src={product.imageUrl} height="200" width="320" />
-              {/* <button type="submit" onClick={this.handleClick}>
-              Add Product
-            </button> */}
             </div>
           ))}
         </ul>
