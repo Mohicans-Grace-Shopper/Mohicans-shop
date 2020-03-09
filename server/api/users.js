@@ -21,6 +21,7 @@ router.get('/cart', isUser, async (req, res, next) => {
   try {
     const order = await Order.findOne({
       where: {
+        // how do we have access to this?
         userId: req.session.passport.user,
         isFulfilled: false
       },

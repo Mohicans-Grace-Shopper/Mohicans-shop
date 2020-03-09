@@ -20,6 +20,8 @@ const purchaseCart = () => ({
 
 export const fetchCart = function() {
   return async function(dispatch) {
+    // which user's cart?
+    // may want to return the cart as a part of the /auth/me
     const {data} = await axios.get('/api/users/cart');
     dispatch(setCart(data));
   };
@@ -46,6 +48,7 @@ export const removedProduct = function(productObj) {
     await axios.delete(
       `/api/users/cart/${productObj.orderId}/${productObj.productId}`
     );
+    // would not recommend 2 axios calls
     const {data} = await axios.get('/api/users/cart');
     dispatch(setCart(data));
   };

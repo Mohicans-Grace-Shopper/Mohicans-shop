@@ -24,6 +24,7 @@ router.get('/:productId', async (req, res, next) => {
 
 router.post('/', isAdmin, async (req, res, next) => {
   try {
+    // suggest making this a loop & looping through instead of doing it imperatively
     const {name, quantity, description, price, imageUrl} = req.body;
     const newProduct = {};
     if (name) newProduct.name = name;
