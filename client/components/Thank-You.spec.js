@@ -3,12 +3,12 @@ import {expect} from 'chai';
 import React from 'react';
 import enzyme, {shallow} from 'enzyme';
 import Adapter from 'enzyme-adapter-react-16';
-import {ThankYou} from './ThankYou';
+import ThankYou from './ThankYou';
 
 const adapter = new Adapter();
 enzyme.configure({adapter});
 
-describe('ThankYou', () => {
+describe.only('ThankYou', () => {
   let thankYou;
 
   beforeEach(() => {

@@ -11,7 +11,7 @@ const isAdmin = (req, res, next) => {
 
 // User Authorization
 const isUser = (req, res, next) => {
-  if (req.session.passport.user == req.user.id) {
+  if (req.params.userId == req.user.id) {
     next();
   } else {
     const err = new Error('Unauthorized Permission');

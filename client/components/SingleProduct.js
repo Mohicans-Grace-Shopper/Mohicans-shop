@@ -6,7 +6,7 @@ import {fetchProduct, deleteProductThunk} from '../store/products';
 import {fetchCart, addedToCart} from '../store/cart';
 import UpdateProduct from './UpdateProduct';
 
-class SingleProduct extends React.Component {
+export class SingleProduct extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -20,9 +20,11 @@ class SingleProduct extends React.Component {
   }
 
   componentDidMount() {
-    const productId = this.props.match.params.productId;
-    this.props.fetchProduct(productId);
-    if (this.props.userId) this.props.fetchCart(this.props.userId);
+    if (this.props.fetchProduct()) {
+      const productId = this.props.match.params.productId;
+      this.props.fetchProduct(productId);
+      if (this.props.userId) this.props.fetchCart(this.props.userId);
+    }
   }
 
   increase() {
@@ -63,13 +65,12 @@ class SingleProduct extends React.Component {
       }
       window.localStorage.setItem('cartContents', JSON.stringify(localCart));
     } else {
-      this.props.addedToCart(productObj);
+      this.props.addedToCart(this.props.userId, productObj);
     }
     // this.setState({quantity: 1});
     this.setState({quantity: 1, addButtonVisible: false});
-    console.log(this.state);
+
     setTimeout(() => this.setState({addButtonVisible: true}), 1200);
-    console.log(this.state);
   }
 
   deleteProduct(evt) {

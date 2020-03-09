@@ -21,13 +21,13 @@ import {me} from './store';
 /**
  * COMPONENT
  */
-class Routes extends Component {
+export class Routes extends Component {
   componentDidMount() {
     this.props.loadInitialData();
   }
 
   render() {
-    const {isLoggedIn, userId} = this.props;
+    const {isLoggedIn} = this.props;
 
     return (
       <Switch>
@@ -37,6 +37,12 @@ class Routes extends Component {
         <Route exact path="/products" component={Products} />
         <Route exact path="/products/:productId" component={SingleProduct} />
         <Route exact path="/cart" component={Cart} />
+        <Route
+          exact
+          path="/users/cart/orderconfirmation"
+          component={OrderConfirmation}
+        />
+        <Route path="/users/cart/thankyou" component={ThankYou} />
 
         {isLoggedIn && (
           <Switch>
@@ -75,8 +81,7 @@ const mapState = state => {
   return {
     // Being 'logged in' for our purposes will be defined has having a state.user that has a truthy id.
     // Otherwise, state.user will be an empty object, and state.user.id will be falsey
-    isLoggedIn: !!state.user.id,
-    userId: state.user.id
+    isLoggedIn: !!state.user.id
   };
 };
 
