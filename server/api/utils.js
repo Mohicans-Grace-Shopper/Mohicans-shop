@@ -11,8 +11,6 @@ const isAdmin = (req, res, next) => {
 
 // User Authorization
 const isUser = (req, res, next) => {
-  console.log(req.params.userId);
-  console.log(req.user.id);
   if (req.params.userId == req.user.id) {
     next();
   } else {
