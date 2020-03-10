@@ -3,7 +3,6 @@ import {connect} from 'react-redux';
 import {Link} from 'react-router-dom';
 import Loader from 'react-loader-spinner';
 import {fetchProducts} from '../store/products';
-import {addedToCart} from '../store/cart';
 import AddProduct from './AddProduct';
 
 export class Products extends React.Component {
@@ -53,8 +52,7 @@ const mapState = state => ({
 });
 
 const mapDispatch = dispatch => ({
-  fetchProducts: () => dispatch(fetchProducts()),
-  addedToCart: (userId, productId) => dispatch(addedToCart(userId, productId))
+  fetchProducts: () => dispatch(fetchProducts())
 });
 
 export default connect(mapState, mapDispatch)(Products);
