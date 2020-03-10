@@ -27,7 +27,7 @@ export const fetchCart = function(userId) {
 
 export const addedToCart = function(userId, productObj) {
   return async function(dispatch) {
-    await axios.put(`/api/users/${userId}/cart`, productObj);
+    await axios.put(`/api/users/cart`, productObj);
     const {data} = await axios.get(`/api/users/${userId}/cart`);
     dispatch(setCart(data));
   };
@@ -35,7 +35,7 @@ export const addedToCart = function(userId, productObj) {
 
 export const editProductQuant = function(userId, productObj) {
   return async function(dispatch) {
-    await axios.put(`/api/users/${userId}/cart`, productObj);
+    await axios.put(`/api/users/cart`, productObj);
     const {data} = await axios.get(`/api/users/${userId}/cart`);
     dispatch(setCart(data));
   };
@@ -44,7 +44,7 @@ export const editProductQuant = function(userId, productObj) {
 export const removedProduct = function(userId, productObj) {
   return async function(dispatch) {
     await axios.delete(
-      `/api/users/${userId}/cart/${productObj.orderId}/${productObj.productId}`
+      `/api/users/cart/${productObj.orderId}/${productObj.productId}`
     );
     const {data} = await axios.get(`/api/users/${userId}/cart`);
     dispatch(setCart(data));
