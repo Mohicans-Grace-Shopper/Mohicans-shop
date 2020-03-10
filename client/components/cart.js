@@ -1,6 +1,6 @@
 import React from 'react';
 import {connect} from 'react-redux';
-import {fetchCart, editProductQuant, removedProduct} from '../store/cart';
+import {fetchCart, editTheCart, removedProduct} from '../store/cart';
 import Loader from 'react-loader-spinner';
 import {Link} from 'react-router-dom';
 
@@ -73,13 +73,11 @@ export class Cart extends React.Component {
     const {isLoggedIn} = this.props;
     let cartItems;
     isLoggedIn ? (cartItems = this.props.items) : (cartItems = this.state.cart);
-    console.log(' render state', this.state);
     if (isLoggedIn && this.props.loading) {
       return <Loader type="Hearts" color="blue" height={600} width={600} />;
     } else if (!cartItems || cartItems.length === 0) {
       return 'No Items in Cart';
     }
-
     let cartTotal = cartItems.reduce(
       (accum, item) =>
         accum + item.price * (isLoggedIn ? item.cart.quantity : item.quantity),
@@ -147,7 +145,7 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = dispatch => ({
   fetchCart: userId => dispatch(fetchCart(userId)),
   editProductQuant: (userId, productObj) =>
-    dispatch(editProductQuant(userId, productObj)),
+    dispatch(editTheCart(userId, productObj)),
   removedProduct: (userId, productObj) =>
     dispatch(removedProduct(userId, productObj))
 });
