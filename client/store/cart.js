@@ -63,7 +63,7 @@ export const editTheCart = function(userId, productObj) {
 export const removedProduct = function(userId, productObj) {
   return async function(dispatch) {
     await axios.delete(
-      `/api/users/cart/${productObj.orderId}/${productObj.productId}`
+      `/api/users/${userId}/cart/${productObj.orderId}/${productObj.productId}`
     );
     dispatch(removeFromCart(productObj.productId));
   };

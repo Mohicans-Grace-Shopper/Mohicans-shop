@@ -25,7 +25,7 @@ class PurchaseHistory extends React.Component {
       <div>
         {this.props.history ? (
           <div>
-            <h2>Purhcase History</h2>
+            <h2>Purchase History</h2>
             {orderlist.map(order => {
               return (
                 <div key={order.id}>
@@ -41,6 +41,7 @@ class PurchaseHistory extends React.Component {
                             width="320"
                           />
                           <div>{product.name}</div>
+                          <div>Quantity: {product.cart.quantity}</div>
                           <div>
                             Price: $
                             {product.cart.itemPrice * product.cart.quantity}
