@@ -13,12 +13,12 @@ const {MemoryRouter} = rrd;
 const middlewares = [thunkMiddleware];
 const mockStore = configureMockStore(middlewares);
 const initialState = {
-  products: []
+  product: []
 };
 
 import {SingleProduct} from './SingleProduct';
 
-describe('Products component', () => {
+describe.only('Products component', () => {
   let fakeStore;
   const product = {
     id: 1,
@@ -32,10 +32,12 @@ describe('Products component', () => {
 
   describe('<SingleProducts /> component', () => {
     it('renders the single product passed in as props', () => {
+      const fetchProduct = function() {};
       const wrapper = mount(
         <Provider store={fakeStore}>
           <MemoryRouter>
             <SingleProduct
+              fetchProduct={fetchProduct}
               product={{
                 id: 1,
                 name: 'Amortentia',
