@@ -7,14 +7,18 @@ class UpdateProduct extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      product: {
-        name: this.props.product.name,
-        price: this.props.product.price
-      }
+      product: {}
     };
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleChange = this.handleChange.bind(this);
   }
+  componentDidMount() {
+    this.setState({
+      name: this.props.product.name,
+      price: this.props.product.price
+    });
+  }
+
   handleSubmit(evt) {
     evt.preventDefault();
     this.props.updateProductThunk(this.props.product.id, this.state);
@@ -29,6 +33,8 @@ class UpdateProduct extends Component {
     return (
       <div>
         <ProductForm
+          name={this.state.name}
+          price={this.state.price}
           handleChange={this.handleChange}
           handleSubmit={this.handleSubmit}
         />
