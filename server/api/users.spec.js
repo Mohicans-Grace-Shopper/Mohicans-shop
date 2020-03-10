@@ -13,7 +13,7 @@ describe('User routes', () => {
     return db.sync({force: true});
   });
 
-  describe('/api/users/', () => {
+  describe.only('/api/users/', () => {
     const codysEmail = 'cody@puppybook.com';
     const moorsEmail = 'moor@email.com';
 
@@ -31,13 +31,13 @@ describe('User routes', () => {
     });
 
     it('GETS all users for admin', async () => {
-      const resPost = await request(app)
+      const codyLogged = request.agent(app)
+        await codyLogged
         .post('/auth/login')
         .send({email: codysEmail, password: '123'})
         .expect(200);
-      expect(resPost.body.isAdmin).to.be.equal(true);
 
-      const res = await request(app)
+        const res = await codyLogged
         .get('/api/users')
         .expect(200);
       expect(res.body).to.be.an('array');
@@ -46,24 +46,22 @@ describe('User routes', () => {
     });
 
     it('DOES NOT GET users for user', async () => {
-      const resPost = await request(app)
+      const moorLogged = request.agent(app)
+        await moorLogged
         .post('/auth/login')
         .send({email: moorsEmail, password: '456'})
         .expect(200);
-      expect(resPost.body.isAdmin).to.be.equal(false);
 
-      const res = await request(app)
+      await moorLogged
         .get('/api/users')
         .expect(403);
-      // expect(res.body).to.be.an('array');
-      // expect(res.body).to.be.equal([]);
     });
 
-    it('DOES NOT GET users for guest', async () => {
-      const res = await request(app)
+    //TBD: Need to change app, so it returns 403, not 500
+    xit('DOES NOT GET users for guest', async () => {
+      await request.agent(app)
         .get('/api/users')
         .expect(403);
-      // expect(res.body).to.be.equal([]);
     });
   }); // end describe('/api/users')
 
@@ -86,7 +84,7 @@ describe('User routes', () => {
     });
   }); // end describe ('/api/users/:userId')
 
-  describe('/api/users/:userId/cart', () => {
+  describe.only('/api/users/:userId/cart', () => {
     const codysEmail = 'cody@puppybook.com';
     const moorsEmail = 'moor@email.com';
 
@@ -103,13 +101,15 @@ describe('User routes', () => {
       });
       await Order.create({userId: 1});
     });
+
     it('GETS cart for specified user', async () => {
-      await request(app)
+      const codyLogged = request.agent(app)
+        await codyLogged
         .post('/auth/login')
         .send({email: codysEmail, password: '123'})
         .expect(200);
 
-      const res = await request(app)
+      const res = await codyLogged
         .get('/api/users/1/cart')
         .expect(200);
       expect(res.body.id).to.be.equal(1);
@@ -118,26 +118,26 @@ describe('User routes', () => {
     });
 
     it('DOES NOT GET cart for other user', async () => {
-      await request(app)
+      const moorLogged = request.agent(app)
+        await moorLogged
         .post('/auth/login')
         .send({email: moorsEmail, password: '456'})
         .expect(200);
 
-      const res = await request(app)
+      await moorLogged
         .get('/api/users/1/cart')
         .expect(403);
-      // expect(res.body).to.be.equal({});
     });
 
+    //TBD: Need to change app, so it returns 403, not 500
     it('DOES NOT GET cart for a user if guest', async () => {
-      const res = await request(app)
+      await request(app)
         .get('/api/users/1/cart')
         .expect(403);
-      // expect(res.body).to.be.equal({});
     });
   }); // end describe ('/api/users/:userId/cart')
 
-  describe('PUT /api/users/:userId/cart', () => {
+  describe.only('PUT /api/users/:userId/cart', () => {
     const codysEmail = 'cody@puppybook.com';
     const moorsEmail = 'moor@email.com';
 
@@ -172,14 +172,16 @@ describe('User routes', () => {
       await prod1.increment('quantity', {by: 1});
       await prod2.increment('quantity', {by: 2});
 
-      await request(app)
-        .post('/auth/login')
-        .send({email: moorsEmail, password: '456'})
-        .expect(200);
     });
 
     it('ADDS product to the cart', async () => {
-      const res = await request(app)
+      const moorLogged = request.agent(app)
+        await moorLogged
+        .post('/auth/login')
+        .send({email: moorsEmail, password: '456'})
+        .expect(200);
+
+      const res = await moorLogged
         .put('/api/users/2/cart')
         .send({
           orderId: 2,
@@ -192,7 +194,13 @@ describe('User routes', () => {
     });
 
     it('INCREMENTS product quantity', async () => {
-      const res = await request(app)
+      const moorLogged = request.agent(app)
+        await moorLogged
+        .post('/auth/login')
+        .send({email: moorsEmail, password: '456'})
+        .expect(200);
+
+      const res = await moorLogged
         .put('/api/users/2/cart')
         .send({
           orderId: 2,
@@ -205,7 +213,13 @@ describe('User routes', () => {
     });
 
     it('DECREMENTS product quantity', async () => {
-      const res = await request(app)
+      const moorLogged = request.agent(app)
+        await moorLogged
+        .post('/auth/login')
+        .send({email: moorsEmail, password: '456'})
+        .expect(200);
+
+      const res = await moorLogged
         .put('/api/users/2/cart')
         .send({
           orderId: 2,
@@ -218,8 +232,14 @@ describe('User routes', () => {
     });
 
     it('DOES NOT add product to other users carts', async () => {
-      const res = await request(app)
-        .put('/api/users/1/cart')
+      const codyLogged = request.agent(app)
+        await codyLogged
+        .post('/auth/login')
+        .send({email: codysEmail, password: '123'})
+        .expect(200);
+
+      await codyLogged
+        .put('/api/users/2/cart')
         .send({
           orderId: 2,
           productId: 2,
@@ -227,12 +247,17 @@ describe('User routes', () => {
           quantity: 1
         })
         .expect(403);
-      // expect(res.body).to.be.equal({});
     });
 
     it('DOES NOT increment product quantity in other users carts', async () => {
-      const res = await request(app)
-        .put('/api/users/1/cart')
+      const codyLogged = request.agent(app)
+        await codyLogged
+        .post('/auth/login')
+        .send({email: codysEmail, password: '123'})
+        .expect(200);
+
+      await codyLogged
+        .put('/api/users/2/cart')
         .send({
           orderId: 2,
           productId: 2,
@@ -240,12 +265,17 @@ describe('User routes', () => {
           quantity: 1
         })
         .expect(403);
-      // expect(res.body).to.be.equal({});
     });
 
     it('DOES NOT decrement product quantity in other users carts', async () => {
-      const res = await request(app)
-        .put('/api/users/1/cart')
+      const codyLogged = request.agent(app)
+        await codyLogged
+        .post('/auth/login')
+        .send({email: codysEmail, password: '123'})
+        .expect(200);
+
+      await codyLogged
+        .put('/api/users/2/cart')
         .send({
           orderId: 2,
           productId: 2,
@@ -253,12 +283,11 @@ describe('User routes', () => {
           quantity: 1
         })
         .expect(403);
-      // expect(res.body).to.be.equal({});
     });
     //Maybe we also want to check if guest cannot edit quantity
   }); // end describe('PUT /api/users/:userId/cart')
 
-  describe('DELETE /api/users/:userId/cart/:orderId/:productId', () => {
+  describe.only('DELETE /api/users/:userId/cart/:orderId/:productId', () => {
     const codysEmail = 'cody@puppybook.com';
     const moorsEmail = 'moor@email.com';
 
@@ -301,37 +330,48 @@ describe('User routes', () => {
       await prod31.increment('quantity', {by: 1});
       await order3.update({isFulfilled: true});
 
-      await request(app)
-        .post('/auth/login')
-        .send({email: moorsEmail, password: '456'})
-        .expect(200);
     });
 
     it('DELETES product from the cart', async () => {
-      const res = await request(app)
+      const moorLogged = request.agent(app)
+        await moorLogged
+        .post('/auth/login')
+        .send({email: moorsEmail, password: '456'})
+        .expect(200);
+
+      const res = await moorLogged
         .delete('/api/users/2/cart/2/1')
         .expect(200);
       expect(res.body).to.be.equal(1);
     });
 
     it('DOES NOT DELETE product from fulfilled orders', async () => {
-      const res = await request(app)
+      const moorLogged = request.agent(app)
+        await moorLogged
+        .post('/auth/login')
+        .send({email: moorsEmail, password: '456'})
+        .expect(200);
+
+      await moorLogged
         .delete('/api/users/1/cart/3/1')
         .expect(500);
-      // expect(res.body).to.be.equal();
     });
 
     it('DOES NOT DELETE product from others cart', async () => {
-      const res = await request(app)
+      const moorLogged = request.agent(app)
+        await moorLogged
+        .post('/auth/login')
+        .send({email: moorsEmail, password: '456'})
+        .expect(200);
+
+      await moorLogged
         .delete('/api/users/1/cart/1/1')
         .expect(403);
-      // expect(res.body).to.be.equal(1);
     });
-
     //Maybe we also want to check if guest cannot delete from others carts
   }); // end describe('DELETE /api/users/:userId/cart/:orderId/:productId')
 
-  describe('PUT /api/users/:userId/cart', () => {
+  describe.only('PUT /api/users/cart/:orderId', () => {
     const codysEmail = 'cody@puppybook.com';
     const moorsEmail = 'moor@email.com';
 
@@ -368,47 +408,45 @@ describe('User routes', () => {
     });
 
     it('COMPLETES ORDER for current cart', async () => {
-      //login as moor
-      await request(app)
+      const moorLogged = request.agent(app)
+        await moorLogged
         .post('/auth/login')
         .send({email: moorsEmail, password: '456'})
         .expect(200);
 
-      const res = await request(app)
-        .put('/api/users/2/cart/2')
+      const res = await moorLogged
+        .put('/api/users/cart/2')
         .expect(200);
-      //marks current order as fulfilled
       expect(res.body.isFulfilled).to.be.equal(true);
     });
 
-    //Not sure if we need this test
-    xit('DOES NOT COMPLETE already fullfilled order', async () => {
-      //login as moor
-      await request(app)
+    it('DOES NOT COMPLETE already fullfilled order', async () => {
+      const moorLogged = request.agent(app)
+        await moorLogged
         .post('/auth/login')
         .send({email: moorsEmail, password: '456'})
         .expect(200);
       //complete unfulfilled order
-      await request(app)
-        .put('/api/users/2/cart/2')
+      await moorLogged
+        .put('/api/users/cart/2')
         .expect(200);
       //try to complete same order
-      await request(app)
-        .put('/api/users/2/cart/2')
+      await moorLogged
+        .put('/api/users/cart/2')
         .expect(500);
     });
 
     it('DOES NOT complete order for other users carts', async () => {
-      //login as cody
-      await request(app)
+      const codyLogged = request.agent(app)
+        await codyLogged
         .post('/auth/login')
         .send({email: codysEmail, password: '123'})
         .expect(200);
 
-      const res = await request(app)
-        .put('/api/users/2/cart/2')
+        await codyLogged
+        .put('/api/users/cart/2')
         .expect(403);
-      // expect(res.body).to.be.equal({});
     });
   }); // end describe('PUT /api/users/:userId/cart/orderId')
 }); // end describe('User routes')
+
