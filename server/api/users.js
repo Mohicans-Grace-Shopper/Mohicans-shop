@@ -127,9 +127,31 @@ router.delete(
 );
 
 //Route to checkout and complete order
-router.put('/cart/:orderId', async (req, res, next) => {
+router.get('/cart/:orderId', async (req, res, next) => {
   const orderId = req.params.orderId;
   try {
+    const order = await Order.findOne({
+      where: {
+        id: req.params.orderId,
+        isFulfilled: false
+      },
+      include: [
+        {
+          model: Product
+        }
+      ],
+      order: [[Product, 'id', 'ASC']]
+    });
+    for (let i = 0; i < order.products.length; i++) {
+      let currentId = order.products[i].id;
+      let item = await Cart.findOne({
+        where: {
+          productId: currentId,
+          orderId: orderId
+        }
+      });
+      item.update({itemPrice: order.products[i].price});
+    }
     const [rowsUpdate, [updatedOrder]] = await Order.update(
       {isFulfilled: true},
       {returning: true, where: {id: orderId}}
