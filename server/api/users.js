@@ -127,7 +127,7 @@ router.delete(
 );
 
 //Route to checkout and complete order
-router.get('/cart/:orderId', async (req, res, next) => {
+router.put('/cart/:orderId', async (req, res, next) => {
   const orderId = req.params.orderId;
   try {
     const order = await Order.findOne({

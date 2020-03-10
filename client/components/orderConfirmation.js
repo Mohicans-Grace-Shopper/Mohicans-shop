@@ -58,7 +58,9 @@ class OrderConfirmation extends React.Component {
       : (orderItems = this.state.cartItems);
 
     let cartTotal = orderItems.reduce(
-      (accum, item) => accum + item.price * item.quantity,
+      (accum, item) =>
+        accum +
+        item.price * (this.props.userId ? item.cart.quantity : item.quantity),
       0
     );
 
@@ -87,7 +89,11 @@ class OrderConfirmation extends React.Component {
                 <Link to={`/products/${item.id}`} />
                 <img src={item.imageUrl} height="200" width="320" />
                 <div>{item.name}</div>
-                <div>Price: ${item.price * item.quantity}</div>
+                <div>
+                  Price: $
+                  {item.price *
+                    (this.props.userId ? item.cart.quantity : item.quantity)}
+                </div>
               </div>
             );
           })}
