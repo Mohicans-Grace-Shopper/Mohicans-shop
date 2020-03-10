@@ -23,7 +23,9 @@ export class SingleProduct extends React.Component {
     if (this.props.fetchProduct) {
       const productId = this.props.match.params.productId;
       this.props.fetchProduct(productId);
-      // if (this.props.userId) this.props.fetchCart(this.props.userId);
+    }
+    if (this.props.userId && this.props.orderId === '') {
+      this.props.fetchCart(this.props.userId);
     }
   }
 
