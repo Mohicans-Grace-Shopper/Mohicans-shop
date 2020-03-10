@@ -28,6 +28,10 @@ router.get('/:userId/cart', isUser, async (req, res, next) => {
         {
           model: Product
         }
+      ],
+      ,
+      order: [
+        [Product, 'id', 'ASC']
       ]
     });
     if (order === null) {
