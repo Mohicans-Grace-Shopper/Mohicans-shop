@@ -9,7 +9,7 @@ import Button from '@material-ui/core/Button';
 
 const Navbar = ({handleClick, isLoggedIn, userId, isAdmin}) => (
   <div>
-    <h1>Twilight Gems & Apothecary</h1>
+    <h1 className="font">Twilight Gems & Apothecary</h1>
     <nav>
       <AppBar position="static">
         <Toolbar>

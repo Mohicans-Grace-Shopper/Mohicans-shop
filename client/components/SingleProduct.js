@@ -5,6 +5,12 @@ import Loader from 'react-loader-spinner';
 import {fetchProduct, deleteProductThunk} from '../store/products';
 import {fetchCart, editTheCart} from '../store/cart';
 import UpdateProduct from './UpdateProduct';
+import Card from '@material-ui/core/Card';
+import CardActions from '@material-ui/core/CardActions';
+import CardContent from '@material-ui/core/CardContent';
+import CardMedia from '@material-ui/core/CardMedia';
+import Button from '@material-ui/core/Button';
+import Typography from '@material-ui/core/Typography';
 
 export class SingleProduct extends React.Component {
   constructor(props) {
@@ -87,9 +93,9 @@ export class SingleProduct extends React.Component {
     if (this.props.loading)
       return <Loader type="Hearts" color="blue" height={600} width={600} />;
     return (
-      <div>
-        <h3>{product.name} </h3>
-        <div>
+      <div className="box-container">
+        <h2 className="section-title">{product.name} </h2>
+        <div className="box-container">
           <img src={product.imageUrl} height="300" width="420" />
         </div>
         <div>
