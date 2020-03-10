@@ -1,4 +1,4 @@
-const {isAdmin, isUser} = require('./utils');
+const {isAdmin, isUser, isUserAdmin} = require('./utils');
 const router = require('express').Router();
 const {User, Cart, Product, Order} = require('../db/models');
 module.exports = router;
@@ -67,7 +67,7 @@ router.get('/:userId/cart', isUser, async (req, res, next) => {
   }
 });
 
-router.get('/:userId', isAdmin, isUser, async (req, res, next) => {
+router.get('/:userId', isUserAdmin, async (req, res, next) => {
   try {
     const user = await User.findByPk(req.params.userId);
     res.json(user);
