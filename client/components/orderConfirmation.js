@@ -19,7 +19,7 @@ class OrderConfirmation extends React.Component {
   componentDidMount() {
     const userId = this.props.userId;
     if (userId) {
-      this.props.fetchCart();
+      this.props.fetchCart(userId);
     } else {
       let localCart = JSON.parse(window.localStorage.getItem('cartContents'));
       this.setState({cartItems: Object.values(localCart)});
@@ -32,14 +32,15 @@ class OrderConfirmation extends React.Component {
         orderItems: this.state.cartItems
       });
       await axios.put(`/api/users/cart/${res.data.id}`);
+    } else {
+      this.props.completeOrder(this.props.orderId);
     }
-    this.props.completeOrder(this.props.orderId);
     let path = '/users/cart/thankyou';
     this.props.history.push(path);
     window.localStorage.clear();
   }
 
-  async handleSubmit(event) {
+  handleSubmit(event) {
     event.preventDefault();
     this.setState({email: event.target.email.value});
     // const res = await axios.post('/api/users/guest/cart', {email: event.target.email.value, orderItems: this.state.cartItems});
@@ -113,7 +114,7 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  fetchCart: () => dispatch(fetchCart()),
+  fetchCart: userId => dispatch(fetchCart(userId)),
   completeOrder: orderId => dispatch(completeOrder(orderId))
 });
 

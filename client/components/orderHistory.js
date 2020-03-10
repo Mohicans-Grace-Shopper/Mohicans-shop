@@ -8,8 +8,8 @@ import axios from 'axios';
 export class PurchaseHistory extends React.Component {
   async componentDidMount() {
     const userId = this.props.userId;
-    const res = await axios.get(`/api/users/${userId}/cart/orderhistory`);
-    console.log(res);
+    // const res = await axios.get(`/api/users/${userId}/cart/orderhistory`);
+    // console.log(res);
   }
 
   render() {
@@ -19,15 +19,10 @@ export class PurchaseHistory extends React.Component {
 
     let orderItems;
 
-    this.props.userId
-      ? (orderItems = this.props.items)
-      : (orderItems = this.state.cartItems);
-
     let cartTotal = orderItems.reduce(
       (accum, item) => accum + item.price * item.quantity,
       0
     );
-
     return (
       <div>
         {this.props.orderId ? null : (
