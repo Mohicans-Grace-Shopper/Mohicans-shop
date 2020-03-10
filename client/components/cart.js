@@ -4,7 +4,7 @@ import {fetchCart, editProductQuant, removedProduct} from '../store/cart';
 import Loader from 'react-loader-spinner';
 import {Link} from 'react-router-dom';
 
-class Cart extends React.Component {
+export class Cart extends React.Component {
   constructor(props) {
     super(props);
     this.state = {

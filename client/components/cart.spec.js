@@ -13,14 +13,14 @@ const {MemoryRouter} = rrd;
 const middlewares = [thunkMiddleware];
 const mockStore = configureMockStore(middlewares);
 const initialState = {
-  products: []
+  items: []
 };
 
 import {Cart} from './cart';
 
 describe.only('Cart component', () => {
   let fakeStore;
-  const products = [
+  const items = [
     {
       id: 1,
       name: 'Amortentia',
@@ -50,7 +50,7 @@ describe.only('Cart component', () => {
               fetchCart={fetchCart}
               isLoggedIn={isLoggedIn}
               loading={loading}
-              products={[
+              items={[
                 {
                   id: 1,
                   name: 'Amortentia',
