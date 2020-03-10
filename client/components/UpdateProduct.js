@@ -35,8 +35,8 @@ class UpdateProduct extends Component {
     return (
       <div>
         <ProductForm
-          name={this.state.name}
-          price={this.state.price}
+          name={this.props.product.name}
+          price={this.props.product.price}
           handleChange={this.handleChange}
           handleSubmit={this.handleSubmit}
         />
