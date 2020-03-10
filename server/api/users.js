@@ -31,9 +31,8 @@ router.get('/:userId/cart/orderhistory', isUser, async (req, res, next) => {
       ],
       order: [[Product, 'id', 'ASC']]
     });
-    if (order === null) {
-      const newOrder = await Order.create({userId: req.session.passport.user});
-      res.json(newOrder);
+    if (!order.length) {
+      res.json('No previous orders');
     } else {
       res.json(order);
     }
@@ -57,7 +56,7 @@ router.get('/:userId/cart', isUser, async (req, res, next) => {
       order: [[Product, 'id', 'ASC']]
     });
     if (order === null) {
-      const newOrder = await Order.create({userId: req.session.passport.user});
+      const newOrder = await Order.create({userId: req.params.userId});
       res.json(newOrder);
     } else {
       res.json(order);
