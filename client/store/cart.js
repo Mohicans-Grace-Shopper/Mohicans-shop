@@ -8,6 +8,8 @@ const initState = {
 
 export const SET_CART = 'SET_CART';
 export const PURCHASE_CART = 'PURCHASE_CART';
+export const EDIT_CART = 'EDIT_CART';
+export const REMOVE_FROM_CART = 'REMOVE_FROM_CART';
 
 export const setCart = order => ({
   type: SET_CART,
@@ -18,6 +20,16 @@ export const purchaseCart = () => ({
   type: PURCHASE_CART
 });
 
+export const editCart = productData => ({
+  type: EDIT_CART,
+  productData
+});
+
+export const removeFromCart = productToRemoveId => ({
+  type: REMOVE_FROM_CART,
+  productToRemoveId
+});
+
 export const fetchCart = function(userId) {
   return async function(dispatch) {
     const {data} = await axios.get(`/api/users/${userId}/cart`);
@@ -25,19 +37,18 @@ export const fetchCart = function(userId) {
   };
 };
 
-export const addedToCart = function(userId, productObj) {
-  return async function(dispatch) {
-    await axios.put(`/api/users/${userId}/cart`, productObj);
-    const {data} = await axios.get(`/api/users/${userId}/cart`);
-    dispatch(setCart(data));
-  };
-};
+// export const addedToCart = function(userId, productObj) {
+//   return async function(dispatch) {
+//     await axios.put(`/api/users/${userId}/cart`, productObj);
+//     const {data} = await axios.get(`/api/users/${userId}/cart`);
+//     dispatch(setCart(data));
+//   };
+// };
 
-export const editProductQuant = function(userId, productObj) {
+export const editTheCart = function(userId, productObj) {
   return async function(dispatch) {
-    await axios.put(`/api/users/${userId}/cart`, productObj);
-    const {data} = await axios.get(`/api/users/${userId}/cart`);
-    dispatch(setCart(data));
+    const {data} = await axios.put(`/api/users/${userId}/cart`, productObj);
+    dispatch(editCart(data));
   };
 };
 
@@ -46,8 +57,7 @@ export const removedProduct = function(userId, productObj) {
     await axios.delete(
       `/api/users/${userId}/cart/${productObj.orderId}/${productObj.productId}`
     );
-    const {data} = await axios.get(`/api/users/${userId}/cart`);
-    dispatch(setCart(data));
+    dispatch(removeFromCart(productObj.productId));
   };
 };
 
@@ -72,6 +82,28 @@ export default function(state = initState, action) {
       };
     case PURCHASE_CART:
       return {...initState, orderId: state.orderId + 1};
+    case EDIT_CART: {
+      let idx = state.products.findIndex(
+        product => product.id === action.productData.id
+      );
+      if (idx > -1) {
+        let updatedProducts = [...state.products];
+        updatedProducts[idx].cart.quantity = action.productData.quantity;
+        return {
+          ...state,
+          products: updatedProducts
+        };
+      } else {
+        return state;
+      }
+    }
+    case REMOVE_FROM_CART:
+      return {
+        ...state,
+        products: state.products.filter(
+          product => product.id !== action.productToRemoveId
+        )
+      };
     default:
       return state;
   }
