@@ -48,6 +48,7 @@ export class Routes extends Component {
         {isLoggedIn && (
           <Switch>
             {/* Routes placed here are only available after logging in */}
+            <Route exact path="/" component={UserHome} />
             <Route path="/home" component={UserHome} />
             <Route exact path="/products" component={Products} />
             <Route
@@ -69,10 +70,11 @@ export class Routes extends Component {
             <Route exact path="/users" component={Users} />
             <Route exact path="/users/:userId" component={SingleUser} />
             <Route exact path="/products/addproduct" component={AddProduct} />
+            <Route path="*" component={NotFoundPage} />
           </Switch>
         )}
         {/* Displays our Login component as a fallback */}
-        <Route component={Login} />
+        <Route exact path="/" component={Login} />
         <Route path="*" component={NotFoundPage} />
       </Switch>
     );
