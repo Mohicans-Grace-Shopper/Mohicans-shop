@@ -127,18 +127,18 @@ describe('User routes', () => {
       await Order.create({userId: 1});
     });
 
-    // it('GETS cart for specified user', async () => {
-    //   const codyLogged = request.agent(app);
-    //   await codyLogged
-    //     .post('/auth/login')
-    //     .send({email: codysEmail, password: '123'})
-    //     .expect(200);
+    it('GETS cart for specified user', async () => {
+      const codyLogged = request.agent(app);
+      await codyLogged
+        .post('/auth/login')
+        .send({email: codysEmail, password: '123'})
+        .expect(200);
 
-    //   const res = await codyLogged.get('/api/users/1/cart').expect(200);
-    //   expect(res.body.id).to.be.equal(1);
-    //   expect(res.body.isFulfilled).to.be.equal(false);
-    //   expect(Array.isArray(res.body.products)).to.be.equal(true);
-    // });
+      const res = await codyLogged.get('/api/users/1/cart').expect(200);
+      expect(res.body.id).to.be.equal(1);
+      expect(res.body.isFulfilled).to.be.equal(false);
+      expect(Array.isArray(res.body.products)).to.be.equal(true);
+    });
 
     it('DOES NOT GET cart for other user', async () => {
       const moorLogged = request.agent(app);
@@ -484,7 +484,16 @@ describe('User routes', () => {
       expect(res.body.isFulfilled).to.be.equal(true);
     });
 
+    it('DOES NOT COMPLETE ORDER for other user cart', async () => {
+      const moorLogged = request.agent(app);
+      await moorLogged
+        .post('/auth/login')
+        .send({email: moorsEmail, password: '456'})
+        .expect(200);
+
+      await moorLogged.put('/api/users/cart/1').expect(403);
+    });
+
     //TBD: DOES NOT COMPLETE already fullfilled order
-    //TBD: DOES NOT complete order for other users carts
   }); // end describe('PUT /api/users/:userId/cart/orderId')
 }); // end describe('User routes')

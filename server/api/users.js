@@ -1,4 +1,4 @@
-const {isAdmin, isUser, isUserAdmin} = require('./utils');
+const {isAdmin, isUser, isUserAdmin, isUserGuest} = require('./utils');
 const router = require('express').Router();
 const {User, Cart, Product, Order} = require('../db/models');
 module.exports = router;
@@ -127,7 +127,7 @@ router.delete(
 );
 
 //Route to checkout and complete order
-router.put('/cart/:orderId', async (req, res, next) => {
+router.put('/cart/:orderId', isUserGuest, async (req, res, next) => {
   const orderId = req.params.orderId;
   try {
     const order = await Order.findOne({
