@@ -19,7 +19,7 @@ class OrderConfirmation extends React.Component {
   componentDidMount() {
     const userId = this.props.userId;
     if (userId) {
-      this.props.fetchCart();
+      this.props.fetchCart(userId);
     } else {
       let localCart = JSON.parse(window.localStorage.getItem('cartContents'));
       this.setState({cartItems: Object.values(localCart)});
@@ -114,7 +114,7 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  fetchCart: () => dispatch(fetchCart()),
+  fetchCart: userId => dispatch(fetchCart(userId)),
   completeOrder: orderId => dispatch(completeOrder(orderId))
 });
 
