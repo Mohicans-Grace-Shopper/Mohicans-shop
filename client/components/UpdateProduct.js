@@ -22,6 +22,7 @@ class UpdateProduct extends Component {
   handleSubmit(evt) {
     evt.preventDefault();
     this.props.updateProductThunk(this.props.product.id, this.state);
+    this.setState({...this.state});
   }
 
   handleChange(evt) {

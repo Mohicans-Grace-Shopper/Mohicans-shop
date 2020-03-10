@@ -164,7 +164,7 @@ async function seed() {
     User.create({email: 'cody@email.com', password: '123'}),
     User.create({email: 'murphy@email.com', password: '123'}),
     User.create({
-      email: 'gkmurray124@gmail.com',
+      email: 'gkmurray123@gmail.com',
       password: '123',
       isAdmin: true
     }),

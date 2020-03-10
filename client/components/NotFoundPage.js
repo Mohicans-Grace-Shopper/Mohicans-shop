@@ -7,9 +7,9 @@ const NotFoundPage = () => (
       <h2>Hmmm... Something very strange is brewing. </h2>
     </center>
     <img
-      src="https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.cleanpng.com%2Fpng-cauldron-computer-icons-clip-art-cauldron-817308%2F&psig=AOvVaw0onMLaMmUQoyTnMSFYJU3z&ust=1583609370253000&source=images&cd=vfe&ved=0CAIQjRxqFwoTCOD5quLKhugCFQAAAAAdAAAAABAD"
+      src="https://pngimg.com/uploads/cauldron/cauldron_PNG22.png"
       style={{
-        width: 600,
+        width: 500,
         height: 400,
         display: 'block',
         margin: 'auto',
