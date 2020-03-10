@@ -31,9 +31,8 @@ router.get('/:userId/cart/orderhistory', isUser, async (req, res, next) => {
       ],
       order: [[Product, 'id', 'ASC']]
     });
-    if (order === null) {
-      const newOrder = await Order.create({userId: req.session.passport.user});
-      res.json(newOrder);
+    if (!order.length) {
+      res.json(null);
     } else {
       res.json(order);
     }
@@ -57,7 +56,7 @@ router.get('/:userId/cart', isUser, async (req, res, next) => {
       order: [[Product, 'id', 'ASC']]
     });
     if (order === null) {
-      const newOrder = await Order.create({userId: req.session.passport.user});
+      const newOrder = await Order.create({userId: req.params.userId});
       res.json(newOrder);
     } else {
       res.json(order);
@@ -131,6 +130,28 @@ router.delete(
 router.put('/cart/:orderId', async (req, res, next) => {
   const orderId = req.params.orderId;
   try {
+    const order = await Order.findOne({
+      where: {
+        id: req.params.orderId,
+        isFulfilled: false
+      },
+      include: [
+        {
+          model: Product
+        }
+      ],
+      order: [[Product, 'id', 'ASC']]
+    });
+    for (let i = 0; i < order.products.length; i++) {
+      let currentId = order.products[i].id;
+      let item = await Cart.findOne({
+        where: {
+          productId: currentId,
+          orderId: orderId
+        }
+      });
+      item.update({itemPrice: order.products[i].price});
+    }
     const [rowsUpdate, [updatedOrder]] = await Order.update(
       {isFulfilled: true},
       {returning: true, where: {id: orderId}}
