@@ -2,6 +2,16 @@ body {
   font-family: sans-serif;
 }
 
+/* body {
+  content: "";
+  background: url('magic-wallpaper.jpg');
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+  opacity: 2.8;
+  z-index: -1; 
+} */
 a {
   text-decoration: none;
 }
@@ -35,6 +45,19 @@ img {
   height: 200;
   width: 300;
 }
+.font {
+  font-family: fantasy, Helvetica, sans-serif;
+  font-weight: bold;
+}
+
+.section-title {
+  align-items: center;
+  font-family: fantasy, Helvetica, sans-serif;
+  font-weight: bold;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
 
 .container {
   display: flex;
@@ -43,6 +66,13 @@ img {
   width: 80%;
   margin: auto;
   padding: 5px;
+}
+.box-container {
+  margin: auto;
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
 
 .card {

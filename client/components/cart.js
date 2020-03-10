@@ -76,7 +76,7 @@ export class Cart extends React.Component {
     if (isLoggedIn && this.props.loading) {
       return <Loader type="Hearts" color="blue" height={600} width={600} />;
     } else if (!cartItems || cartItems.length === 0) {
-      return 'No Items in Cart';
+      return <div className="font">No Items in Cart</div>;
     }
     let cartTotal = cartItems.reduce(
       (accum, item) =>
@@ -86,7 +86,7 @@ export class Cart extends React.Component {
 
     return (
       <div>
-        <h3>Shopping Cart</h3>
+        <h2 className="section-title">Shopping Cart</h2>
 
         {cartItems.map(item => {
           // let itemIdentifier;

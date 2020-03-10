@@ -82,7 +82,7 @@ class OrderConfirmation extends React.Component {
         )}
 
         <div>
-          <h3>Order Summary: </h3>
+          <h3 className="section-title">Order Summary: </h3>
           {orderItems.map(item => {
             return (
               <div key={item.id}>
