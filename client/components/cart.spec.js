@@ -54,12 +54,14 @@ describe.only('Cart component', () => {
                 {
                   id: 1,
                   name: 'Amortentia',
+                  quantity: 1,
                   imageUrl:
                     'https://vignette.wikia.nocookie.net/harrypotter/images/c/c1/Love_Potion_design_for_T-Shirt.jpg/revision/latest/scale-to-width-down/250?cb=20091220170731'
                 },
                 {
                   id: 2,
                   name: 'Confusing Concoction',
+                  quantity: 1,
                   imageUrl:
                     'https://d.wattpad.com/story_parts/699873420/images/158695304eb09911855926916674.jpg'
                 }
