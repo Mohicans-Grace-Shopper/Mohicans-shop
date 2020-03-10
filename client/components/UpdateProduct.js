@@ -7,7 +7,10 @@ class UpdateProduct extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      product: {}
+      product: {
+        name: this.props.product.name,
+        price: this.props.product.price
+      }
     };
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleChange = this.handleChange.bind(this);
@@ -22,7 +25,6 @@ class UpdateProduct extends Component {
   handleSubmit(evt) {
     evt.preventDefault();
     this.props.updateProductThunk(this.props.product.id, this.state);
-    this.setState({...this.state});
   }
 
   handleChange(evt) {
