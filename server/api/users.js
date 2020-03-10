@@ -32,7 +32,7 @@ router.get('/:userId/cart/orderhistory', isUser, async (req, res, next) => {
       order: [[Product, 'id', 'ASC']]
     });
     if (!order.length) {
-      res.json('No previous orders');
+      res.json(null);
     } else {
       res.json(order);
     }

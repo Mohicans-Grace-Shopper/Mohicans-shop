@@ -54,7 +54,7 @@ class PurchaseHistory extends React.Component {
             })}
           </div>
         ) : (
-          'No previous purchases'
+          <div>No previous purchases</div>
         )}
       </div>
     );
