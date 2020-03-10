@@ -16,7 +16,17 @@ const isUser = (req, res, next) => {
   }
 };
 
+// User or Admin Authorization
+const isUserAdmin = (req, res, next) => {
+  if (req.user.isAdmin || req.params.userId == req.user.id) {
+    next();
+  } else {
+    res.status(403).send('Unauthorized Permission');
+  }
+};
+
 module.exports = {
   isAdmin,
-  isUser
+  isUser,
+  isUserAdmin
 };
