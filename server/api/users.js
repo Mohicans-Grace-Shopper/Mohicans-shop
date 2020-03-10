@@ -26,7 +26,8 @@ router.get('/:userId/cart', isUser, async (req, res, next) => {
       },
       include: [
         {
-          model: Product
+          model: Product,
+          order: [Cart, 'createdAt', 'ASC']
         }
       ]
     });

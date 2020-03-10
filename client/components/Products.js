@@ -18,7 +18,7 @@ export class Products extends React.Component {
     if (this.props.loading)
       return <Loader type="Hearts" color="blue" height={600} width={600} />;
     return (
-      <div>
+      <div className="startOfPage">
         <h2 className="section-title">Products</h2>
         <ul className="container">
           {products.map(product => (

@@ -28,7 +28,6 @@ class Cart extends React.Component {
 
   editProduct(productId, action) {
     const {isLoggedIn} = this.props;
-    console.log('wheres it coming from', productId, action);
     if (isLoggedIn) {
       let productObj = {
         orderId: this.props.orderId,
@@ -73,11 +72,10 @@ class Cart extends React.Component {
     const {isLoggedIn} = this.props;
     let cartItems;
     isLoggedIn ? (cartItems = this.props.items) : (cartItems = this.state.cart);
-    console.log(' render state', this.state);
     if (isLoggedIn && this.props.loading) {
       return <Loader type="Hearts" color="blue" height={600} width={600} />;
     } else if (!cartItems || cartItems.length === 0) {
-      return 'No Items in Cart';
+      return <div className="startOfPage">No Items in Cart</div>;
     }
 
     let cartTotal = cartItems.reduce(
@@ -87,7 +85,7 @@ class Cart extends React.Component {
     );
 
     return (
-      <div>
+      <div className="startOfPage">
         <h3>Shopping Cart</h3>
 
         {cartItems.map(item => {

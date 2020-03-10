@@ -1,13 +1,51 @@
-body {
-  font-family: sans-serif;
+css body {
+  font-family: 'Source Code Pro';
+}
+
+* {
+  font-family: 'Source Code Pro';
+}
+
+.startOfPage {
+  margin-top: 10%;
+}
+
+.app {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 }
 
 a {
   text-decoration: none;
 }
 
+h1,
+h2,
+h3 {
+  font-family: 'VT323';
+  text-align: center;
+}
+
 label {
   display: block;
+}
+
+.navDiv {
+  position: fixed;
+  border: 1.3px solid rgb(219, 215, 215);
+  background: white;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  width: 100%;
+  top: 0;
+  left: 0;
+  z-index: 5;
+}
+
+.allProducts {
+  top: 500px;
 }
 
 nav a {
@@ -16,14 +54,25 @@ nav a {
 }
 
 .navlink {
-  color: white;
+  color: black;
   padding: 10px;
-  text-decoration: none;
+  /* text-decoration: none; */
+  font-family: 'VT323', Helvetica, Arial, sans-serif;
+  font-size: 20px;
   text-transform: uppercase;
 }
 .navlink:hover,
 a {
   text-decoration: none;
+}
+
+.navBarItems {
+  display: flex;
+  flex-wrap: nowrap;
+}
+
+#headerimg img {
+  width: 120px;
 }
 
 form div {

@@ -23,7 +23,7 @@ const AuthForm = props => {
   const {name, displayName, handleSubmit, error} = props;
   const classes = useStyles();
   return (
-    <div>
+    <div className="startOfPage">
       <form onSubmit={handleSubmit} name={name}>
         <div>
           <label htmlFor="email">

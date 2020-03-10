@@ -19,10 +19,10 @@ const Product = db.define('product', {
   imageUrl: {
     type: Sequelize.STRING,
     defaultValue:
-      'https://img.pngio.com/potion-clip-art-minecraft-magic-minecraft-png-download-568568-potion-transparent-568_568.png',
-    validate: {
-      isUrl: true
-    }
+      'https://img.pngio.com/potion-clip-art-minecraft-magic-minecraft-png-download-568568-potion-transparent-568_568.png'
+    // validate: {
+    //   isUrl: true
+    // }
   },
   quantity: {
     type: Sequelize.INTEGER,

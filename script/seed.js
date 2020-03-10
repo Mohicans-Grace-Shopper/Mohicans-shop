@@ -10,8 +10,8 @@ const seedProducts = [
     description:
       'The most powerful love potion in existence. It causes a powerful infatuation or obsession from the drinker. It has a distinctive mother-of-pearl sheen, and steam rises from it in characteristic spirals.',
     price: 900,
-    imageUrl:
-      'https://vignette.wikia.nocookie.net/harrypotter/images/c/c1/Love_Potion_design_for_T-Shirt.jpg/revision/latest/scale-to-width-down/250?cb=20091220170731'
+    imageUrl: '/source.gif'
+    // 'https://vignette.wikia.nocookie.net/harrypotter/images/c/c1/Love_Potion_design_for_T-Shirt.jpg/revision/latest/scale-to-width-down/250?cb=20091220170731'
   },
   {
     name: 'Confusing Concoction',
@@ -19,38 +19,39 @@ const seedProducts = [
       'A potion which causes confusion in the drinker. Its known ingredients are scurvy grass, lovage, and sneezewort',
     price: 300,
     imageUrl:
-      'https://d.wattpad.com/story_parts/699873420/images/158695304eb09911855926916674.jpg'
+      // 'https://d.wattpad.com/story_parts/699873420/images/158695304eb09911855926916674.jpg'
+      '/matthieu-gouault-crystal-2-gif.gif'
   },
   {
     name: 'Draught of Living Death',
     description:
       'An extremely powerful sleeping draught, sending the drinker into a deathlike slumber. Its effects are similar to suspended animation.',
     price: 300,
-    imageUrl:
-      'https://vignette.wikia.nocookie.net/harrypotter/images/d/d7/Draught-of-living-death.png/revision/latest?cb=20121027143847'
+    imageUrl: '/giphy.gif'
+    // 'https://vignette.wikia.nocookie.net/harrypotter/images/d/d7/Draught-of-living-death.png/revision/latest?cb=20121027143847'
   },
   {
     name: 'Draught of Peace',
     description:
       'A potion which relieves anxiety and agitation. Its ingredients are powdered moonstone, syrup of hellebore, powdered porcupine quills, and powdered unicorn horn.',
     price: 150,
-    imageUrl:
-      'https://vignette.wikia.nocookie.net/harrypotter/images/f/fa/DraughtOfPeace.png/revision/latest/scale-to-width-down/207?cb=20130309181213'
+    imageUrl: '/image_processing20190821-21039-i9ddjc.gif'
+    // 'https://vignette.wikia.nocookie.net/harrypotter/images/f/fa/DraughtOfPeace.png/revision/latest/scale-to-width-down/207?cb=20130309181213'
   },
   {
     name: 'Felix Felicis',
     description:
       'A magical potion that makes the drinker lucky for a period of time, during which everything they attempt will be successful. It turns an ordinary day into an extraordinary one.',
     price: 1000,
-    imageUrl:
-      'https://vignette.wikia.nocookie.net/harrypotter/images/8/84/Felix_Felicis_Phial_HBP.png/revision/latest/scale-to-width-down/187?cb=20161125004911'
+    imageUrl: '/d.gif'
+    // 'https://vignette.wikia.nocookie.net/harrypotter/images/8/84/Felix_Felicis_Phial_HBP.png/revision/latest/scale-to-width-down/187?cb=20161125004911'
   },
   {
     name: 'Hiccoughing Solution',
     description: 'A potion that presumably causes hiccoughs.',
     price: 100,
-    imageUrl:
-      'https://vignette.wikia.nocookie.net/harrypotter/images/9/92/HiccoughingSolution.png/revision/latest/scale-to-width-down/145?cb=20131128000240'
+    imageUrl: '/giphy (1).gif'
+    // 'https://vignette.wikia.nocookie.net/harrypotter/images/9/92/HiccoughingSolution.png/revision/latest/scale-to-width-down/145?cb=20131128000240'
   },
   {
     name: 'Pepperup Potion',

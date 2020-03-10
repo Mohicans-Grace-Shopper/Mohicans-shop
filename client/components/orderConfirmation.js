@@ -62,7 +62,7 @@ class OrderConfirmation extends React.Component {
     );
 
     return (
-      <div>
+      <div className="startOfPage">
         {this.props.orderId ? null : (
           <div>
             <h4>Guest Checkout</h4>

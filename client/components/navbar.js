@@ -3,78 +3,78 @@ import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 import {Link} from 'react-router-dom';
 import {logout} from '../store';
-import AppBar from '@material-ui/core/AppBar';
-import Toolbar from '@material-ui/core/Toolbar';
 import Button from '@material-ui/core/Button';
 
-const Navbar = ({handleClick, isLoggedIn, userId, isAdmin}) => (
-  <div>
-    <h1>Twilight Gems & Apothecary</h1>
+const Navbar = ({handleClick, isLoggedIn, userId}) => (
+  <div className="navDiv">
     <nav>
-      <AppBar position="static">
-        <Toolbar>
-          {isLoggedIn ? (
-            <div>
-              {/* The navbar will show these links after you log in */}
+      <header>
+        {isLoggedIn ? (
+          <div className="navBarItems">
+            {/* The navbar will show these links after you log in */}
+            <div className="navButt">
               <Button color="inherit">
                 <Link className="navlink" to="/home">
                   Home
                 </Link>
               </Button>
+            </div>
+            <div className="navButt">
+              <Button color="inherit">
+                <Link className="navlink" to="/products">
+                  Products
+                </Link>
+              </Button>
+            </div>
+            <div className="navButt" id="headerimg">
+              <img src="/header.png" />
+            </div>
+            <div className="navButt">
               <Button color="inherit">
                 <a className="navlink" href="#" onClick={handleClick}>
                   Logout
                 </a>
               </Button>
-              <Button color="inherit">
-                <Link className="navlink" to="/products">
-                  Products
-                </Link>
-              </Button>
+            </div>
+            <div className="navButt">
               <Button color="inherit">
                 <Link className="navlink" to="/users/cart">
                   Cart
                 </Link>
               </Button>
-              {isAdmin ? (
-                <Button color="inherit">
-                  <Link className="navlink" to="/users">
-                    Users
-                  </Link>
-                </Button>
-              ) : (
-                <div />
-              )}
             </div>
-          ) : (
-            <div>
-              {/* The navbar will show these links before you log in */}
-              <Button color="inherit">
-                <Link className="navlink" to="/login">
-                  Login
-                </Link>
-              </Button>
-              <Button color="inherit">
-                <Link className="navlink" to="/signup">
-                  Sign Up
-                </Link>
-              </Button>
-              <Button color="inherit">
-                <Link className="navlink" to="/products">
-                  Products
-                </Link>
-              </Button>
-              <Button color="inherit">
-                <Link className="navlink" to="/cart">
-                  Cart
-                </Link>
-              </Button>
+          </div>
+        ) : (
+          <div className="navBarItems">
+            {/* The navbar will show these links before you log in */}
+            <Button color="inherit">
+              <Link className="navlink" to="/login">
+                Login
+              </Link>
+            </Button>
+            <Button color="inherit">
+              <Link className="navlink" to="/signup">
+                Sign Up
+              </Link>
+            </Button>
+            <div className="navButt" id="headerimg">
+              <img src="/header.png" />
             </div>
-          )}
-        </Toolbar>
-      </AppBar>
+            <Button color="inherit">
+              <Link className="navlink" to="/products">
+                Products
+              </Link>
+            </Button>
+            <Button color="inherit">
+              <Link className="navlink" to="/cart">
+                Cart
+              </Link>
+            </Button>
+          </div>
+        )}
+      </header>
     </nav>
-    <hr />
+    {/* <hr /> */}
   </div>
 );
 
@@ -85,7 +85,7 @@ const mapState = state => {
   return {
     isLoggedIn: !!state.user.id,
     userId: state.user.id,
-    isAdmin: !!state.user.isAdmin
+    isAdmin: state.user.isAdmin
   };
 };
 

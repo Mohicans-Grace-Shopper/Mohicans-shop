@@ -85,7 +85,7 @@ export class SingleProduct extends React.Component {
     if (this.props.loading)
       return <Loader type="Hearts" color="blue" height={600} width={600} />;
     return (
-      <div>
+      <div className="startOfPage">
         <h3>{product.name} </h3>
         <div>
           <img src={product.imageUrl} height="300" width="420" />
