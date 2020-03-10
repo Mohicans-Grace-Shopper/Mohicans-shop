@@ -82,6 +82,7 @@ export const completeOrder = function(orderId) {
 export const fetchHistory = function(userId) {
   return async function(dispatch) {
     const {data} = await axios.get(`/api/users/${userId}/cart/orderhistory`);
+    console.log(data);
     dispatch(setHistory(data));
   };
 };

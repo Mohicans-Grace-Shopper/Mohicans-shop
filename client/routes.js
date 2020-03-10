@@ -14,6 +14,7 @@ import {
   SingleUser,
   AddProduct,
   ThankYou,
+  PurchaseHistory,
   NotFoundPage
 } from './components';
 import {me} from './store';
@@ -61,6 +62,10 @@ export class Routes extends Component {
               component={OrderConfirmation}
             />
             <Route path="/users/cart/thankyou" component={ThankYou} />
+            <Route
+              path="/users/cart/orderhistory"
+              component={PurchaseHistory}
+            />
             <Route exact path="/users" component={Users} />
             <Route exact path="/users/:userId" component={SingleUser} />
             <Route exact path="/products/addproduct" component={AddProduct} />

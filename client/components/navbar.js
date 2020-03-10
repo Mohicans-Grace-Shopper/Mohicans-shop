@@ -32,6 +32,11 @@ const Navbar = ({handleClick, isLoggedIn, userId, isAdmin}) => (
                 </Link>
               </Button>
               <Button color="inherit">
+                <Link className="navlink" to="/users/cart/orderhistory">
+                  Purchase History
+                </Link>
+              </Button>
+              <Button color="inherit">
                 <Link className="navlink" to="/users/cart">
                   Cart
                 </Link>
