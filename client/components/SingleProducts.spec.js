@@ -18,7 +18,7 @@ const initialState = {
 
 import {SingleProduct} from './SingleProduct';
 
-describe.only('Products component', () => {
+describe('Products component', () => {
   let fakeStore;
   const product = {
     id: 1,

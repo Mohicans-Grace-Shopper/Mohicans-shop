@@ -8,7 +8,7 @@ import ThankYou from './ThankYou';
 const adapter = new Adapter();
 enzyme.configure({adapter});
 
-describe.only('ThankYou', () => {
+describe('ThankYou', () => {
   let thankYou;
 
   beforeEach(() => {
