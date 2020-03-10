@@ -20,7 +20,7 @@ export class SingleProduct extends React.Component {
   }
 
   componentDidMount() {
-    if (this.props.fetchProduct()) {
+    if (this.props.fetchProduct) {
       const productId = this.props.match.params.productId;
       this.props.fetchProduct(productId);
       // if (this.props.userId) this.props.fetchCart(this.props.userId);
