@@ -1,49 +1,15 @@
 import React from 'react';
 import {connect} from 'react-redux';
-import {fetchCart, completeOrder} from '../store/cart';
+import {} from '../store/cart';
 import Loader from 'react-loader-spinner';
 import {Link} from 'react-router-dom';
 import axios from 'axios';
 
-class OrderConfirmation extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      cartItems: [],
-      email: null
-    };
-    this.checkout = this.checkout.bind(this);
-    this.handleSubmit = this.handleSubmit.bind(this);
-  }
-
-  componentDidMount() {
+export class PurchaseHistory extends React.Component {
+  async componentDidMount() {
     const userId = this.props.userId;
-    if (userId) {
-      this.props.fetchCart(userId);
-    } else {
-      let localCart = JSON.parse(window.localStorage.getItem('cartContents'));
-      this.setState({cartItems: Object.values(localCart)});
-    }
-  }
-
-  async checkout() {
-    if (!this.props.userId) {
-      const res = await axios.post('/api/users/guest/cart', {
-        orderItems: this.state.cartItems
-      });
-      await axios.put(`/api/users/cart/${res.data.id}`);
-    } else {
-      this.props.completeOrder(this.props.orderId);
-    }
-    let path = '/users/cart/thankyou';
-    this.props.history.push(path);
-    window.localStorage.clear();
-  }
-
-  handleSubmit(event) {
-    event.preventDefault();
-    this.setState({email: event.target.email.value});
-    // const res = await axios.post('/api/users/guest/cart', {email: event.target.email.value, orderItems: this.state.cartItems});
+    // const res = await axios.get(`/api/users/${userId}/cart/orderhistory`);
+    // console.log(res);
   }
 
   render() {
@@ -53,17 +19,10 @@ class OrderConfirmation extends React.Component {
 
     let orderItems;
 
-    this.props.userId
-      ? (orderItems = this.props.items)
-      : (orderItems = this.state.cartItems);
-
     let cartTotal = orderItems.reduce(
-      (accum, item) =>
-        accum +
-        item.price * (this.props.userId ? item.cart.quantity : item.quantity),
+      (accum, item) => accum + item.price * item.quantity,
       0
     );
-
     return (
       <div>
         {this.props.orderId ? null : (
@@ -89,11 +48,7 @@ class OrderConfirmation extends React.Component {
                 <Link to={`/products/${item.id}`} />
                 <img src={item.imageUrl} height="200" width="320" />
                 <div>{item.name}</div>
-                <div>
-                  Price: $
-                  {item.price *
-                    (this.props.userId ? item.cart.quantity : item.quantity)}
-                </div>
+                <div>Price: ${item.price * item.quantity}</div>
               </div>
             );
           })}
@@ -113,14 +68,12 @@ class OrderConfirmation extends React.Component {
 
 const mapStateToProps = state => ({
   orderId: state.cart.orderId,
-  items: state.cart.products,
   loading: state.cart.loading,
-  quantity: state.cart.quantity,
   userId: state.user.id
 });
 
 const mapDispatchToProps = dispatch => ({
-  fetchCart: userId => dispatch(fetchCart(userId)),
+  fetchCart: () => dispatch(fetchCart()),
   completeOrder: orderId => dispatch(completeOrder(orderId))
 });
 

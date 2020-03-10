@@ -16,3 +16,4 @@ export {default as Cart} from './cart';
 export {default as OrderConfirmation} from './orderConfirmation';
 export {default as ThankYou} from './ThankYou';
 export {default as NotFoundPage} from './NotFoundPage';
+export {default as PurchaseHistory} from './PurchaseHistory';
