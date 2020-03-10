@@ -17,6 +17,30 @@ router.get('/', isAdmin, async (req, res, next) => {
   }
 });
 
+router.get('/:userId/cart/orderhistory', isUser, async (req, res, next) => {
+  try {
+    const order = await Order.findAll({
+      where: {
+        userId: req.params.userId,
+        isFulfilled: true
+      },
+      include: [
+        {
+          model: Product
+        }
+      ],
+      order: [[Product, 'id', 'ASC']]
+    });
+    if (order === null) {
+      res.json('No order history');
+    } else {
+      res.json(order);
+    }
+  } catch (err) {
+    next(err);
+  }
+});
+
 router.get('/:userId/cart', isUser, async (req, res, next) => {
   try {
     const order = await Order.findOne({
